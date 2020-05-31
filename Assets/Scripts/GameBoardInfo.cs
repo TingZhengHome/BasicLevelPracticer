@@ -5,15 +5,15 @@ using UnityEngine;
 public class GameBoardInfo : ScriptableObject {
 
     [SerializeField]
-    Editor_TileObject basicTile;
+    LEditor_TileObject basicTile;
 
     [SerializeField]
-    Editor_OnTileObject playerCharacter;
+    LEditor_OnTileObject playerCharacter;
 
     int row;
     int column;
 
-    public List<Editor_TileObject> tiles = new List<Editor_TileObject>();
+    public List<LEditor_TileObject> tiles = new List<LEditor_TileObject>();
     int size;
 
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Editor_Button : MonoBehaviour {
+public abstract class LEditor_Button : MonoBehaviour {
 
     public enum ButtonKind {tile, objectOnTile}
 
@@ -13,7 +13,7 @@ public abstract class Editor_Button : MonoBehaviour {
     {
         LevelEditor.Instance.clickedBoardObjectButton = this;
         //LevelEditor.Instance.Hover.SetActive(true);
-        LevelEditor.Instance.movingPlacedObject = false;
+        LevelEditor.Instance.isMovingPlacedObject = false;
     }
 
     public void CancelButton()

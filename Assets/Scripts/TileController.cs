@@ -5,11 +5,11 @@ using UnityEngine;
 public class TileController : Singleton<TileController> {
 
 
-    public List<Editor_TileObject> tiles = new List<Editor_TileObject>();
+    public List<LEditor_TileObject> tiles = new List<LEditor_TileObject>();
 
 	// Use this for initialization
 	void Start () {
-        Editor_TileObject.OnTileClicked += UpgradeTile;
+        LEditor_TileObject.OnTileClicked += UpgradeTiles;
 	}
 	
 	// Update is called once per frame
@@ -17,11 +17,12 @@ public class TileController : Singleton<TileController> {
 
     }
 
-    public void UpgradeTile(Edtior_GameBoardObject tile, int tileId)
+    public void UpgradeTiles(Edtior_GameBoardObject tile, int tileId)
     {
-        if (tile != null && tile.GetComponent<Editor_TileObject>() != null)
+        if (tile != null && tile.GetComponent<LEditor_TileObject>() != null && 
+            LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
         {
-            tiles[tileId] = tile.GetComponent<Editor_TileObject>();
+            tiles[tileId] = tile.GetComponent<LEditor_TileObject>();
             Debug.Log("Controller upgraded tile" + tileId);
         }
     }
@@ -33,11 +34,11 @@ public class TileController : Singleton<TileController> {
         GetList();
         if (tiles.Count > 2)
         {
-            foreach (Editor_TileObject tile in tiles)
+            foreach (LEditor_TileObject tile in tiles)
             {
                 tile.GetComponent<Tile>().enabled = true;
                 tile.GetComponent<Tile>().Initialize(tile);
-                tile.GetComponent<Editor_TileObject>().enabled = false;
+                tile.GetComponent<LEditor_TileObject>().enabled = false;
             }
         }
     }

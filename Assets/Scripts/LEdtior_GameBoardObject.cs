@@ -6,8 +6,6 @@ public class Edtior_GameBoardObject : MonoBehaviour {
 
     public string ObjectName;
 
-    //public Point gridPosition;
-
     public BoxCollider2D trigger;
 
     public SpriteRenderer spriteRender;
@@ -31,12 +29,11 @@ public class Edtior_GameBoardObject : MonoBehaviour {
 		
 	}
 
-    public virtual void Setup(Vector2 worldPosition, Transform parent)
+    public virtual void Setup(Vector2 placedPositon, Transform parent)
     {
         trigger = GetComponent<BoxCollider2D>();
         spriteRender = GetComponent<SpriteRenderer>();
-        //this.gridPosition = gridPosition;
-        transform.position = worldPosition;
+        transform.position = placedPositon;
         transform.parent = parent;
         SetLayer(this.GetComponent<SpriteRenderer>());
     }
@@ -49,5 +46,10 @@ public class Edtior_GameBoardObject : MonoBehaviour {
     public virtual void SetLayer(SpriteRenderer sprite)
     {
         sprite.sortingOrder = (int)transform.position.y * -10;
+    }
+
+    public virtual void TurnColor(Color newColor)
+    {
+        spriteRender.color = newColor;
     }
 }

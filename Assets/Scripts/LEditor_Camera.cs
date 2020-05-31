@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Editor_Camera : Singleton<Editor_Camera> {
+public class LEditor_Camera : Singleton<LEditor_Camera> {
 
 
     [SerializeField]
@@ -18,7 +18,7 @@ public class Editor_Camera : Singleton<Editor_Camera> {
 
 	// Use this for initialization
 	void Start () {
-        LevelEditor.Instance.LaunchedLevel += SetStartPositionAndShutDown;
+        LevelEditor.LaunchedLevel += SetStartPositionAndShutDown;
 	}
 	
 	// Update is called once per frame
@@ -60,7 +60,7 @@ public class Editor_Camera : Singleton<Editor_Camera> {
 
     public void SetStartPositionAndShutDown()
     {
-        transform.position = Editor_Camera.Instance.startCameraPosition;
-        GetComponent<Editor_Camera>().enabled = false;
+        transform.position = LEditor_Camera.Instance.startCameraPosition;
+        GetComponent<LEditor_Camera>().enabled = false;
     }
 }

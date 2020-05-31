@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Edtior_OnMutipleTileObject : Editor_OnTileObject {
+public class LEdtior_OnMutipleTileObject : LEditor_OnTileObject
+{
 
-    public List<Editor_TileObject> theTilesSetOn = new List<Editor_TileObject>();
+    public List<LEditor_TileObject> theTilesSetOn = new List<LEditor_TileObject>();
 
     public bool isHinderance;
 
 
-    protected override void Update()
+    public override void GameUpdate()
     {
         ColorControll();
     }
@@ -44,24 +45,18 @@ public class Edtior_OnMutipleTileObject : Editor_OnTileObject {
         }
     }
 
-    public void Setup(Transform parent, List<Editor_TileObject> theTilesSetOn)
+    public void Setup(Transform parent, List<LEditor_TileObject> theTilesSetOn)
     {
-        transform.position = PlacePosition(LevelEditor.Instance.EditingGameboard.DetectedTiles());
+        transform.position = PlacePosition(theTilesSetOn);
         transform.parent = parent;
         SetLayer(this.GetComponent<SpriteRenderer>());
         this.theTilesSetOn = theTilesSetOn;
-        if (!isPlayer)
-        {
-            correspondingButton = GameObject.Find(string.Format(ObjectName + "Button")).GetComponent<Editor_Button>();
-        }
-        else
-        {
-            correspondingButton = GameObject.Find("PlayerButton").GetComponent<Editor_Button>();
-        }
+        correspondingButton = GameObject.Find("PlayerButton").GetComponent<LEditor_Button>();
+
         detected = false;
     }
 
-    Vector2 PlacePosition(List<Editor_TileObject> theTilesSetOn)
+    Vector2 PlacePosition(List<LEditor_TileObject> theTilesSetOn)
     {
         float minX = float.MaxValue, maxX = float.MinValue, minY = float.MaxValue, maxY = float.MinValue;
         for (int t = 0; t < theTilesSetOn.Count; t++)
@@ -84,30 +79,28 @@ public class Edtior_OnMutipleTileObject : Editor_OnTileObject {
             }
             if (theTilesSetOn[t].objectOn != null)
             {
-                theTilesSetOn[t].objectOn.PickedUp(this, theTilesSetOn[t].tileId);
+                theTilesSetOn[t].objectOn.PickUp(this, theTilesSetOn[t].tileId);
             }
             theTilesSetOn[t].objectOn = this;
         }
         return new Vector2((maxX + minX) * 0.5f, (maxY + minY) * 0.5f);
     }
 
-    public override void PickedUp(Edtior_GameBoardObject newO, int id)
+    public override void PickUp(Edtior_GameBoardObject newO, int id)
     {
         if (LevelEditor.Instance.clickedBoardObjectButton != null)
         {
             LevelEditor.Instance.CancelButtonClick();
         }
-        this.correspondingButton.ClickButton();
-        LevelEditor.Instance.movingPlacedObject = true;
+        LevelEditor.Instance.StartMovingObject(this);
         for (int i = 0; i < theTilesSetOn.Count; i++)
         {
-            if (theTilesSetOn[i].objectOn != null)
+            if (theTilesSetOn[i].objectOn == this)
             {
-                theTilesSetOn[i].CleanTile();
+                theTilesSetOn[i].CleanTile(true);
             }
         }
         Hover.Instance.transform.rotation = this.transform.rotation;
-        Editor_TileObject.OnTileClicked -= this.PickedUp;
-        Destroy(this.gameObject);
+        LEditor_TileObject.OnTileClicked -= this.PickUp;
     }
 }

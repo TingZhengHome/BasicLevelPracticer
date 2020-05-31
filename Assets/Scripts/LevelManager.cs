@@ -19,7 +19,7 @@ public class LevelManager : Singleton<LevelManager> {
 
     // Use this for initialization
     void Start () {
-        LevelEditor.Instance.LaunchedLevel += LaunchLevel;
+        LevelEditor.LaunchedLevel += LaunchLevel;
 	}
 	
 	// Update is called once per frame

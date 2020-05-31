@@ -37,12 +37,11 @@ public class OnTileObject : GameBoardObject {
         }
     }
 
-    public void Initialize(Editor_OnTileObject onTileOb)
+    public void Initialize(LEditor_OnTileObject onTileOb)
     {
         theTileSetOn = onTileOb.theTileSetOn.GetComponent<Tile>();
-        movable = onTileOb.pushable;
-        pickable = onTileOb.pickable;
-        isPlayer = onTileOb.isPlayer;
+        movable = onTileOb.isPushable;
+        pickable = onTileOb.isPickable;
     }
 
     public void Interact(Player interacter, string action)

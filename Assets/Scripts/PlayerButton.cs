@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerButton : Editor_Button {
+public class PlayerButton : LEditor_Button {
 
     public override void ClickButton()
     {

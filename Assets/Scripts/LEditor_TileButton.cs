@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileButton : Editor_Button {
+public class LEditor_TileButton : LEditor_Button {
 
 }

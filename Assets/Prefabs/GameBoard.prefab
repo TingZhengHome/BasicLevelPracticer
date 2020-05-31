@@ -55,6 +55,11 @@ MonoBehaviour:
   notPlaceableColor: {r: 1, g: 0, b: 0, a: 1}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   objectOverlappedColor: {r: 0, g: 0.73032665, b: 1, a: 1}
+  selectedColor: {r: 0, g: 0.8301887, b: 0.13367444, a: 1}
+  connectableColor: {r: 0.31820583, g: 0, b: 1, a: 0.5176471}
+  connectedColor: {r: 1, g: 0, b: 0.70521736, a: 0.7490196}
+  connectorColor: {r: 0, g: 1, b: 0, a: 1}
+  unconnectableColor: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
   edgeObject: {fileID: 1302272081886758, guid: 8eccb7d291aed8149b3f28807cf346b9, type: 2}
   basicTile: {fileID: 114743821510584152, guid: 50fae2a7acfc41c4fbcf8ce2d4254580,
     type: 2}

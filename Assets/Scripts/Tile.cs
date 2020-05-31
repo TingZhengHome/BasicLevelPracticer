@@ -34,10 +34,10 @@ public class Tile : GameBoardObject {
         PressedCheck();
     }
 
-    public void Initialize(Editor_TileObject tile)
+    public void Initialize(LEditor_TileObject tile)
     {
         tileId = tile.tileId;
-        notWalkable = tile.notWalkable;
+        notWalkable = tile.isWalkable;
 
         if (tile.objectOn != null)
         {
@@ -45,7 +45,7 @@ public class Tile : GameBoardObject {
             objectOnThis = tile.objectOn.GetComponent<OnTileObject>();
             objectOnThis.enabled = true;
             objectOnThis.Initialize(tile.objectOn);
-            tile.objectOn.GetComponent<Editor_OnTileObject>().enabled = false;
+            tile.objectOn.GetComponent<LEditor_OnTileObject>().enabled = false;
             tile.objectOn.GetComponent<BoxCollider2D>().enabled = true;
             if (tile.objectOn.tag == "player")
             {

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameBoard : MonoBehaviour {
 
-
     public Color placeableColor = Color.yellow;
 
     public Color notPlaceableColor = Color.red;
@@ -13,23 +12,30 @@ public class GameBoard : MonoBehaviour {
 
     public Color objectOverlappedColor = Color.cyan;
 
+    public Color selectedColor = Color.grey;
+
+    public Color connectableColor = Color.blue;
+    public Color connectedColor = Color.magenta;
+    public Color connectorColor = Color.green;
+    public Color unconnectableColor = Color.grey;
+
 
     [SerializeField]
     GameObject edgeObject;
 
     [SerializeField]
-    Editor_TileObject basicTile;
+    LEditor_TileObject basicTile;
 
     [SerializeField]
-    Editor_OnTileObject playerCharacter;
+    LEditor_OnTileObject playerCharacter;
 
     public Player player;
-    
+
     int row;
     int column;
-    
-    public List<Editor_TileObject> tiles = new List<Editor_TileObject>();
-    int size;    
+
+    public List<LEditor_TileObject> tiles = new List<LEditor_TileObject>();
+    int size;
 
     public void GenerateLevelTilesOnEditor(int row, int column, Transform parent)
     {
@@ -37,22 +43,21 @@ public class GameBoard : MonoBehaviour {
         this.column = column;
         size = row * column;
 
-        Editor_TileObject firstTile = basicTile;
-        Editor_TileObject lastTile = basicTile;
+        LEditor_TileObject firstTile = basicTile;
+        LEditor_TileObject lastTile = basicTile;
         for (int y = 1; y > -column - 2; y--)
         {
             for (int x = -1; x < row + 2; x++)
             {
-                if (y > 0 || x < 0 || y == -column -1 || x == row + 1)
+                if (y > 0 || x < 0 || y == -column - 1 || x == row + 1)
                 {
                     GameObject edge = Instantiate(edgeObject, new Vector2(x, y), transform.rotation, this.transform);
                 }
                 else
                 {
-                    Editor_TileObject tile = Instantiate(basicTile);
-                    tile.Setup(new Vector2(x, y), parent);
+                    LEditor_TileObject tile = Instantiate(basicTile);
                     tiles.Add(tile);
-                    tile.tileId = tiles.IndexOf(tile);
+                    tile.Setup(new Vector2(x, y), parent, tiles.IndexOf(tile));
                     tile.ObjectName = basicTile.name;
                     if (y == 0 && x == 0)
                     {
@@ -64,33 +69,36 @@ public class GameBoard : MonoBehaviour {
                     }
                     Debug.Log("Generated" + x.ToString() + "," + y.ToString());
                 }
-               
+
             }
         }
-        Editor_OnTileObject player = Instantiate(playerCharacter);
+        LEditor_OnTileObject player = Instantiate(playerCharacter);
         firstTile.PlaceGameBoardObject(player, firstTile.tileId);
         float rowFloat = row;
         float columnFloat = column;
-        Editor_Camera.Instance.startCameraPosition = new Vector3(((rowFloat) / 2), (-(columnFloat) / 2), -column - 2f);
-        Editor_Camera.Instance.transform.position = Editor_Camera.Instance.startCameraPosition;
+        LEditor_Camera.Instance.startCameraPosition = new Vector3(((rowFloat) / 2), (-(columnFloat) / 2), -column - 2f);
+        LEditor_Camera.Instance.transform.position = LEditor_Camera.Instance.startCameraPosition;
 
-        Editor_Camera.Instance.SetLimit(firstTile.transform.position, lastTile.transform.position);
+        LEditor_Camera.Instance.SetLimit(firstTile.transform.position, lastTile.transform.position);
         TileController.Instance.tiles = this.tiles;
-    }
+
+        //Editor_SelectedTileUI selectedUI = Instantiate(LevelEditor.Instance.TileSelectedUI).GetComponent<Editor_SelectedTileUI>();
+    } 
 
 
     public void UpgradeTile(Edtior_GameBoardObject tile, int tileId)
     {
-        if (tile != null && tile.GetComponent<Editor_TileObject>() != null)
+        if (tile != null && tile.GetComponent<LEditor_TileObject>() != null &&
+            LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
         {
-            tiles[tileId] = tile.GetComponent<Editor_TileObject>();
+            tiles[tileId] = tile.GetComponent<LEditor_TileObject>();
             Debug.Log("GameBoard upgraded tile" + tileId);
         }
     }
 
-    public List<Editor_TileObject> DetectedTiles()
+    public List<LEditor_TileObject> GetDetectedTiles()
     {
-        List<Editor_TileObject> detecteds = new List<Editor_TileObject>();
+        List<LEditor_TileObject> detecteds = new List<LEditor_TileObject>();
         for (int i = 0; i < tiles.Count; i++)
         {
             if (tiles[i].detected)
@@ -102,16 +110,32 @@ public class GameBoard : MonoBehaviour {
         return detecteds;
     }
 
-    //public void PlaceTile(TileOnEditor placingTile, TileOnEditor overlapedTile)
-    //{
-    //    if (overlapedTile.objectOn != null)
-    //    {
-    //        Destroy(overlapedTile.objectOn.gameObject);
-    //    }
-    //    placingTile.Setup(overlapedTile.transform.position, overlapedTile.transform.parent, overlapedTile.tileId);
-    //    tiles[overlapedTile.tileId] = placingTile;
-    //    Destroy(overlapedTile.gameObject);
-    //}
+    public List<LEditor_OnTileObject> GetConnectableOnTileObject()
+    {
+        List<LEditor_OnTileObject> connetacblesOTs = new List<LEditor_OnTileObject>();
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            if (tiles[i].objectOn != null)
+            {
+                LEditor_OnTileObject onT = tiles[i].objectOn;
+                if (onT.isConnectable)
+                {
+                    connetacblesOTs.Add(onT);
+                }
+            }
+        }
+        return connetacblesOTs;
+    }
+
+    public LEditor_TileObject GetEditingTile(int id)
+    {
+        if (LevelEditor.Instance.EditingGameboard == this)
+        {
+            return tiles[id];
+        }
+
+        return null;
+    }
 
     public void DestroyLevelTiles()
     {
@@ -120,12 +144,12 @@ public class GameBoard : MonoBehaviour {
             Destroy(t.gameObject);
         }
         tiles.Clear();
-        tiles = new List<Editor_TileObject>();
+        tiles = new List<LEditor_TileObject>();
     }
 
     private void Awake()
     {
-        Editor_TileObject.OnTileClicked += UpgradeTile;
+        LEditor_TileObject.OnTileClicked += UpgradeTile;
     }
 
 
@@ -151,7 +175,7 @@ public class GameBoard : MonoBehaviour {
                 }
                 else
                 {
-                    //Debug.Log("Missing tile" + i);
+
                 }
             } 
         }

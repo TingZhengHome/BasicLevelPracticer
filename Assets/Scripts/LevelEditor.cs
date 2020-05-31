@@ -6,14 +6,24 @@ using UnityEngine.UI;
 
 public class LevelEditor : Singleton<LevelEditor> {
 
-    public enum state {editing, testing};
+    public enum state { editing, testing };
+
+    public enum editingState { mapBuilding, settingConnection }
 
     public state currentState = state.editing;
+    public editingState currentEditingState = editingState.mapBuilding;
+    public LEditor_SelectableObject selectedObject;
+    public LEditor_OnTileObject movingObject;
 
     [SerializeField]
     GameObject EditorButtonUI;
     [SerializeField]
     GameObject BoardScaleAskerUI;
+
+    public GameObject TileSelectedUI;
+
+    [SerializeField]
+    public LEditor_OnTileObjectButton pickUpButton;
 
 
     [SerializeField]
@@ -26,11 +36,11 @@ public class LevelEditor : Singleton<LevelEditor> {
     [SerializeField]
     Text InputWarningText;
 
-    public Editor_Button clickedBoardObjectButton;
+    public LEditor_Button clickedBoardObjectButton;
     public GameObject Hover;
 
     public bool isPlayerPlaced;
-    public bool movingPlacedObject;
+    public bool isMovingPlacedObject;
 
     [SerializeField]
     float continousPlacingDelay = 0.2f;
@@ -39,7 +49,7 @@ public class LevelEditor : Singleton<LevelEditor> {
     public LayerMask hoverLayer;
 
     public delegate void LaunchedLevelEvent();
-    public event LaunchedLevelEvent LaunchedLevel;
+    public static event LaunchedLevelEvent LaunchedLevel;
 
     void Start () {
         BoardScaleAskerUI.SetActive(true);
@@ -50,14 +60,14 @@ public class LevelEditor : Singleton<LevelEditor> {
 	void Update () {
         if (currentState == state.editing)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) && clickedBoardObjectButton != null)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (clickedBoardObjectButton.gameObject.name != "PlayerButton")
+                if ((movingObject != null && movingObject.tag != "player") || clickedBoardObjectButton != null)
                 {
-                    CancelButtonClick();
+                    EndCurrentEditingEvent();
                 }
             }
-            if (Input.GetMouseButton(0) && !movingPlacedObject)
+            if (Input.GetMouseButton(0) && !isMovingPlacedObject)
             {
                 continousPlacingCounter += Time.deltaTime;
             }
@@ -70,6 +80,7 @@ public class LevelEditor : Singleton<LevelEditor> {
         }
  
     }
+
 
     public bool MouseHoldThanDelay()
     {
@@ -125,6 +136,11 @@ public class LevelEditor : Singleton<LevelEditor> {
 
     public void GenerateGameBoard()
     {
+        if (selectedObject != null)
+        {
+            EscapeSelectingState();
+        }
+
         if (column != 0 && row != 0)
         {
 
@@ -148,19 +164,57 @@ public class LevelEditor : Singleton<LevelEditor> {
             InputWarningText.gameObject.SetActive(true);
             InputWarningText.text = "Neither Column or Row can be zero.";
         }
+
     }
 
+    public void StartMovingObject(LEditor_OnTileObject pickUp)
+    {
+        isMovingPlacedObject = true;
+        movingObject = pickUp;
+        pickUpButton.GetComponent<LEditor_OnTileObjectButton>().PickUp(pickUp);
+    }
 
-    public void ClickButton(Editor_Button clicked)
+    public void ClickButton(LEditor_Button clicked)
     {
         Instance.clickedBoardObjectButton = clicked;
-        Instance.movingPlacedObject = false;
+        Instance.isMovingPlacedObject = false;
+    }
+
+    public void EndCurrentEditingEvent()
+    {
+        if (clickedBoardObjectButton != null)
+        {
+            CancelButtonClick();
+        }
+        else if (isMovingPlacedObject)
+        {
+            EndMovingObject();
+        }
+    }
+
+    public void EndMovingObject()
+    {
+        isMovingPlacedObject = false;
+        movingObject = null;
+        CancelButtonClick();
+        pickUpButton.Emptize();
     }
 
     public void CancelButtonClick()
     {
         clickedBoardObjectButton = null;
-        movingPlacedObject = false;
+    }
+
+    public void EscapeSelectingState()
+    {
+        CancelButtonClick();
+        currentEditingState = editingState.mapBuilding;
+        selectedObject = null;
+
+        foreach (LEditor_TileObject tile in EditingGameboard.tiles)
+        {
+            tile.TurnColor(EditingGameboard.defaultColor);
+        }
     }
 
     public void LaunchLevel()
@@ -168,13 +222,11 @@ public class LevelEditor : Singleton<LevelEditor> {
         tempSavedGBoard = Instantiate(EditingGameboard);
         tempSavedGBoard.gameObject.SetActive(false);
         CancelButtonClick();
-        //LevelManager.Instance.LaunchLevel();
-        //EditorCamera.Instance.transform.position = EditorCamera.Instance.startCameraPosition;
-        //EditorCamera.Instance.GetComponent<EditorCamera>().enabled = false;
         LaunchedLevel();
         currentState = state.testing;
         SetOnAndOffEditingUI();
     }
+
 
     public void SetOnAndOffEditingUI()
     {
@@ -196,7 +248,7 @@ public class LevelEditor : Singleton<LevelEditor> {
         tempSavedGBoard.gameObject.SetActive(true);
         EditingGameboard = tempSavedGBoard;
         SetOnAndOffEditingUI();
-        Editor_Camera.Instance.GetComponent<Editor_Camera>().enabled = true;
+        LEditor_Camera.Instance.GetComponent<LEditor_Camera>().enabled = true;
         EditingGameboard.gameObject.name = "GameBoard";
         currentState = state.editing;
     }
