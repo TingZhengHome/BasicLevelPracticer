@@ -27,8 +27,6 @@ public class TileController : Singleton<TileController> {
         }
     }
 
-
-
     public void SetActiveTiles()
     {
         GetList();

@@ -9,49 +9,71 @@ using UnityEngine.EventSystems;
 
 public class LEditor_TileObject : Edtior_GameBoardObject
 {
-    public int tileId;
-        
-    public bool changeable = true;
+    public enum types { connectable, portable, wall, normal }
+
+    [SerializeField]
+    private int tileId;
+
+    public int TileId
+    {
+        get
+        {
+            return tileId;
+        }
+    }
+
+    public types thisType;
 
     public bool isPlaceable;
 
-    public bool isConnectable;
-    public bool isButton;
-
-    public bool isWalkable;
     public List<LEditor_SelectableObject> selectableCompnents = new List<LEditor_SelectableObject>();
+    public bool isButton;
+    public bool isExit;
 
     public LEditor_OnTileObject objectOn;
+
+    public bool isWalkable;
+
     public LEditor_TileButton correspondingButton;
 
     public bool detected;
-    public bool selected; //to Selectable
 
     public static event Action<Edtior_GameBoardObject, int> OnTileClicked;
 
     public void Setup(Vector2 worldPosition, Transform parent, int id)
     {
         base.Setup(worldPosition, parent);
-        this.tileId = id;
+        tileId = id;
         CheckSelectable();
     }
 
     public void CheckSelectable()
     {
-        if (isConnectable && GetComponent<LEditor_ConnectableObject>() == null)
+        switch (thisType)
         {
-            LEditor_ConnectableObject connectable = gameObject.AddComponent<LEditor_ConnectableObject>();
-            connectable.Setup(this, this);
-            selectableCompnents.Add(connectable);
+            case types.connectable:
+                if (GetComponent<LEditor_ConnectableObject>() == null)
+                {
+                    LEditor_ConnectableObject connectable = gameObject.AddComponent<LEditor_ConnectableObject>();
+                    connectable.Setup(this, this);
+                    selectableCompnents.Add(connectable);
+                }
+                break;
+            case types.portable:
+                if (GetComponent<LEditor_PortableObject>() == null)
+                {
+                    LEditor_PortableObject portable = gameObject.AddComponent<LEditor_PortableObject>();
+                    portable.Setup(this, this);
+                    selectableCompnents.Add(portable);
+                }
+                break;
         }
-    }
 
+
+    }
     public void GameUpdate()
     {
-        if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
-        {
-            SenseHover();
-        }
+        SenseHover();
 
         if (selectableCompnents.Count > 0)
         {
@@ -60,30 +82,10 @@ public class LEditor_TileObject : Edtior_GameBoardObject
                 selectableCompnents[i].GameUpdate();
             }
         }
-       
+
         if (objectOn != null)
         {
             objectOn.GameUpdate();
-        }
-
-        if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection)
-        {
-            if (objectOn == null)
-            {
-                if (!isConnectable)
-                {
-                    TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
-                    Debug.Log(this.name + this.tileId + " should become grey.");
-                }
-            }
-            else
-            {
-                if (!objectOn.isConnectable)
-                {
-                    TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
-                    Debug.Log(objectOn.name + this.tileId + " should become grey.");
-                }
-            }
         }
     }
 
@@ -102,77 +104,81 @@ public class LEditor_TileObject : Edtior_GameBoardObject
         }
 
         ColorControl(hit, grabbingObject);
-        if (!EventSystem.current.IsPointerOverGameObject() && hit != null)
+
+        if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
         {
-            detected = true;
-            if (grabbingObject != null)
+            if (!EventSystem.current.IsPointerOverGameObject() && hit != null)
             {
-                objectSize = (int)(grabbingObject.trigger.size.x *
-                                   grabbingObject.trigger.size.y);
-                if (objectSize <= 1)
+                detected = true;
+                if (grabbingObject != null)
                 {
-                    if (Input.GetMouseButtonDown(0) || LevelEditor.Instance.MouseHoldThanDelay())
+                    objectSize = (int)(grabbingObject.trigger.size.x *
+                                       grabbingObject.trigger.size.y);
+                    if (objectSize <= 1)
                     {
-                        OnTileClicked += this.PlaceGameBoardObject;
-                        TileClicked();
-                    }
-                }
-                else
-                {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        OnTileClicked += this.PlaceMutipleTileObject;
-                        TileClicked();
-                    }
-                }
-            }
-            else //holdingObject == null
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if (objectOn != null)
-                    {
-                        if (objectOn.GetComponent<LEditor_SelectableObject>() == null)
+                        if (Input.GetMouseButtonDown(0) || LevelEditor.Instance.MouseHoldThanDelay())
                         {
-                            OnTileClicked += objectOn.PickUp;
+                            OnTileClicked += this.PlaceGameBoardObject;
                             TileClicked();
                         }
-                        else
-                        { 
-                            if (objectOn.GetComponent<LEditor_SelectableObject>().selected == false)
-                            {
-                                OnTileClicked += objectOn.GetComponent<LEditor_SelectableObject>().SelectObject;
-                            }
-                            else
-                            {
-                                OnTileClicked += objectOn.GetComponent<LEditor_SelectableObject>().UnSelectObject;
-                            }
-                            TileClicked();
-                        }
-                    }
-                    else if (GetComponent<LEditor_SelectableObject>() != null)
-                    {
-                        if (GetComponent<LEditor_SelectableObject>().selected == false)
-                        {
-                            OnTileClicked += GetComponent<LEditor_SelectableObject>().SelectObject;
-                        }
-                        else
-                        {
-                            OnTileClicked += GetComponent<LEditor_SelectableObject>().UnSelectObject;
-                        }
-                        TileClicked();
                     }
                     else
                     {
-                        TileClicked();
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            OnTileClicked += this.PlaceMutipleTileObject;
+                            TileClicked();
+                        }
+                    }
+                }
+                else //holdingObject == null
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        if (objectOn != null)
+                        {
+                            if (objectOn.GetComponent<LEditor_SelectableObject>() == null)
+                            {
+                                OnTileClicked += objectOn.PickUp;
+                                TileClicked();
+                            }
+                            else
+                            {
+                                if (objectOn.GetComponent<LEditor_SelectableObject>().selected == false)
+                                {
+                                    OnTileClicked += objectOn.GetComponent<LEditor_SelectableObject>().SelectObject;
+                                }
+                                else
+                                {
+                                    OnTileClicked += objectOn.GetComponent<LEditor_SelectableObject>().UnSelectObject;
+                                }
+                                TileClicked();
+                            }
+                        }
+                        else if (GetComponent<LEditor_SelectableObject>() != null)
+                        {
+                            if (GetComponent<LEditor_SelectableObject>().selected == false)
+                            {
+                                OnTileClicked += GetComponent<LEditor_SelectableObject>().SelectObject;
+                            }
+                            else
+                            {
+                                OnTileClicked += GetComponent<LEditor_SelectableObject>().UnSelectObject;
+                            }
+                            TileClicked();
+                        }
+                        else
+                        {
+                            TileClicked();
+                        }
                     }
                 }
             }
-        }
-        else
-        {
-            detected = false;
-            OnTileClicked -= PlaceGameBoardObject;
+            else
+            {
+                detected = false;
+                OnTileClicked -= PlaceGameBoardObject;
+            }
         }
     }
 
@@ -181,7 +187,7 @@ public class LEditor_TileObject : Edtior_GameBoardObject
     {
         if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
         {
-            Debug.Log("Clicked tile" + tileId);
+            Debug.Log("Clicked tile" + TileId);
             Edtior_GameBoardObject newO = null;
             if (LevelEditor.Instance.clickedBoardObjectButton != null)
             {
@@ -204,21 +210,22 @@ public class LEditor_TileObject : Edtior_GameBoardObject
 
             if (OnTileClicked != null)
             {
-                OnTileClicked(newO, tileId);
+                OnTileClicked(newO, TileId);
             }
         }
 
-        else if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection)
+        else if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection ||
+                 LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingPortals)
         {
-            LEditor_ConnectableObject selected = null;
+            LEditor_SelectableObject selected = null;
             if (LevelEditor.Instance.selectedObject != null)
             {
-                selected = LevelEditor.Instance.selectedObject.GetComponent<LEditor_ConnectableObject>();
+                selected = LevelEditor.Instance.selectedObject.GetComponent<LEditor_SelectableObject>();
             }
 
             if (OnTileClicked != null)
             {
-                OnTileClicked(selected, tileId);
+                OnTileClicked(selected, TileId);
             }
         }
     }
@@ -293,6 +300,27 @@ public class LEditor_TileObject : Edtior_GameBoardObject
                 }
             }
         }
+
+
+        if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection ||
+            LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingPortals)
+        {
+            if (objectOn == null)
+            {
+                if (thisType != types.connectable && thisType != types.portable)
+                {
+                    TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
+                }
+            }
+            else
+            {
+                if (objectOn.thisType != LEditor_OnTileObject.types.connectable &&
+                    objectOn.thisType != LEditor_OnTileObject.types.portable)
+                {
+                    TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
+                }
+            }
+        }
     }
 
     public override void TurnColor(Color color)
@@ -304,16 +332,10 @@ public class LEditor_TileObject : Edtior_GameBoardObject
 
         if (objectOn != null)
         {
-            if (LevelEditor.Instance.clickedBoardObjectButton == null ||
-                selected || LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection)
+            if (LevelEditor.Instance.clickedBoardObjectButton == null || LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection)
             {
                 objectOn.spriteRender.color = color;
             }
-
-        }
-
-        if (objectOn != null && LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection)
-        {
 
         }
     }
@@ -322,14 +344,14 @@ public class LEditor_TileObject : Edtior_GameBoardObject
     {
         if (objectOn != null)
         {
-            objectOn.PickUp(null, tileId);
+            objectOn.PickUp(null, TileId);
         }
     }
 
 
     public void PlaceGameBoardObject(Edtior_GameBoardObject newObject, int id)
     {
-        if (this.tileId == id)
+        if (this.TileId == id)
         {
             if (newObject != null)
             {
@@ -362,7 +384,7 @@ public class LEditor_TileObject : Edtior_GameBoardObject
                             if (objectOn != null)
                             {
                                 Debug.Log(objectOn.name + " should be pick.");
-                                objectOn.PickUp(newObject, tileId);
+                                objectOn.PickUp(newObject, TileId);
                             }
                             else
                             {
@@ -384,12 +406,12 @@ public class LEditor_TileObject : Edtior_GameBoardObject
                                     }
                                     else
                                     {
-                                        objectOn.PickUp(newObject, this.tileId);
+                                        objectOn.PickUp(newObject, this.TileId);
                                     }
                                 }
                                 else
                                 {
-                                    objectOn.PickUp(newObject, this.tileId);
+                                    objectOn.PickUp(newObject, this.TileId);
                                 }
                             }
                             objectOn = newOnTile;
@@ -404,7 +426,7 @@ public class LEditor_TileObject : Edtior_GameBoardObject
                         }
                         if (objectOn != null)
                         {
-                            objectOn.PickUp(newObject, this.tileId);
+                            objectOn.PickUp(newObject, this.TileId);
                         }
                         else if (objectOn == null)
                         {
@@ -417,7 +439,7 @@ public class LEditor_TileObject : Edtior_GameBoardObject
                         isPlaceable = true;
                         break;
                 }
-                Debug.Log("Function Called" + tileId);
+                Debug.Log("Function Called" + TileId);
             }
         }
         OnTileClicked -= this.PlaceGameBoardObject;
@@ -425,7 +447,7 @@ public class LEditor_TileObject : Edtior_GameBoardObject
 
     public void PlaceMutipleTileObject(Edtior_GameBoardObject newObject, int id)
     {
-        if (this.tileId == id)
+        if (this.TileId == id)
         {
             List<LEditor_TileObject> placeableDetecteds = new List<LEditor_TileObject>();
             List<LEditor_TileObject> detecteds = LevelEditor.Instance.EditingGameboard.GetDetectedTiles();

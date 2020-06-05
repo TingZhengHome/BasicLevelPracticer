@@ -8,7 +8,7 @@ public class LevelEditor : Singleton<LevelEditor> {
 
     public enum state { editing, testing };
 
-    public enum editingState { mapBuilding, settingConnection }
+    public enum editingState { mapBuilding, settingConnection, settingPortals }
 
     public state currentState = state.editing;
     public editingState currentEditingState = editingState.mapBuilding;
@@ -62,7 +62,8 @@ public class LevelEditor : Singleton<LevelEditor> {
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if ((movingObject != null && movingObject.tag != "player") || clickedBoardObjectButton != null)
+                if ((movingObject != null && movingObject.tag != "player") || 
+                    clickedBoardObjectButton != null)
                 {
                     EndCurrentEditingEvent();
                 }

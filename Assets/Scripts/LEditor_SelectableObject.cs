@@ -48,7 +48,7 @@ public class LEditor_SelectableObject : Edtior_GameBoardObject
     {
         if (theTileSetOn != null)
         {
-            if (theTileSetOn.tileId == id)
+            if (theTileSetOn.TileId == id)
             {
                 if (!selected)
                 {
@@ -75,11 +75,11 @@ public class LEditor_SelectableObject : Edtior_GameBoardObject
             if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding &&
                 LevelEditor.Instance.selectedObject == this)
             {
-                Debug.Log("Unselecting tile" + theTileSetOn.tileId);
+                Debug.Log("Unselecting tile" + theTileSetOn.TileId);
                 LevelEditor.Instance.EscapeSelectingState();
                 this.selected = false;
                 TurnColor(LevelEditor.Instance.EditingGameboard.defaultColor);
-                Debug.Log("Tile" + theTileSetOn.tileId + " is unselected.");
+                Debug.Log("Tile" + theTileSetOn.TileId + " is unselected.");
             }
             LEditor_TileObject.OnTileClicked -= UnSelectObject;
         }
@@ -96,7 +96,7 @@ public class LEditor_SelectableObject : Edtior_GameBoardObject
     {
         if (GetComponent<LEditor_OnTileObject>() != null && this.selected)
         {
-            GetComponent<LEditor_OnTileObject>().PickUp(theTileSetOn, theTileSetOn.tileId);
+            GetComponent<LEditor_OnTileObject>().PickUp(theTileSetOn, theTileSetOn.TileId);
         }
     }
 }

@@ -5,19 +5,22 @@ using UnityEngine.UI;
 
 public class LEditor_OnTileObject : Edtior_GameBoardObject
 {
+    public enum types {connectable, portable, pickalbe, pushable, normal, player}
 
     public LEditor_TileObject theTileSetOn;
+
+    public types thisType;
 
     private int size;
 
     public LEditor_Button correspondingButton;
 
-    public bool isPushable;
+    //public bool isPushable;
 
-    public bool isPickable;
+    //public bool isPickable;
 
-    public bool isConnectable;
     public bool isButton;
+    public bool isExit;
 
     public List<LEditor_SelectableObject> selectableCompnents = new List<LEditor_SelectableObject>();
 
@@ -39,6 +42,7 @@ public class LEditor_OnTileObject : Edtior_GameBoardObject
         }
     }
 
+    
     public virtual void GameUpdate()
     {
         if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
@@ -121,11 +125,24 @@ public class LEditor_OnTileObject : Edtior_GameBoardObject
 
     void CheckSelectable()
     {
-        if (isConnectable && GetComponent<LEditor_ConnectableObject>() == null)
+        switch (thisType)
         {
-            LEditor_ConnectableObject connectable = gameObject.AddComponent<LEditor_ConnectableObject>();
-            connectable.Setup(theTileSetOn, this);
-            selectableCompnents.Add(connectable);
+            case types.connectable:
+                if (GetComponent<LEditor_ConnectableObject>() == null)
+                {
+                    LEditor_ConnectableObject connectable = gameObject.AddComponent<LEditor_ConnectableObject>();
+                    connectable.Setup(theTileSetOn, this);
+                    selectableCompnents.Add(connectable);
+                }
+                break;
+            case types.portable:
+                if (GetComponent<LEditor_PortableObject>() == null)
+                {
+                    LEditor_PortableObject portable = gameObject.AddComponent<LEditor_PortableObject>();
+                    portable.Setup(theTileSetOn, this);
+                    selectableCompnents.Add(portable);
+                }
+                break;
         }
     }
 

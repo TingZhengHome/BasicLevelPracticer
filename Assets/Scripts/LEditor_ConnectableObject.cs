@@ -78,7 +78,7 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
     {
         if (theTileSetOn != null)
         {
-            if (theTileSetOn.tileId == id)
+            if (theTileSetOn.TileId == id)
             {
                 LEditor_ConnectableObject selected = null;
                 if (selectedObject != null)
@@ -93,20 +93,20 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
                         if (connectedObject == null)
                         {
                             connectedObject = selected;
-                            Debug.Log("ButtonTile" + theTileSetOn.tileId + " is set connection to connectable " + connectedObject.theTileSetOn.tileId);
+                            Debug.Log("ButtonTile" + theTileSetOn.TileId + " is set connection to connectable " + connectedObject.theTileSetOn.TileId);
                             if (!selected.connecteds.Exists(x => x.GetComponent<LEditor_ConnectableObject>() == this))
                             {
-                                selected.SetConnection(this, selected.theTileSetOn.tileId);
+                                selected.SetConnection(this, selected.theTileSetOn.TileId);
                             }
                         }
                         else if (connectedObject != selected)
                         {
                             connectedObject.Disconnection(this);
                             connectedObject = selected;
-                            Debug.Log("ButtonTile" + theTileSetOn.tileId + " is set connection to connectable " + connectedObject.theTileSetOn.tileId);
+                            Debug.Log("ButtonTile" + theTileSetOn.TileId + " is set connection to connectable " + connectedObject.theTileSetOn.TileId);
                             if (!selected.connecteds.Exists(x => x.GetComponent<LEditor_ConnectableObject>() == this))
                             {
-                                selected.SetConnection(this, selected.theTileSetOn.tileId);
+                                selected.SetConnection(this, selected.theTileSetOn.TileId);
                             }
                         }
                         else if (connectedObject == selected)
@@ -119,10 +119,10 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
                         if (!connecteds.Exists(x => x.GetComponent<LEditor_ConnectableObject>() == selected))
                         {
                             connecteds.Add(selected);
-                            Debug.Log("ConnectableObject" + theTileSetOn.tileId + " is set connection to button " + selected.theTileSetOn.tileId);
+                            Debug.Log("ConnectableObject" + theTileSetOn.TileId + " is set connection to button " + selected.theTileSetOn.TileId);
                             if (selected.connectedObject != this)
                             {
-                                selected.SetConnection(theTileSetOn, selected.theTileSetOn.tileId);
+                                selected.SetConnection(theTileSetOn, selected.theTileSetOn.TileId);
                             }
                         }
                         else
@@ -143,13 +143,13 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
         {
             connected.connecteds.Remove(this);
             connectedObject = null;
-            Debug.Log("ButtonTile" + theTileSetOn.tileId + "disconnected with ButtonTile" + connected.theTileSetOn.tileId);
+            Debug.Log("ButtonTile" + theTileSetOn.TileId + "disconnected with ButtonTile" + connected.theTileSetOn.TileId);
         }
         else
         {
             connecteds.Remove(connected);
             connected.connectedObject = null;
-            Debug.Log("Connectable" + theTileSetOn.tileId + "disconnected with ButtonTile" + connected.theTileSetOn.tileId);
+            Debug.Log("Connectable" + theTileSetOn.TileId + "disconnected with ButtonTile" + connected.theTileSetOn.TileId);
         }
     }
 

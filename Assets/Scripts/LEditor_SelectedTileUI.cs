@@ -43,7 +43,7 @@ public class LEditor_SelectedTileUI : MonoBehaviour
     private void Start()
     {
         Debug.Log("SelectedTileUI starts.");
-        UnifyButtons();
+        PackageButtons();
         UnAttach();
         LEditor_TileObject.OnTileClicked += CheckClickAndAttachTo;
         LevelEditor.LaunchedLevel += DestroySelf;
@@ -63,9 +63,11 @@ public class LEditor_SelectedTileUI : MonoBehaviour
             gameObject.SetActive(true);
             cancelButton.onClick.AddListener(attachedObject.UnSelectThis);
 
-            if (attachedObject.GetComponent<LEditor_ConnectableObject>() != null)
+            if (attachedObject.GetComponent<LEditor_ConnectableObject>() != null ||
+                attachedObject.GetComponent<LEditor_PortableObject>() != null)
             {
                 setConnectionButton.gameObject.SetActive(true);
+                Debug.Log("HeyHeyHey");
             }
             if (attachedObject.GetComponent<LEditor_OnTileObject>() != null)
             {
@@ -73,6 +75,7 @@ public class LEditor_SelectedTileUI : MonoBehaviour
                 pickUpButton.gameObject.SetActive(true);
                 pickUpButton.onClick.AddListener(onTile.theTileSetOn.PickUpObjectOnThis);
                 pickUpButton.onClick.AddListener(UnAttach);
+                Debug.Log("HeyHeyHey");
             }
         }
     }
@@ -86,7 +89,7 @@ public class LEditor_SelectedTileUI : MonoBehaviour
             if (newO == null)
             {
                 LEditor_TileObject clicked = LevelEditor.Instance.EditingGameboard.GetEditingTile(clickedId).GetComponent<LEditor_TileObject>();
-                Debug.Log("SelectedUI get the clickedTile" + clicked.tileId);
+                Debug.Log("SelectedUI get the clickedTile" + clicked.TileId);
 
                 if (clicked.GetComponent<LEditor_SelectableObject>() != null &&
                     attachedObject != clicked.GetComponent<LEditor_SelectableObject>())
@@ -95,7 +98,7 @@ public class LEditor_SelectedTileUI : MonoBehaviour
                     transform.position = attachedObject.transform.position;
                     transform.parent = attachedObject.transform;
                     Display();
-                    Debug.Log(clicked.name + clicked.tileId + " should be attached.");
+                    Debug.Log(clicked.name + clicked.TileId + " should be attached.");
                 }
                 else if (clicked.objectOn != null && clicked.objectOn.GetComponent<LEditor_SelectableObject>() != null &&
                          attachedObject != clicked.objectOn.GetComponent<LEditor_SelectableObject>())
@@ -104,13 +107,13 @@ public class LEditor_SelectedTileUI : MonoBehaviour
                     transform.position = attachedObject.transform.position;
                     transform.parent = attachedObject.transform;
                     Display();
-                    Debug.Log(clicked.name + clicked.tileId + " should be attached.");
+                    Debug.Log(clicked.name + clicked.TileId + " should be attached.");
                 }
                 else
                 {
                     if (attachedObject != null)
                     {
-                        Debug.Log("Unattach from tile" + clicked.tileId + ".");
+                        Debug.Log("Unattach from tile" + clicked.TileId + ".");
                     }
                     UnAttach();
                 }
@@ -118,9 +121,8 @@ public class LEditor_SelectedTileUI : MonoBehaviour
         }
     }
 
-    public void UnifyButtons()
+    public void PackageButtons()
     {
-
         for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).GetComponent<Button>() != null)
@@ -156,7 +158,8 @@ public class LEditor_SelectedTileUI : MonoBehaviour
 
     void StateCheck()
     {
-        if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection)
+        if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection ||
+            LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingPortals)
         {
             for (int i = 0; i < buttons.Count; i++)
             {
@@ -172,7 +175,15 @@ public class LEditor_SelectedTileUI : MonoBehaviour
     {
         if (LevelEditor.Instance.clickedBoardObjectButton == null)
         {
-            LevelEditor.Instance.currentEditingState = LevelEditor.editingState.settingConnection;
+            if (attachedObject.GetComponent<LEditor_ConnectableObject>() != null)
+            {
+                LevelEditor.Instance.currentEditingState = LevelEditor.editingState.settingConnection;
+
+            }
+            else if (attachedObject.GetComponent<LEditor_PortableObject>() != null)
+            {
+                LevelEditor.Instance.currentEditingState = LevelEditor.editingState.settingPortals;
+            }
         }
     }
 }

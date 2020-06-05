@@ -83,10 +83,14 @@ MonoBehaviour:
   trigger: {fileID: 0}
   spriteRender: {fileID: 0}
   theTileSetOn: {fileID: 0}
+  thisType: 2
   correspondingButton: {fileID: 0}
-  pushable: 0
-  pickable: 0
-  isPlayer: 0
+  isPushable: 0
+  isPickable: 0
+  isButton: 0
+  isExit: 0
+  selectableCompnents: []
+  detected: 0
 --- !u!114 &114811162984902506
 MonoBehaviour:
   m_ObjectHideFlags: 1

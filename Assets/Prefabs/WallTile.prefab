@@ -83,11 +83,15 @@ MonoBehaviour:
   trigger: {fileID: 61474579752554562}
   spriteRender: {fileID: 212794011988335152}
   tileId: 0
-  changeable: 1
+  thisType: 2
   isPlaceable: 0
-  notWalkable: 1
+  selectableCompnents: []
+  isButton: 0
+  isExit: 0
   objectOn: {fileID: 0}
+  isWalkable: 0
   correspondingButton: {fileID: 0}
+  detected: 0
 --- !u!114 &114885686682586852
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -36,7 +36,7 @@ public class Tile : GameBoardObject {
 
     public void Initialize(LEditor_TileObject tile)
     {
-        tileId = tile.tileId;
+        tileId = tile.TileId;
         notWalkable = tile.isWalkable;
 
         if (tile.objectOn != null)

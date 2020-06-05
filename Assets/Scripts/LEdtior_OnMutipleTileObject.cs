@@ -79,7 +79,7 @@ public class LEdtior_OnMutipleTileObject : LEditor_OnTileObject
             }
             if (theTilesSetOn[t].objectOn != null)
             {
-                theTilesSetOn[t].objectOn.PickUp(this, theTilesSetOn[t].tileId);
+                theTilesSetOn[t].objectOn.PickUp(this, theTilesSetOn[t].TileId);
             }
             theTilesSetOn[t].objectOn = this;
         }

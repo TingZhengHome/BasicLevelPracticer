@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OnTileObject : GameBoardObject {
+public class OnTileObject : GameBoardObject
+{
 
 
     Tile theTileSetOn;
@@ -25,12 +26,14 @@ public class OnTileObject : GameBoardObject {
 
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
 
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         if (movable || pickable)
         {
             SortingLayerSystem.Instance.UpdateLayer(this.GetComponent<SpriteRenderer>());
@@ -39,9 +42,19 @@ public class OnTileObject : GameBoardObject {
 
     public void Initialize(LEditor_OnTileObject onTileOb)
     {
-        theTileSetOn = onTileOb.theTileSetOn.GetComponent<Tile>();
-        movable = onTileOb.isPushable;
-        pickable = onTileOb.isPickable;
+        if (onTileOb != null)
+        {
+            theTileSetOn = onTileOb.theTileSetOn.GetComponent<Tile>();
+            if (onTileOb.thisType == LEditor_OnTileObject.types.pushable)
+            {
+                movable = true;
+            }
+            if (onTileOb.thisType == LEditor_OnTileObject.types.pickalbe)
+            {
+                pickable = true;
+            }
+        }
+        
     }
 
     public void Interact(Player interacter, string action)
@@ -85,7 +98,7 @@ public class OnTileObject : GameBoardObject {
         Vector3 end = transform.position;
         if (Mathf.Abs(x) >= Mathf.Abs(y))
         {
-            end = new Vector2(transform.position.x + x/Mathf.Abs(x), transform.position.y);
+            end = new Vector2(transform.position.x + x / Mathf.Abs(x), transform.position.y);
         }
         else if (Mathf.Abs(x) < Mathf.Abs(y))
         {
@@ -104,7 +117,7 @@ public class OnTileObject : GameBoardObject {
                 sqrRemainingDistance = (transform.position - end).sqrMagnitude;
                 yield return null;
             }
-           
+
             beingMoved = false;
         }
         else
@@ -140,19 +153,19 @@ public class OnTileObject : GameBoardObject {
 
     public void TurnOnAndOff()
     {
-            for (int i = 0; i < connectingObjects.Length; i++)
+        for (int i = 0; i < connectingObjects.Length; i++)
+        {
+            if (connectingObjects[i].GetComponent<Tile>() != null && connectingObjects[i].GetComponent<Tile>().button)
             {
-                if (connectingObjects[i].GetComponent<Tile>() != null && connectingObjects[i].GetComponent<Tile>().button)
+                Tile button = connectingObjects[i].GetComponent<Tile>();
+                if (!button.pressed)
                 {
-                    Tile button = connectingObjects[i].GetComponent<Tile>();
-                    if (!button.pressed)
-                    {
-                        return;
-                    }
+                    return;
                 }
             }
+        }
         turnOn = true;
-            Debug.Log("Turn On");
+        Debug.Log("Turn On");
     }
 
 

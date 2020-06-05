@@ -73,7 +73,7 @@ public class GameBoard : MonoBehaviour {
             }
         }
         LEditor_OnTileObject player = Instantiate(playerCharacter);
-        firstTile.PlaceGameBoardObject(player, firstTile.tileId);
+        firstTile.PlaceGameBoardObject(player, firstTile.TileId);
         float rowFloat = row;
         float columnFloat = column;
         LEditor_Camera.Instance.startCameraPosition = new Vector3(((rowFloat) / 2), (-(columnFloat) / 2), -column - 2f);
@@ -118,7 +118,7 @@ public class GameBoard : MonoBehaviour {
             if (tiles[i].objectOn != null)
             {
                 LEditor_OnTileObject onT = tiles[i].objectOn;
-                if (onT.isConnectable)
+                if (onT.thisType == LEditor_OnTileObject.types.connectable)
                 {
                     connetacblesOTs.Add(onT);
                 }
@@ -126,6 +126,24 @@ public class GameBoard : MonoBehaviour {
         }
         return connetacblesOTs;
     }
+
+    public List<LEditor_OnTileObject> GetPortableOnTileObject()
+    {
+        List<LEditor_OnTileObject> portableOTs = new List<LEditor_OnTileObject>();
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            if (tiles[i].objectOn != null)
+            {
+                LEditor_OnTileObject onT = tiles[i].objectOn;
+                if (onT.thisType == LEditor_OnTileObject.types.connectable)
+                {
+                    portableOTs.Add(onT);
+                }
+            }
+        }
+        return portableOTs;
+    }
+
 
     public LEditor_TileObject GetEditingTile(int id)
     {

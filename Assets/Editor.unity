@@ -2169,6 +2169,30 @@ Prefab:
       propertyPath: m_Name
       value: EditingrButtons
       objectReference: {fileID: 0}
+    - target: {fileID: 114213608223810232, guid: cf75f1b3fbb2b3a4db537ac8ceb2ee0c,
+        type: 2}
+      propertyPath: representObject
+      value: 
+      objectReference: {fileID: 114054501137328364, guid: f5cb0ee6606b2244e844b588c74a133a,
+        type: 2}
+    - target: {fileID: 114213608223810232, guid: cf75f1b3fbb2b3a4db537ac8ceb2ee0c,
+        type: 2}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 93023b401eab62545b1010437c124610,
+        type: 3}
+    - target: {fileID: 114721342811667874, guid: cf75f1b3fbb2b3a4db537ac8ceb2ee0c,
+        type: 2}
+      propertyPath: representObject
+      value: 
+      objectReference: {fileID: 114686032303244848, guid: f58c22b1ae2bec64db01c97c6307b931,
+        type: 2}
+    - target: {fileID: 114721342811667874, guid: cf75f1b3fbb2b3a4db537ac8ceb2ee0c,
+        type: 2}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 21300002, guid: 93023b401eab62545b1010437c124610,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf75f1b3fbb2b3a4db537ac8ceb2ee0c, type: 2}
   m_IsPrefabAsset: 0
