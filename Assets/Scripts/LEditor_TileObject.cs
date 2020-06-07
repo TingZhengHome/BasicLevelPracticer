@@ -68,9 +68,8 @@ public class LEditor_TileObject : Edtior_GameBoardObject
                 }
                 break;
         }
-
-
     }
+
     public void GameUpdate()
     {
         SenseHover();
@@ -302,20 +301,35 @@ public class LEditor_TileObject : Edtior_GameBoardObject
         }
 
 
-        if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection ||
-            LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingPortals)
+        if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection)
         {
             if (objectOn == null)
             {
-                if (thisType != types.connectable && thisType != types.portable)
+                if (thisType != types.connectable)
                 {
                     TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
                 }
             }
             else
             {
-                if (objectOn.thisType != LEditor_OnTileObject.types.connectable &&
-                    objectOn.thisType != LEditor_OnTileObject.types.portable)
+                if (objectOn.thisType != LEditor_OnTileObject.types.connectable)
+                {
+                    TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
+                }
+            }
+        }
+        if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingPortals)
+        {
+            if (objectOn == null)
+            {
+                if (thisType != types.portable)
+                {
+                    TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
+                }
+            }
+            else
+            {
+                if (objectOn.thisType != LEditor_OnTileObject.types.portable)
                 {
                     TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
                 }

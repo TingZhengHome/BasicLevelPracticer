@@ -68,7 +68,7 @@ public class LEditor_SelectableObject : Edtior_GameBoardObject
         }
     }
 
-    public void UnSelectObject(Edtior_GameBoardObject newObject, int id) //to Selectable
+    public void UnSelectObject(Edtior_GameBoardObject newObject, int id) 
     {
         if (theTileSetOn != null)
         {
@@ -85,7 +85,7 @@ public class LEditor_SelectableObject : Edtior_GameBoardObject
         }
     }
 
-    public void UnSelectThis() //to Selectable
+    public void UnSelectThis() 
     {
         LevelEditor.Instance.EscapeSelectingState();
         this.selected = false;

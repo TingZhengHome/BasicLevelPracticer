@@ -52,25 +52,12 @@ public class LEditor_PortableObject : LEditor_SelectableObject
             LEditor_PortableObject selected = LevelEditor.Instance.selectedObject.GetComponent<LEditor_PortableObject>();
 
 
-            if (selected.isExit)
-            {
-                if (!isExit)
-                {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        LEditor_TileObject.OnTileClicked += SetConnection;
-                        theTileSetOn.TileClicked();
-                        Debug.Log("We are here.");
-                    }
-                }
-            }
-            else
+            if (!selected.isExit || !isExit)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
                     LEditor_TileObject.OnTileClicked += SetConnection;
                     theTileSetOn.TileClicked();
-                    Debug.Log("We are here.");
                 }
             }
         }
@@ -90,40 +77,9 @@ public class LEditor_PortableObject : LEditor_SelectableObject
 
                 if (selected != null)
                 {
-                    Debug.Log("We are here2.");
-                    if (selected.isExit)
+
+                    if (!selected.isExit || !isExit)
                     {
-                        Debug.Log("We are here3(Exit).");
-                        if (!isExit)
-                        {
-                            if (connectedPortable == null)
-                            {
-                                connectedPortable = selected;
-                                Debug.Log("Portal" + theTileSetOn.TileId + " is set connection to Portal " + connectedPortable.theTileSetOn.TileId);
-                                if (selected.connectedPortable != this)
-                                {
-                                    selected.SetConnection(this, selected.theTileSetOn.TileId);
-                                }
-                            }
-                            else if (connectedPortable != selected)
-                            {
-                                connectedPortable.Disconnection(this);
-                                connectedPortable = selected;
-                                Debug.Log("Portal" + theTileSetOn.TileId + " is set connection to Portal " + connectedPortable.theTileSetOn.TileId);
-                                if (selected.connectedPortable != this)
-                                {
-                                    selected.SetConnection(this, selected.theTileSetOn.TileId);
-                                }
-                            }
-                            else if (connectedPortable == selected)
-                            {
-                                connectedPortable.Disconnection(this);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("We are here3(notExit).");
                         if (connectedPortable == null)
                         {
                             connectedPortable = selected;
@@ -147,8 +103,8 @@ public class LEditor_PortableObject : LEditor_SelectableObject
                         {
                             connectedPortable.Disconnection(this);
                         }
+
                     }
-                    
                 }
             }
 
@@ -160,7 +116,7 @@ public class LEditor_PortableObject : LEditor_SelectableObject
     {
         connected.connectedPortable = null;
         connectedPortable = null;
-        Debug.Log("Portal" + theTileSetOn.TileId + "disconnected with Portal" + connected.theTileSetOn.TileId);
+        Debug.Log("Portal" + theTileSetOn.TileId + " disconnected with Portal" + connected.theTileSetOn.TileId);
 
     }
 
@@ -169,9 +125,7 @@ public class LEditor_PortableObject : LEditor_SelectableObject
         LEditor_PortableObject selected = selectedObject.GetComponent<LEditor_PortableObject>();
         GameBoard EditingGameBoard = LevelEditor.Instance.EditingGameboard;
 
-        if (selected.isExit)
-        {
-            if (!isExit)
+            if (!isExit || !selected.isExit)
             {
                 if (connectedPortable != selected)
                 {
@@ -182,32 +136,8 @@ public class LEditor_PortableObject : LEditor_SelectableObject
                     TurnColor(EditingGameBoard.connectedColor);
                 }
             }
-        }
-        else
-        {
-            if (connectedPortable != selected)
-            {
-                TurnColor(EditingGameBoard.connectableColor);
-            }
-            else
-            {
-                TurnColor(EditingGameBoard.connectedColor);
-            }
-        }
 
-        //if (!isExit || !selected.isExit)
-        //{
-        //    if (connectedPortable != selected)
-        //    {
-        //        TurnColor(EditingGameBoard.connectableColor);
-        //    }
-        //    else
-        //    {
-        //        TurnColor(EditingGameBoard.connectedColor);
-        //    }
-        //}
-
-        base.ColorControl(hit, selectedObject);
+            base.ColorControl(hit, selectedObject);
     }
 }
 

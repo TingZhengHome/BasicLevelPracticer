@@ -67,7 +67,6 @@ public class LEditor_SelectedTileUI : MonoBehaviour
                 attachedObject.GetComponent<LEditor_PortableObject>() != null)
             {
                 setConnectionButton.gameObject.SetActive(true);
-                Debug.Log("HeyHeyHey");
             }
             if (attachedObject.GetComponent<LEditor_OnTileObject>() != null)
             {
@@ -75,7 +74,6 @@ public class LEditor_SelectedTileUI : MonoBehaviour
                 pickUpButton.gameObject.SetActive(true);
                 pickUpButton.onClick.AddListener(onTile.theTileSetOn.PickUpObjectOnThis);
                 pickUpButton.onClick.AddListener(UnAttach);
-                Debug.Log("HeyHeyHey");
             }
         }
     }

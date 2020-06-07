@@ -76,15 +76,27 @@ public class GameBoard : MonoBehaviour {
         firstTile.PlaceGameBoardObject(player, firstTile.TileId);
         float rowFloat = row;
         float columnFloat = column;
-        LEditor_Camera.Instance.startCameraPosition = new Vector3(((rowFloat) / 2), (-(columnFloat) / 2), -column - 2f);
-        LEditor_Camera.Instance.transform.position = LEditor_Camera.Instance.startCameraPosition;
-
-        LEditor_Camera.Instance.SetLimit(firstTile.transform.position, lastTile.transform.position);
+        LEditor_Camera.Instance.Initialize(rowFloat, columnFloat, firstTile, lastTile);
         TileController.Instance.tiles = this.tiles;
+    }
 
-        //Editor_SelectedTileUI selectedUI = Instantiate(LevelEditor.Instance.TileSelectedUI).GetComponent<Editor_SelectedTileUI>();
-    } 
+    public void GameUpdate()
+    {
+        if (LevelEditor.Instance.currentState == LevelEditor.state.editing)
+        {
+            for (int i = 0; i < tiles.Count; i++)
+            {
+                if (tiles[i] != null)
+                {
+                    tiles[i].GameUpdate();
+                }
+                else
+                {
 
+                }
+            }
+        }
+    }
 
     public void UpgradeTile(Edtior_GameBoardObject tile, int tileId)
     {
@@ -144,7 +156,6 @@ public class GameBoard : MonoBehaviour {
         return portableOTs;
     }
 
-
     public LEditor_TileObject GetEditingTile(int id)
     {
         if (LevelEditor.Instance.EditingGameboard == this)
@@ -181,49 +192,5 @@ public class GameBoard : MonoBehaviour {
         
 	}
 
-    public void GameUpdate()
-    {
-        if (LevelEditor.Instance.currentState == LevelEditor.state.editing)
-        {
-            for (int i = 0; i < tiles.Count; i++)
-            {
-                if (tiles[i] != null)
-                {
-                    tiles[i].GameUpdate();
-                }
-                else
-                {
-
-                }
-            } 
-        }
-    }
-
-    //public void SetActiveTiles()
-    //{
-    //    if (tiles.Count > 2)
-    //    {
-    //        foreach (TileOnEditor tile in tiles)
-    //        {
-    //            tile.GetComponent<Tile>().enabled = true;
-    //            tile.GetComponent<Tile>().Initialize(tile);
-    //            tile.GetComponent<TileOnEditor>().enabled = false;
-    //        }
-    //    }
-    //}
-
-
-
-    //public void SetInactiveTiles()
-    //{
-    //    if (tiles.Count > 2)
-    //    {
-    //        foreach (TileOnEditor tile in tiles)
-    //        {
-    //            tile.GetComponent<TileOnEditor>().enabled = true;
-    //            tile.GetComponent<Tile>().enabled = false;
-    //        }
-    //    }
-
-    //}
+  
 }

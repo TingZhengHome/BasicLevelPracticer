@@ -15,10 +15,6 @@ public class LEditor_OnTileObject : Edtior_GameBoardObject
 
     public LEditor_Button correspondingButton;
 
-    //public bool isPushable;
-
-    //public bool isPickable;
-
     public bool isButton;
     public bool isExit;
 
@@ -116,11 +112,6 @@ public class LEditor_OnTileObject : Edtior_GameBoardObject
         theTileSetOn.CleanTile(true);
         LEditor_TileObject.OnTileClicked -= this.PickUp;
         Hover.Instance.transform.rotation = this.transform.rotation;
-    }
-
-    public void SetConnection(Edtior_GameBoardObject selectedObject, int id) //To theConnectable
-    { 
-        LEditor_TileObject.OnTileClicked -= SetConnection;
     }
 
     void CheckSelectable()
