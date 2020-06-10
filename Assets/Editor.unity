@@ -269,22 +269,22 @@ Prefab:
     - target: {fileID: 224020642735904442, guid: bcba1ccbb984d0744839a26123dc889c,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224020642735904442, guid: bcba1ccbb984d0744839a26123dc889c,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224020642735904442, guid: bcba1ccbb984d0744839a26123dc889c,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 0.375
       objectReference: {fileID: 0}
     - target: {fileID: 224020642735904442, guid: bcba1ccbb984d0744839a26123dc889c,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 224094898342496408, guid: bcba1ccbb984d0744839a26123dc889c,
         type: 2}
@@ -364,6 +364,14 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1632512100242628, guid: bcba1ccbb984d0744839a26123dc889c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641774862354302, guid: bcba1ccbb984d0744839a26123dc889c, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcba1ccbb984d0744839a26123dc889c, type: 2}
@@ -1629,6 +1637,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 644c3d781b6300a469dc3f3a45f88112, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1499241150 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1632512100242628, guid: bcba1ccbb984d0744839a26123dc889c,
+    type: 2}
+  m_PrefabInternal: {fileID: 212181567}
 --- !u!1 &1540192276
 GameObject:
   m_ObjectHideFlags: 0
@@ -2193,6 +2206,12 @@ Prefab:
       value: 
       objectReference: {fileID: 21300002, guid: 93023b401eab62545b1010437c124610,
         type: 3}
+    - target: {fileID: 114582443439623718, guid: cf75f1b3fbb2b3a4db537ac8ceb2ee0c,
+        type: 2}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 21300004, guid: a78d81d88517a974c912a7bcde3b4494,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf75f1b3fbb2b3a4db537ac8ceb2ee0c, type: 2}
   m_IsPrefabAsset: 0
@@ -2234,8 +2253,7 @@ MonoBehaviour:
   movingObject: {fileID: 0}
   EditorButtonUI: {fileID: 1915025150}
   BoardScaleAskerUI: {fileID: 1540192276}
-  TileSelectedUI: {fileID: 1632512100242628, guid: bcba1ccbb984d0744839a26123dc889c,
-    type: 2}
+  TileSelectedUI: {fileID: 1499241150}
   pickUpButton: {fileID: 11227000}
   gameBoard: {fileID: 114149997850324502, guid: 82054670f678ceb4881fb3277f554ea3,
     type: 2}

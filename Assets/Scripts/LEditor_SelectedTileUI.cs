@@ -45,7 +45,7 @@ public class LEditor_SelectedTileUI : MonoBehaviour
         Debug.Log("SelectedTileUI starts.");
         PackageButtons();
         UnAttach();
-        LEditor_TileObject.OnTileClicked += CheckClickAndAttachTo;
+        LEditor_TileContainer.OnTileClicked += CheckClickAndAttachTo;
         LevelEditor.LaunchedLevel += DestroySelf;
     }
 
@@ -56,11 +56,12 @@ public class LEditor_SelectedTileUI : MonoBehaviour
     }
 
 
-    void Display()
+    void SetupAndDisplay()
     {
         if (attachedObject != null)
         {
-            gameObject.SetActive(true);
+            //gameObject.SetActive(true);
+            cancelButton.gameObject.SetActive(true);
             cancelButton.onClick.AddListener(attachedObject.UnSelectThis);
 
             if (attachedObject.GetComponent<LEditor_ConnectableObject>() != null ||
@@ -79,11 +80,12 @@ public class LEditor_SelectedTileUI : MonoBehaviour
     }
 
 
-    public void CheckClickAndAttachTo(Edtior_GameBoardObject newO, int clickedId)
+    public void CheckClickAndAttachTo(LEdtior_GameBoardObject newO, int clickedId)
     {
         if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding &&
             LevelEditor.Instance.currentState == LevelEditor.state.editing)
         {
+            
             if (newO == null)
             {
                 LEditor_TileObject clicked = LevelEditor.Instance.EditingGameboard.GetEditingTile(clickedId).GetComponent<LEditor_TileObject>();
@@ -92,19 +94,21 @@ public class LEditor_SelectedTileUI : MonoBehaviour
                 if (clicked.GetComponent<LEditor_SelectableObject>() != null &&
                     attachedObject != clicked.GetComponent<LEditor_SelectableObject>())
                 {
+                    UnAttach();
                     attachedObject = clicked.GetComponent<LEditor_SelectableObject>();
                     transform.position = attachedObject.transform.position;
                     transform.parent = attachedObject.transform;
-                    Display();
+                    SetupAndDisplay();
                     Debug.Log(clicked.name + clicked.TileId + " should be attached.");
                 }
                 else if (clicked.objectOn != null && clicked.objectOn.GetComponent<LEditor_SelectableObject>() != null &&
                          attachedObject != clicked.objectOn.GetComponent<LEditor_SelectableObject>())
                 {
+                    UnAttach();
                     attachedObject = clicked.objectOn.GetComponent<LEditor_SelectableObject>();
                     transform.position = attachedObject.transform.position;
                     transform.parent = attachedObject.transform;
-                    Display();
+                    SetupAndDisplay();
                     Debug.Log(clicked.name + clicked.TileId + " should be attached.");
                 }
                 else
@@ -132,7 +136,6 @@ public class LEditor_SelectedTileUI : MonoBehaviour
 
     public void UnAttach()
     {
-
         setConnectionButton.onClick.RemoveAllListeners();
         setConnectionButton.gameObject.SetActive(false);
 
@@ -145,7 +148,8 @@ public class LEditor_SelectedTileUI : MonoBehaviour
         }
         attachedObject = null;
         transform.parent = Hover.Instance.transform;
-        this.gameObject.SetActive(false);
+        cancelButton.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
     }
 
     public void DestroySelf()

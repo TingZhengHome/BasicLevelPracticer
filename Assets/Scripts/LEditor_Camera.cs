@@ -44,9 +44,9 @@ public class LEditor_Camera : Singleton<LEditor_Camera> {
        transform.position = new Vector3(Mathf.Clamp(transform.position.x, xMin, xMax), Mathf.Clamp(transform.position.y, yMin, yMax), Mathf.Clamp(transform.position.z, zMin, zMax));
     }
 
-    public void Initialize(float rowFloat, float columnFloat, LEditor_TileObject firstTile, LEditor_TileObject lastTile)
+    public void Initialize(float rowFloat, float columnFloat, LEditor_TileObject firstTile, LEditor_TileObject lastTile, int column)
     {
-        startCameraPosition = new Vector3(((rowFloat) / 2), (-(columnFloat) / 2), -columnFloat - 2f);
+        startCameraPosition = new Vector3(((rowFloat) / 2), (-(columnFloat) / 2), -column - 2f);
         transform.position = LEditor_Camera.Instance.startCameraPosition;
 
         SetLimit(firstTile.transform.position, lastTile.transform.position);

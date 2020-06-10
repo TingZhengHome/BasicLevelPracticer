@@ -7,9 +7,6 @@ public class LEdtior_OnMutipleTileObject : LEditor_OnTileObject
 
     public List<LEditor_TileObject> theTilesSetOn = new List<LEditor_TileObject>();
 
-    public bool isHinderance;
-
-
     public override void GameUpdate()
     {
         ColorControll();
@@ -86,7 +83,7 @@ public class LEdtior_OnMutipleTileObject : LEditor_OnTileObject
         return new Vector2((maxX + minX) * 0.5f, (maxY + minY) * 0.5f);
     }
 
-    public override void PickUp(Edtior_GameBoardObject newO, int id)
+    public override void PickUp(LEdtior_GameBoardObject newO, int id)
     {
         if (LevelEditor.Instance.clickedBoardObjectButton != null)
         {
@@ -101,6 +98,6 @@ public class LEdtior_OnMutipleTileObject : LEditor_OnTileObject
             }
         }
         Hover.Instance.transform.rotation = this.transform.rotation;
-        LEditor_TileObject.OnTileClicked -= this.PickUp;
+        LEditor_TileContainer.OnTileClicked -= this.PickUp;
     }
 }

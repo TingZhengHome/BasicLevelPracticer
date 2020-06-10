@@ -8,7 +8,7 @@ public class Hover : Singleton<Hover>
 {
 
     [SerializeField]
-    Edtior_GameBoardObject HovingObject = null;
+    LEdtior_GameBoardObject HovingObject = null;
     [SerializeField]
     SpriteRenderer spriteRenderer;
     [SerializeField]
@@ -25,7 +25,7 @@ public class Hover : Singleton<Hover>
     void Start()
     {
         //Editor_TileObject.OnTileClicked += ClickEventCheck;
-        LEditor_TileObject.OnTileClicked += SetPlacedObjectRotation;
+        LEditor_TileContainer.OnTileClicked += SetPlacedObjectRotation;
         spriteRenderer = GetComponent<SpriteRenderer>();
         collide = GetComponent<BoxCollider2D>();
         this.gameObject.SetActive(true);
@@ -55,7 +55,7 @@ public class Hover : Singleton<Hover>
     }
 
 
-    public void ClickEventCheck(Edtior_GameBoardObject nObj, int id)
+    public void ClickEventCheck(LEdtior_GameBoardObject nObj, int id)
     {
         if (LevelEditor.Instance.clickedBoardObjectButton != null)
         {
@@ -73,7 +73,7 @@ public class Hover : Singleton<Hover>
 
     public void StartHovering()
     {
-        HovingObject = LevelEditor.Instance.clickedBoardObjectButton.representObject.GetComponent<Edtior_GameBoardObject>();
+        HovingObject = LevelEditor.Instance.clickedBoardObjectButton.representObject.GetComponent<LEdtior_GameBoardObject>();
         spriteRenderer.sprite = LevelEditor.Instance.clickedBoardObjectButton.sprite;
         SetCollideSize(HovingObject.GetComponent<BoxCollider2D>());
     }
@@ -107,7 +107,7 @@ public class Hover : Singleton<Hover>
         }
     }
 
-    public void SetPlacedObjectRotation(Edtior_GameBoardObject nObj, int id)
+    public void SetPlacedObjectRotation(LEdtior_GameBoardObject nObj, int id)
     {
         if (nObj != null && LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
         {

@@ -137,6 +137,7 @@ public class LevelEditor : Singleton<LevelEditor> {
 
     public void GenerateGameBoard()
     {
+        TileSelectedUI.GetComponent<LEditor_SelectedTileUI>().UnAttach();
         if (selectedObject != null)
         {
             EscapeSelectingState();

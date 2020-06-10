@@ -45,7 +45,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1441563759406838
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1632512100242628
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +83,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1641774862354302
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,10 +408,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4be6c3cc728e1264595ff2e50c496a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theAttatchedTile: {fileID: 0}
+  attachedObject: {fileID: 0}
   cancelButton: {fileID: 114923663146041976}
   setConnectionButton: {fileID: 114089897104207134}
   pickUpButton: {fileID: 114405368348684398}
+  buttons: []
 --- !u!114 &114585282262730096
 MonoBehaviour:
   m_ObjectHideFlags: 1

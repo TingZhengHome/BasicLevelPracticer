@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class LEditor_SelectableObject : Edtior_GameBoardObject
+public class LEditor_SelectableObject : LEdtior_GameBoardObject
 {
 
     public LEditor_TileObject theTileSetOn;
@@ -23,7 +23,7 @@ public class LEditor_SelectableObject : Edtior_GameBoardObject
     }
 
 
-    public virtual void Setup(LEditor_TileObject theTileSetOn, Edtior_GameBoardObject attachedObject)
+    public virtual void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject)
     {
         this.theTileSetOn = theTileSetOn;
         if (attachedObject.GetComponent<LEditor_OnTileObject>() != null)
@@ -32,19 +32,12 @@ public class LEditor_SelectableObject : Edtior_GameBoardObject
         }
     }
 
-    public virtual void ColorControl(Collider2D hit, Edtior_GameBoardObject handlingObject)
-    {
-        if (LevelEditor.Instance.selectedObject == this)
-        {
-            TurnColor(LevelEditor.Instance.EditingGameboard.selectedColor);
-        }
-    }
-
     protected virtual void SenseHover()
     {
+
     }
 
-    public void SelectObject(Edtior_GameBoardObject newObject, int id) //to Selectable
+    public void SelectObject(LEdtior_GameBoardObject newObject, int id) //to Selectable
     {
         if (theTileSetOn != null)
         {
@@ -63,12 +56,12 @@ public class LEditor_SelectableObject : Edtior_GameBoardObject
                 }
             }
 
-            LEditor_TileObject.OnTileClicked -= SelectObject;
-            LEditor_TileObject.OnTileClicked += UnSelectObject;
+            LEditor_TileContainer.OnTileClicked -= SelectObject;
+            LEditor_TileContainer.OnTileClicked += UnSelectObject;
         }
     }
 
-    public void UnSelectObject(Edtior_GameBoardObject newObject, int id) 
+    public void UnSelectObject(LEdtior_GameBoardObject newObject, int id) 
     {
         if (theTileSetOn != null)
         {
@@ -81,7 +74,7 @@ public class LEditor_SelectableObject : Edtior_GameBoardObject
                 TurnColor(LevelEditor.Instance.EditingGameboard.defaultColor);
                 Debug.Log("Tile" + theTileSetOn.TileId + " is unselected.");
             }
-            LEditor_TileObject.OnTileClicked -= UnSelectObject;
+            LEditor_TileContainer.OnTileClicked -= UnSelectObject;
         }
     }
 

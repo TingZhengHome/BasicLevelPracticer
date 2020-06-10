@@ -11,6 +11,7 @@ public class LEditor_PortableObject : LEditor_SelectableObject
 
     public override void GameUpdate()
     {
+        base.SenseHover();
         if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingPortals)
         {
             if (this.GetComponent<LEditor_OnTileObject>() != null)
@@ -28,7 +29,7 @@ public class LEditor_PortableObject : LEditor_SelectableObject
         }
     }
 
-    public override void Setup(LEditor_TileObject theTileSetOn, Edtior_GameBoardObject attachedObject)
+    public override void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject)
     {
         base.Setup(theTileSetOn, attachedObject);
         if (theTileSetOn.GetComponent <LEditor_PortableObject>() != null)
@@ -43,9 +44,10 @@ public class LEditor_PortableObject : LEditor_SelectableObject
 
     protected override void SenseHover()
     {
-
+  
         Collider2D hit = Physics2D.OverlapPoint(transform.position, LevelEditor.Instance.hoverLayer);
-        ColorControl(hit, LevelEditor.Instance.selectedObject);
+        this.ColorControl(hit, LevelEditor.Instance.selectedObject);
+        GetComponent<LEditor_SelectableObject>().ColorControl(hit, LevelEditor.Instance.selectedObject);
 
         if (!EventSystem.current.IsPointerOverGameObject() && hit != null)
         {
@@ -56,14 +58,14 @@ public class LEditor_PortableObject : LEditor_SelectableObject
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    LEditor_TileObject.OnTileClicked += SetConnection;
+                    LEditor_TileContainer.OnTileClicked += SetConnection;
                     theTileSetOn.TileClicked();
                 }
             }
         }
     }
 
-    public void SetConnection(Edtior_GameBoardObject selectedObject, int id)
+    public void SetConnection(LEdtior_GameBoardObject selectedObject, int id)
     {
         if (theTileSetOn != null)
         {
@@ -108,7 +110,7 @@ public class LEditor_PortableObject : LEditor_SelectableObject
                 }
             }
 
-            LEditor_TileObject.OnTileClicked -= SetConnection;
+            LEditor_TileContainer.OnTileClicked -= SetConnection;
         }
     }
 
@@ -120,24 +122,24 @@ public class LEditor_PortableObject : LEditor_SelectableObject
 
     }
 
-    public override void ColorControl(Collider2D hit, Edtior_GameBoardObject selectedObject)
-    {
-        LEditor_PortableObject selected = selectedObject.GetComponent<LEditor_PortableObject>();
-        GameBoard EditingGameBoard = LevelEditor.Instance.EditingGameboard;
+    //public override void ColorControl(Collider2D hit, LEdtior_GameBoardObject selectedObject)
+    //{
+    //    LEditor_PortableObject selected = selectedObject.GetComponent<LEditor_PortableObject>();
+    //    GameBoard EditingGameBoard = LevelEditor.Instance.EditingGameboard;
 
-            if (!isExit || !selected.isExit)
-            {
-                if (connectedPortable != selected)
-                {
-                    TurnColor(EditingGameBoard.connectableColor);
-                }
-                else
-                {
-                    TurnColor(EditingGameBoard.connectedColor);
-                }
-            }
+    //        if (!isExit || !selected.isExit)
+    //        {
+    //            if (connectedPortable != selected)
+    //            {
+    //                TurnColor(EditingGameBoard.connectableColor);
+    //            }
+    //            else
+    //            {
+    //                TurnColor(EditingGameBoard.connectedColor);
+    //            }
+    //        }
 
-            base.ColorControl(hit, selectedObject);
-    }
+    //        base.ColorControl(hit, selectedObject);
+    //}
 }
 

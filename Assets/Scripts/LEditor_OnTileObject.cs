@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LEditor_OnTileObject : Edtior_GameBoardObject
+public class LEditor_OnTileObject : LEdtior_GameBoardObject
 {
-    public enum types {connectable, portable, pickalbe, pushable, normal, player}
+    public enum types {connectable, portable, pickalbe, pushable, normal, player }
 
     public LEditor_TileObject theTileSetOn;
 
@@ -17,6 +17,7 @@ public class LEditor_OnTileObject : Edtior_GameBoardObject
 
     public bool isButton;
     public bool isExit;
+    public bool isHinderance;
 
     public List<LEditor_SelectableObject> selectableCompnents = new List<LEditor_SelectableObject>();
 
@@ -38,14 +39,28 @@ public class LEditor_OnTileObject : Edtior_GameBoardObject
         }
     }
 
-    
+
     public virtual void GameUpdate()
     {
         if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
         {
             if (theTileSetOn != null && theTileSetOn.detected == false)
             {
-                spriteRender.color = LevelEditor.Instance.EditingGameboard.defaultColor;
+                if (GetComponent<LEditor_SelectableObject>() != null)
+                {
+                    if (LevelEditor.Instance.selectedObject != GetComponent<LEditor_SelectableObject>())
+                    {
+                        spriteRender.color = LevelEditor.Instance.EditingGameboard.defaultColor;
+                    }
+                    else
+                    {
+                        spriteRender.color = LevelEditor.Instance.EditingGameboard.selectedColor;
+                    }
+                }
+                else
+                {
+                    spriteRender.color = LevelEditor.Instance.EditingGameboard.defaultColor;
+                }
                 detected = false;
             }
         }
@@ -54,7 +69,7 @@ public class LEditor_OnTileObject : Edtior_GameBoardObject
         {
             selectableCompnents[i].GameUpdate();
         }
-        
+
     }
 
     public override void Setup(Vector2 placedPosition, Transform parent)
@@ -97,7 +112,7 @@ public class LEditor_OnTileObject : Edtior_GameBoardObject
         spriteRender = this.GetComponent<SpriteRenderer>();
     }
 
-    public virtual void PickUp(Edtior_GameBoardObject newO, int id)
+    public virtual void PickUp(LEdtior_GameBoardObject newO, int id)
     {
         Debug.Log("pickingUp");
         if (LevelEditor.Instance.clickedBoardObjectButton != null)
@@ -110,7 +125,7 @@ public class LEditor_OnTileObject : Edtior_GameBoardObject
         }
         LevelEditor.Instance.StartMovingObject(this);
         theTileSetOn.CleanTile(true);
-        LEditor_TileObject.OnTileClicked -= this.PickUp;
+        LEditor_TileContainer.OnTileClicked -= this.PickUp;
         Hover.Instance.transform.rotation = this.transform.rotation;
     }
 
@@ -143,11 +158,4 @@ public class LEditor_OnTileObject : Edtior_GameBoardObject
         spriteRender.color = color;
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "hover")
-        {
-            TurnColor(Color.white);
-        }
-    }
 }

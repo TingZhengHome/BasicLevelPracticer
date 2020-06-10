@@ -25,6 +25,8 @@ public class GameBoard : MonoBehaviour {
 
     [SerializeField]
     LEditor_TileObject basicTile;
+    [SerializeField]
+    LEditor_TileContainer container;
 
     [SerializeField]
     LEditor_OnTileObject playerCharacter;
@@ -34,6 +36,8 @@ public class GameBoard : MonoBehaviour {
     int row;
     int column;
 
+
+    public List<LEditor_TileContainer> containers = new List<LEditor_TileContainer>();
     public List<LEditor_TileObject> tiles = new List<LEditor_TileObject>();
     int size;
 
@@ -44,24 +48,36 @@ public class GameBoard : MonoBehaviour {
         size = row * column;
 
         LEditor_TileObject firstTile = basicTile;
+        LEditor_TileContainer firstContainer = container;
         LEditor_TileObject lastTile = basicTile;
+        GameObject edgesCollector = new GameObject();
+        edgesCollector.name = "EdgesCollector";
+        edgesCollector.transform.parent = this.transform;
         for (int y = 1; y > -column - 2; y--)
         {
             for (int x = -1; x < row + 2; x++)
-            {
+            {  
                 if (y > 0 || x < 0 || y == -column - 1 || x == row + 1)
                 {
-                    GameObject edge = Instantiate(edgeObject, new Vector2(x, y), transform.rotation, this.transform);
+                    GameObject edge = Instantiate(edgeObject, new Vector2(x, y), transform.rotation, edgesCollector.transform);
                 }
                 else
                 {
+                    LEditor_TileContainer tContainer = Instantiate(container);
+                    containers.Add(tContainer);
+                    tContainer.Setup(new Vector2(x, y), parent, containers.IndexOf(tContainer));
+                    tContainer.name = "TileContainer" + tContainer.SlotId;
+
                     LEditor_TileObject tile = Instantiate(basicTile);
                     tiles.Add(tile);
-                    tile.Setup(new Vector2(x, y), parent, tiles.IndexOf(tile));
                     tile.ObjectName = basicTile.name;
+
+                    tContainer.PlaceGameBoardObject(tile, tContainer.SlotId);
+
                     if (y == 0 && x == 0)
                     {
                         firstTile = tile;
+                        firstContainer = tContainer;
                     }
                     if (y == (-column + 1) && x == (row - 1))
                     {
@@ -73,10 +89,11 @@ public class GameBoard : MonoBehaviour {
             }
         }
         LEditor_OnTileObject player = Instantiate(playerCharacter);
-        firstTile.PlaceGameBoardObject(player, firstTile.TileId);
+        firstTile.PlaceOnTileObject(player, firstTile.TileId);
+        firstTile.transform.parent = firstContainer.transform;
         float rowFloat = row;
         float columnFloat = column;
-        LEditor_Camera.Instance.Initialize(rowFloat, columnFloat, firstTile, lastTile);
+        LEditor_Camera.Instance.Initialize(rowFloat, columnFloat, firstTile, lastTile, column);
         TileController.Instance.tiles = this.tiles;
     }
 
@@ -84,11 +101,11 @@ public class GameBoard : MonoBehaviour {
     {
         if (LevelEditor.Instance.currentState == LevelEditor.state.editing)
         {
-            for (int i = 0; i < tiles.Count; i++)
+            for (int i = 0; i < containers.Count; i++)
             {
-                if (tiles[i] != null)
+                if (containers[i] != null)
                 {
-                    tiles[i].GameUpdate();
+                    containers[i].GameUpdate();
                 }
                 else
                 {
@@ -98,7 +115,7 @@ public class GameBoard : MonoBehaviour {
         }
     }
 
-    public void UpgradeTile(Edtior_GameBoardObject tile, int tileId)
+    public void UpgradeTile(LEdtior_GameBoardObject tile, int tileId)
     {
         if (tile != null && tile.GetComponent<LEditor_TileObject>() != null &&
             LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
@@ -178,7 +195,7 @@ public class GameBoard : MonoBehaviour {
 
     private void Awake()
     {
-        LEditor_TileObject.OnTileClicked += UpgradeTile;
+        LEditor_TileContainer.OnTileClicked += UpgradeTile;
     }
 
 

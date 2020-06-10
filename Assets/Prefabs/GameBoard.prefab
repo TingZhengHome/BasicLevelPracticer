@@ -63,7 +63,10 @@ MonoBehaviour:
   edgeObject: {fileID: 1302272081886758, guid: 8eccb7d291aed8149b3f28807cf346b9, type: 2}
   basicTile: {fileID: 114743821510584152, guid: 50fae2a7acfc41c4fbcf8ce2d4254580,
     type: 2}
+  container: {fileID: 114547578049510642, guid: 853a0c4f718d9df4d9fa1712a4e6f702,
+    type: 2}
   playerCharacter: {fileID: 114465418340494490, guid: 7611b06d38c0fe74d8da6faf650f3a67,
     type: 2}
   player: {fileID: 0}
+  containers: []
   tiles: []

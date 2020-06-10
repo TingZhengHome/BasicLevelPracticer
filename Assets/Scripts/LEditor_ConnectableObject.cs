@@ -12,6 +12,7 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
 
     public override void GameUpdate()
     {
+        base.SenseHover();
         if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection)
         {
             if (this.GetComponent<LEditor_OnTileObject>() != null)
@@ -27,7 +28,7 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
         }
     }
 
-    public override void Setup(LEditor_TileObject theTileSetOn, Edtior_GameBoardObject attachedObject)
+    public override void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject)
     {
         base.Setup(theTileSetOn, attachedObject);
         if (theTileSetOn.GetComponent<LEditor_ConnectableObject>() != null)
@@ -42,8 +43,10 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
 
     protected override void SenseHover()
     {
+
+
         Collider2D hit = Physics2D.OverlapPoint(transform.position, LevelEditor.Instance.hoverLayer);
-        ColorControl(hit, LevelEditor.Instance.selectedObject);
+        this.ColorControl(hit, LevelEditor.Instance.selectedObject);
 
         if (!EventSystem.current.IsPointerOverGameObject() && hit != null)
         {
@@ -55,7 +58,7 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        LEditor_TileObject.OnTileClicked += SetConnection;
+                        LEditor_TileContainer.OnTileClicked += SetConnection;
                         theTileSetOn.TileClicked();
                     }
                 }
@@ -66,7 +69,7 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        LEditor_TileObject.OnTileClicked += SetConnection;
+                        LEditor_TileContainer.OnTileClicked += SetConnection;
                         theTileSetOn.TileClicked();
                     }
                 }
@@ -74,7 +77,7 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
         }
     }
 
-    public void SetConnection(Edtior_GameBoardObject selectedObject, int id)
+    public void SetConnection(LEdtior_GameBoardObject selectedObject, int id)
     {
         if (theTileSetOn != null)
         {
@@ -122,7 +125,7 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
                             Debug.Log("ConnectableObject" + theTileSetOn.TileId + " is set connection to button " + selected.theTileSetOn.TileId);
                             if (selected.connectedObject != this)
                             {
-                                selected.SetConnection(theTileSetOn, selected.theTileSetOn.TileId);
+                                selected.SetConnection(this, selected.theTileSetOn.TileId);
                             }
                         }
                         else
@@ -133,7 +136,7 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
                 }
             }
 
-            LEditor_TileObject.OnTileClicked -= SetConnection;
+            LEditor_TileContainer.OnTileClicked -= SetConnection;
         }
     }
 
@@ -149,44 +152,8 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
         {
             connecteds.Remove(connected);
             connected.connectedObject = null;
-            Debug.Log("Connectable" + theTileSetOn.TileId + "disconnected with ButtonTile" + connected.theTileSetOn.TileId);
+            Debug.Log("ConnectableObject" + theTileSetOn.TileId + " disconnected with ButtonTile" + connected.theTileSetOn.TileId);
         }
     }
 
-    public override void ColorControl(Collider2D hit, Edtior_GameBoardObject selectedObject)
-    {
-        LEditor_ConnectableObject selected = selectedObject.GetComponent<LEditor_ConnectableObject>();
-        GameBoard EditingGameBoard = LevelEditor.Instance.EditingGameboard;
-
-        if (selected.isButton)
-        {
-            if (!isButton)
-            {
-                if (!connecteds.Exists(x => x.GetComponent<LEditor_ConnectableObject>() == selected))
-                {
-                    TurnColor(EditingGameBoard.connectableColor);
-                }
-                else
-                {
-                    TurnColor(EditingGameBoard.connectedColor);
-                }
-            }
-        }
-        else
-        {
-            if (isButton)
-            {
-                if (connectedObject != selected)
-                {
-                    TurnColor(EditingGameBoard.connectableColor);
-                }
-                else
-                {
-                    TurnColor(EditingGameBoard.connectedColor);
-                }
-            }
-        }
-
-        base.ColorControl(hit, selectedObject);
-    }
 }

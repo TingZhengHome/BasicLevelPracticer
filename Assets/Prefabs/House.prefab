@@ -102,12 +102,14 @@ MonoBehaviour:
   trigger: {fileID: 61099761257507088}
   spriteRender: {fileID: 212008940596241742}
   theTileSetOn: {fileID: 0}
+  thisType: 4
   correspondingButton: {fileID: 0}
-  pushable: 0
-  pickable: 0
-  isPlayer: 0
+  isButton: 0
+  isExit: 0
+  isHinderance: 1
+  selectableCompnents: []
+  detected: 0
   theTilesSetOn: []
-  isHinderance: 0
 --- !u!114 &114438004285913186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -123,10 +125,13 @@ MonoBehaviour:
   trigger: {fileID: 61099761257507088}
   spriteRender: {fileID: 212008940596241742}
   theTileSetOn: {fileID: 0}
+  thisType: 0
   correspondingButton: {fileID: 0}
-  pushable: 0
-  pickable: 0
-  isPlayer: 0
+  isButton: 0
+  isExit: 0
+  isHinderance: 0
+  selectableCompnents: []
+  detected: 0
 --- !u!212 &212008940596241742
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -6,19 +6,25 @@ public abstract class LEditor_Button : MonoBehaviour {
 
     public enum ButtonKind {tile, objectOnTile}
 
-    public Edtior_GameBoardObject representObject;
+    public LEdtior_GameBoardObject representObject;
     public Sprite sprite;
 
     public virtual void ClickButton()
     {
-        LevelEditor.Instance.clickedBoardObjectButton = this;
-        //LevelEditor.Instance.Hover.SetActive(true);
-        LevelEditor.Instance.isMovingPlacedObject = false;
+        if (LevelEditor.Instance.movingObject == null && LevelEditor.Instance.selectedObject == null &&
+            LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
+        {
+            LevelEditor.Instance.clickedBoardObjectButton = this;
+            LevelEditor.Instance.isMovingPlacedObject = false;
+        }
+        else
+        {
+            return;
+        }
     }
 
     public void CancelButton()
     {
         LevelEditor.Instance.clickedBoardObjectButton = null;
-        //LevelEditor.Instance.Hover.SetActive(false);
     }
 }

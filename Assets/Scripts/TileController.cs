@@ -9,7 +9,7 @@ public class TileController : Singleton<TileController> {
 
 	// Use this for initialization
 	void Start () {
-        LEditor_TileObject.OnTileClicked += UpgradeTiles;
+        LEditor_TileContainer.OnTileClicked += UpgradeTiles;
 	}
 	
 	// Update is called once per frame
@@ -17,7 +17,7 @@ public class TileController : Singleton<TileController> {
 
     }
 
-    public void UpgradeTiles(Edtior_GameBoardObject tile, int tileId)
+    public void UpgradeTiles(LEdtior_GameBoardObject tile, int tileId)
     {
         if (tile != null && tile.GetComponent<LEditor_TileObject>() != null && 
             LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)

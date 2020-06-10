@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Edtior_GameBoardObject : MonoBehaviour {
+public class LEdtior_GameBoardObject : MonoBehaviour {
 
     public string ObjectName;
 
@@ -36,11 +36,6 @@ public class Edtior_GameBoardObject : MonoBehaviour {
         transform.position = placedPositon;
         transform.parent = parent;
         SetLayer(this.GetComponent<SpriteRenderer>());
-    }
-
-    void SetID(Vector2 worldPosition)
-    {
-        
     }
 
     public virtual void SetLayer(SpriteRenderer sprite)
