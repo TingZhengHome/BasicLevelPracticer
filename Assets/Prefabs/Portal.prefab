@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 61767086118337096}
   - component: {fileID: 114054501137328364}
   - component: {fileID: 114267481814676860}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Portal
   m_TagString: onTileObject
   m_Icon: {fileID: 0}
@@ -79,14 +79,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be195cd95130c44419d12506ddb42382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactable: {fileID: 11400000, guid: d6766d2f590f51043a5f0046b5e3d94a, type: 2}
   ObjectName: Portal
   trigger: {fileID: 61767086118337096}
   spriteRender: {fileID: 0}
   theTileSetOn: {fileID: 0}
-  thisType: 1
+  theType: 1
   correspondingButton: {fileID: 0}
-  isButton: 0
-  isExit: 0
+  isHinderance: 0
   selectableCompnents: []
   detected: 0
 --- !u!114 &114267481814676860
@@ -100,13 +100,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8b3668cb7eb3e429de96c59bcd32d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movable: 0
-  movedSpeed: 1.2
   isHinderance: 0
-  pickable: 0
+  blocker: {fileID: 0}
+  theTileSetOn: {fileID: 0}
+  theType: 1
   isPlayer: 0
-  connectable: 0
-  connectingObjects: []
 --- !u!212 &212619424381400012
 SpriteRenderer:
   m_ObjectHideFlags: 1

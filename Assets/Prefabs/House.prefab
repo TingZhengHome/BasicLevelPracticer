@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 61099761257507088}
   - component: {fileID: 114361580756297762}
   - component: {fileID: 114438004285913186}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: House
   m_TagString: onTileObject
   m_Icon: {fileID: 0}
@@ -80,10 +80,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8b3668cb7eb3e429de96c59bcd32d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movable: 0
-  movedSpeed: 0
   isHinderance: 0
-  pickable: 0
+  theTileSetOn: {fileID: 0}
+  theType: 4
   isPlayer: 0
   connectable: 0
   connectingObjects: []
@@ -98,14 +97,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2676078800838e49a99457a1a5d065f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactable: {fileID: 0}
   ObjectName: House
   trigger: {fileID: 61099761257507088}
   spriteRender: {fileID: 212008940596241742}
   theTileSetOn: {fileID: 0}
-  thisType: 4
+  theType: 4
   correspondingButton: {fileID: 0}
-  isButton: 0
-  isExit: 0
   isHinderance: 1
   selectableCompnents: []
   detected: 0
@@ -121,14 +119,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be195cd95130c44419d12506ddb42382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactable: {fileID: 0}
   ObjectName: House
   trigger: {fileID: 61099761257507088}
   spriteRender: {fileID: 212008940596241742}
   theTileSetOn: {fileID: 0}
-  thisType: 0
+  theType: 4
   correspondingButton: {fileID: 0}
-  isButton: 0
-  isExit: 0
   isHinderance: 0
   selectableCompnents: []
   detected: 0

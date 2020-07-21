@@ -51,7 +51,7 @@ public class Hover : Singleton<Hover>
         {
             RotateHoveringObject();
         }
-        transform.position = Vector3Extensions.GetWorldPositionOnPlane(new Vector3(), Input.mousePosition, -1f);
+        transform.position = Vector3Extensions.GetWorldPositionOnPlane(new Vector3(), Input.mousePosition, 0f);
     }
 
 

@@ -22,11 +22,10 @@ GameObject:
   - component: {fileID: 212574652951456568}
   - component: {fileID: 114465418340494490}
   - component: {fileID: 61144711828793784}
-  - component: {fileID: 114491016849991544}
   - component: {fileID: 114921692099289812}
   - component: {fileID: 50166516780312292}
   - component: {fileID: 114842451846054478}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Player
   m_TagString: player
   m_Icon: {fileID: 0}
@@ -75,7 +74,7 @@ BoxCollider2D:
   m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -102,32 +101,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be195cd95130c44419d12506ddb42382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactable: {fileID: 0}
   ObjectName: Player
   trigger: {fileID: 61144711828793784}
   spriteRender: {fileID: 212574652951456568}
   theTileSetOn: {fileID: 0}
-  thisType: 5
+  theType: 4
   correspondingButton: {fileID: 0}
-  isButton: 0
-  isExit: 0
+  isHinderance: 0
   selectableCompnents: []
   detected: 0
---- !u!114 &114491016849991544
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1390890314147124}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e4accf7642498749ba27bda4cd023f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movTime: 0.1
-  blockingLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  movePeriord: 0.5
 --- !u!114 &114842451846054478
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -140,10 +123,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovingTimeDuration: 0.8
-  onGameColliderSize: {x: 0.65, y: 0.6}
+  isLerping: 0
+  onGameColliderSize: {x: 0.5, y: 0.4}
   blockingSensingDistatnce: 0.4
-  pickingUpDistance: 0.25
+  pickingUpDistance: 0.4
   egdeCheckDistance: 0.75
+  transported: 0
 --- !u!114 &114921692099289812
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -155,13 +140,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8b3668cb7eb3e429de96c59bcd32d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movable: 0
-  movedSpeed: 0
   isHinderance: 0
-  pickable: 0
+  blocker: {fileID: 0}
+  theTileSetOn: {fileID: 0}
+  theType: 4
   isPlayer: 1
-  connectable: 0
-  connectingObjects: []
 --- !u!212 &212574652951456568
 SpriteRenderer:
   m_ObjectHideFlags: 1

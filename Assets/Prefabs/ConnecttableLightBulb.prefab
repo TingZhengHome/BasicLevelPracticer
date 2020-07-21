@@ -19,11 +19,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4517012713262434}
-  - component: {fileID: 212803397230472656}
   - component: {fileID: 114343176650510148}
+  - component: {fileID: 212803397230472656}
   - component: {fileID: 114386869058257388}
   - component: {fileID: 61725798606493714}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: ConnecttableLightBulb
   m_TagString: onTileObject
   m_Icon: {fileID: 0}
@@ -82,14 +82,12 @@ MonoBehaviour:
   ObjectName: ConnecttableLightBulb
   trigger: {fileID: 61725798606493714}
   spriteRender: {fileID: 212803397230472656}
+  interactable: {fileID: 11400000, guid: c0550090f1c29274ba63b4bb0a36b3c7, type: 2}
   theTileSetOn: {fileID: 0}
+  theType: 0
   correspondingButton: {fileID: 0}
-  isPushable: 0
-  isPickable: 0
-  isPlayer: 0
-  isConnectable: 1
-  connectedObjects: []
-  isButton: 0
+  isHinderance: 1
+  selectableCompnents: []
   detected: 0
 --- !u!114 &114386869058257388
 MonoBehaviour:
@@ -102,10 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8b3668cb7eb3e429de96c59bcd32d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movable: 0
-  movedSpeed: 0
   isHinderance: 0
-  pickable: 1
+  theTileSetOn: {fileID: 0}
+  theType: 0
   isPlayer: 0
   connectable: 0
   connectingObjects: []

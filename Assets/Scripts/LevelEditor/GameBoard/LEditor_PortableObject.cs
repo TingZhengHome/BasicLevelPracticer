@@ -29,17 +29,10 @@ public class LEditor_PortableObject : LEditor_SelectableObject
         }
     }
 
-    public override void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject)
+    public override void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject, InteractableObject portable)
     {
-        base.Setup(theTileSetOn, attachedObject);
-        if (theTileSetOn.GetComponent <LEditor_PortableObject>() != null)
-        {
-            isExit = theTileSetOn.isExit;
-        }
-        else if (attachedOnTileObject.GetComponent<LEditor_PortableObject>() != null)
-        {
-            isExit = attachedOnTileObject.isExit;
-        }
+        base.Setup(theTileSetOn, attachedObject, portable);
+        isExit = ((PortableObject)portable).isExit;
     }
 
     protected override void SenseHover()
@@ -119,27 +112,6 @@ public class LEditor_PortableObject : LEditor_SelectableObject
         connected.connectedPortable = null;
         connectedPortable = null;
         Debug.Log("Portal" + theTileSetOn.TileId + " disconnected with Portal" + connected.theTileSetOn.TileId);
-
     }
-
-    //public override void ColorControl(Collider2D hit, LEdtior_GameBoardObject selectedObject)
-    //{
-    //    LEditor_PortableObject selected = selectedObject.GetComponent<LEditor_PortableObject>();
-    //    GameBoard EditingGameBoard = LevelEditor.Instance.EditingGameboard;
-
-    //        if (!isExit || !selected.isExit)
-    //        {
-    //            if (connectedPortable != selected)
-    //            {
-    //                TurnColor(EditingGameBoard.connectableColor);
-    //            }
-    //            else
-    //            {
-    //                TurnColor(EditingGameBoard.connectedColor);
-    //            }
-    //        }
-
-    //        base.ColorControl(hit, selectedObject);
-    //}
 }
 

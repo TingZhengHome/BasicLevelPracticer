@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Button
+  m_EditorClassIdentifier: Assembly-CSharp::ConnectableObject
+  sprite: {fileID: 21300002, guid: 88390132b5a5fd7448e3200ee5d0e664, type: 3}
+  placement: 2
+  isButton: 1
+  keyObject: {fileID: 114150655185830532, guid: cbf9ec54d04235d4f8361348acb1b345,
+    type: 2}
+  isConditioned: 0

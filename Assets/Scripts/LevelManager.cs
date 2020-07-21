@@ -6,26 +6,42 @@ public class LevelManager : Singleton<LevelManager> {
 
     public LayerMask blockingLayer;
     public LayerMask interactableObjectLayer;
-    public LayerMask emptyTileLayer;
 
+
+    public LayerMask edgeLayer;
+    public LayerMask gameBoardObjectLayer;
+
+
+    public LayerMask emptyTileLayer;
 
     public GameBoard currentGameBoard;
 
-    Tile[] tiles;
+    TileObject[] tiles;
 
     public Player player;
 
     public GameObject TestingUI;
 
     // Use this for initialization
-    void Start () {
-        LevelEditor.LaunchedLevel += LaunchLevel;
+    void Start () { 
+        LevelEditor.LaunchedLevelEvents += LaunchLevel;
+        LevelEditor.ReturnToEditingEvents += ShutDownLevel;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (LevelEditor.Instance.currentState == LevelEditor.state.testing)
+        {
+            currentGameBoard.GameUpdate();
+        }
+    }
+
+
+    public void GameUpdate()
+    {
+        
+    }
 
     public void LaunchLevel()
     {
@@ -39,7 +55,6 @@ public class LevelManager : Singleton<LevelManager> {
             currentGameBoard = LevelEditor.Instance.EditingGameboard;
         }
         TileController.Instance.SetActiveTiles();
-        player = currentGameBoard.player;
         TestingUI.SetActive(true);
     }
 
@@ -48,6 +63,7 @@ public class LevelManager : Singleton<LevelManager> {
         if (currentGameBoard != null)
         {
             //currentGameBoard.SetInactiveTiles();
+            MainCamera.Instance.SetBackToEditing();
             Destroy(currentGameBoard.gameObject);
             player = null;
         }

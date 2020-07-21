@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LEditor_Camera : Singleton<LEditor_Camera> {
+public class MainCamera : Singleton<MainCamera> {
 
 
     [SerializeField]
@@ -17,12 +17,28 @@ public class LEditor_Camera : Singleton<LEditor_Camera> {
     public Vector3 startCameraPosition;
 
 	// Use this for initialization
-	void Start () {
-        LevelEditor.LaunchedLevel += SetStartPositionAndShutDown;
+	void Start ()
+    {
+        LevelEditor.LaunchedLevelEvents += SetStartPositionAndShutDown;
+        LevelEditor.ReturnToEditingEvents += SetStartPositionAndShutDown;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        if (LevelEditor.Instance.currentState == LevelEditor.state.editing)
+        {
+            OnEditorControl();
+        }
+
+        if (LevelEditor.Instance.currentState == LevelEditor.state.testing)
+        {
+            OnLevelControl();
+        }
+    }
+
+    public void OnEditorControl()
+    {
         if (Input.GetKey(KeyCode.W))
         {
             transform.position += Vector3.up * cameraSpeed * Time.deltaTime;
@@ -41,13 +57,23 @@ public class LEditor_Camera : Singleton<LEditor_Camera> {
         }
         transform.position += Vector3.forward * Input.GetAxis("Mouse ScrollWheel") * zoomInOutSpeed;
 
-       transform.position = new Vector3(Mathf.Clamp(transform.position.x, xMin, xMax), Mathf.Clamp(transform.position.y, yMin, yMax), Mathf.Clamp(transform.position.z, zMin, zMax));
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, xMin, xMax), Mathf.Clamp(transform.position.y, yMin, yMax), Mathf.Clamp(transform.position.z, zMin, zMax));
+    }
+
+    public void OnLevelControl()
+    {
+        Transform playerTrans = LevelManager.Instance.currentGameBoard.player.transform;
+
+        transform.parent = playerTrans;
+
+        transform.position += Vector3.forward * Input.GetAxis("Mouse ScrollWheel") * zoomInOutSpeed;
+        transform.position = new Vector3(playerTrans.position.x, playerTrans.position.y, Mathf.Clamp(transform.position.z, zMin/2f, zMax));
     }
 
     public void Initialize(float rowFloat, float columnFloat, LEditor_TileObject firstTile, LEditor_TileObject lastTile, int column)
     {
         startCameraPosition = new Vector3(((rowFloat) / 2), (-(columnFloat) / 2), -column - 2f);
-        transform.position = LEditor_Camera.Instance.startCameraPosition;
+        transform.position = MainCamera.Instance.startCameraPosition;
 
         SetLimit(firstTile.transform.position, lastTile.transform.position);
     }
@@ -68,7 +94,11 @@ public class LEditor_Camera : Singleton<LEditor_Camera> {
 
     public void SetStartPositionAndShutDown()
     {
-        transform.position = LEditor_Camera.Instance.startCameraPosition;
-        GetComponent<LEditor_Camera>().enabled = false;
+        transform.position = Instance.startCameraPosition;
+    }
+
+    public void SetBackToEditing()
+    {
+        transform.parent = null;
     }
 }

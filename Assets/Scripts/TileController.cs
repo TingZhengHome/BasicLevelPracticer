@@ -5,7 +5,11 @@ using UnityEngine;
 public class TileController : Singleton<TileController> {
 
 
-    public List<LEditor_TileObject> tiles = new List<LEditor_TileObject>();
+    public List<LEditor_TileObject> onEditorTiles = new List<LEditor_TileObject>();
+
+    public List<TileObject> tiles = new List<TileObject>();
+
+
 
 	// Use this for initialization
 	void Start () {
@@ -19,25 +23,54 @@ public class TileController : Singleton<TileController> {
 
     public void UpgradeTiles(LEdtior_GameBoardObject tile, int tileId)
     {
-        if (tile != null && tile.GetComponent<LEditor_TileObject>() != null && 
+        if (tile != null && tile.GetComponent<LEditor_TileObject>() != null &&
             LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
         {
-            tiles[tileId] = tile.GetComponent<LEditor_TileObject>();
-            Debug.Log("Controller upgraded tile" + tileId);
+            if (tileId < onEditorTiles.Count)
+            {
+                onEditorTiles[tileId] = tile.GetComponent<LEditor_TileObject>();
+                Debug.Log("Controller upgraded tile" + tileId);
+            }
         }
     }
 
     public void SetActiveTiles()
     {
         GetList();
-        if (tiles.Count > 2)
+        //LevelEditor.Instance.EditingGameboard.AddActiveTiles();
+        //tiles = LevelEditor.Instance.EditingGameboard.tiles;
+        if (onEditorTiles.Count > 2)
         {
-            foreach (LEditor_TileObject tile in tiles)
+            foreach (LEditor_TileObject tile in onEditorTiles)
             {
-                tile.GetComponent<Tile>().enabled = true;
-                tile.GetComponent<Tile>().Initialize(tile);
-                tile.GetComponent<LEditor_TileObject>().enabled = false;
+                if (tile != null)
+                {
+                    TileObject theTile = tile.GetComponent<TileObject>();
+                    theTile.enabled = true;
+                    theTile.Initialize(tile);
+                    tile.GetComponent<LEditor_TileObject>().enabled = false;
+                    tiles.Add(theTile);
+                }
             }
+
+            foreach (TileObject tile in tiles)
+            {
+                if (tile.Property != null)
+                {
+                    tile.Property.Initialize(tile, tile.GetComponent<LEditor_TileObject>().interactable);
+                }
+                if (tile.objectOnThis != null)
+                {
+                    if (tile.objectOnThis.Property != null)
+                    {
+                        tile.objectOnThis.Property.Initialize(tile.objectOnThis, tile.objectOnThis.GetComponent<LEditor_OnTileObject>().interactable);
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("Too few tiles to launch level.");
         }
     }
 
@@ -45,7 +78,7 @@ public class TileController : Singleton<TileController> {
     {
         if (LevelEditor.Instance.EditingGameboard != null)
         {
-            tiles = LevelEditor.Instance.EditingGameboard.tiles;
+            onEditorTiles = LevelEditor.Instance.EditingGameboard.OnEditorTiles;
         }
     }
 }

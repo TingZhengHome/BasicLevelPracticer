@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LEdtior_GameBoardObject : MonoBehaviour {
 
+    public InteractableObject interactable;
+
     public string ObjectName;
 
     public BoxCollider2D trigger;

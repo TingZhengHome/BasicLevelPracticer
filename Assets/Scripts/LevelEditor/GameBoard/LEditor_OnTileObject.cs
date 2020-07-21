@@ -5,20 +5,16 @@ using UnityEngine.UI;
 
 public class LEditor_OnTileObject : LEdtior_GameBoardObject
 {
-    public enum types {connectable, portable, pickalbe, pushable, normal, player }
-
     public LEditor_TileObject theTileSetOn;
 
-    public types thisType;
+    public condition theType;
 
     private int size;
 
     public LEditor_Button correspondingButton;
 
-    public bool isButton;
-    public bool isExit;
     public bool isHinderance;
-
+    
     public List<LEditor_SelectableObject> selectableCompnents = new List<LEditor_SelectableObject>();
 
     public bool detected;
@@ -27,7 +23,7 @@ public class LEditor_OnTileObject : LEdtior_GameBoardObject
     {
         get
         {
-            if (size != null)
+            if (size != 0)
                 return size;
             else
                 return (int)(trigger.size.x * trigger.size.y);
@@ -42,28 +38,7 @@ public class LEditor_OnTileObject : LEdtior_GameBoardObject
 
     public virtual void GameUpdate()
     {
-        if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
-        {
-            if (theTileSetOn != null && theTileSetOn.detected == false)
-            {
-                if (GetComponent<LEditor_SelectableObject>() != null)
-                {
-                    if (LevelEditor.Instance.selectedObject != GetComponent<LEditor_SelectableObject>())
-                    {
-                        spriteRender.color = LevelEditor.Instance.EditingGameboard.defaultColor;
-                    }
-                    else
-                    {
-                        spriteRender.color = LevelEditor.Instance.EditingGameboard.selectedColor;
-                    }
-                }
-                else
-                {
-                    spriteRender.color = LevelEditor.Instance.EditingGameboard.defaultColor;
-                }
-                detected = false;
-            }
-        }
+        this.ColorControl();
 
         for (int i = 0; i < selectableCompnents.Count; i++)
         {
@@ -103,7 +78,7 @@ public class LEditor_OnTileObject : LEdtior_GameBoardObject
         {
             for (int i = 0; i < selectableCompnents.Count; i++)
             {
-                selectableCompnents[i].Setup(theTileSetOn, this);
+                selectableCompnents[i].Setup(theTileSetOn, this, interactable);
             }
         }
 
@@ -131,21 +106,21 @@ public class LEditor_OnTileObject : LEdtior_GameBoardObject
 
     void CheckSelectable()
     {
-        switch (thisType)
+        switch (theType)
         {
-            case types.connectable:
+            case condition.connectable:
                 if (GetComponent<LEditor_ConnectableObject>() == null)
                 {
                     LEditor_ConnectableObject connectable = gameObject.AddComponent<LEditor_ConnectableObject>();
-                    connectable.Setup(theTileSetOn, this);
+                    connectable.Setup(theTileSetOn, this, interactable);
                     selectableCompnents.Add(connectable);
                 }
                 break;
-            case types.portable:
+            case condition.portable:
                 if (GetComponent<LEditor_PortableObject>() == null)
                 {
                     LEditor_PortableObject portable = gameObject.AddComponent<LEditor_PortableObject>();
-                    portable.Setup(theTileSetOn, this);
+                    portable.Setup(theTileSetOn, this, interactable);
                     selectableCompnents.Add(portable);
                 }
                 break;
@@ -158,4 +133,4 @@ public class LEditor_OnTileObject : LEdtior_GameBoardObject
         spriteRender.color = color;
     }
 
-}
+}   

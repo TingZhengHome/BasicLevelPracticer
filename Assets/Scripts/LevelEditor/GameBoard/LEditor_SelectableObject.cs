@@ -23,7 +23,7 @@ public class LEditor_SelectableObject : LEdtior_GameBoardObject
     }
 
 
-    public virtual void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject)
+    public virtual void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject, InteractableObject interactable)
     {
         this.theTileSetOn = theTileSetOn;
         if (attachedObject.GetComponent<LEditor_OnTileObject>() != null)
@@ -37,7 +37,7 @@ public class LEditor_SelectableObject : LEdtior_GameBoardObject
 
     }
 
-    public void SelectObject(LEdtior_GameBoardObject newObject, int id) //to Selectable
+    public void SelectObject(LEdtior_GameBoardObject newObject, int id)
     {
         if (theTileSetOn != null)
         {

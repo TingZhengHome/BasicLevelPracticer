@@ -7,8 +7,7 @@ public static class LEditor_ColorControl
 {
     public static void ColorControl(this LEditor_TileObject tile, Collider2D hit, LEdtior_GameBoardObject handlingObject)
     {
-
-        if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
+        if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding && tile != null)
         {
             if (hit != null)
             {
@@ -133,16 +132,16 @@ public static class LEditor_ColorControl
         {
             if (tile.objectOn == null)
             {
-                if (tile.thisType != LEditor_TileObject.types.connectable)
+                if (tile.theType != condition.connectable)
                 {
-                    tile.TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
+                    tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
                 }
             }
             else
             {
-                if (tile.objectOn.thisType != LEditor_OnTileObject.types.connectable)
+                if (tile.objectOn.theType != condition.connectable)
                 {
-                    tile.TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
+                    tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
                 }
             }
         }
@@ -154,17 +153,90 @@ public static class LEditor_ColorControl
         {
             if (tile.objectOn == null)
             {
-                if (tile.thisType != LEditor_TileObject.types.portable)
+                if (tile.theType != condition.portable)
                 {
-                    tile.TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
+                    tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
                 }
             }
             else
             {
-                if (tile.objectOn.thisType != LEditor_OnTileObject.types.portable)
+                if (tile.objectOn.theType != condition.portable)
                 {
-                    tile.TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
+                    tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
                 }
+            }
+        }
+    }
+
+    public static void ColorControl(this LEditor_TileObject tile, LevelEditor.editingState currentstate)
+    {
+        if (currentstate == LevelEditor.editingState.settingWinningPickables)
+        {
+            if ((tile.objectOn == null) || (tile.objectOn != null && tile.objectOn.theType != condition.pickable))
+            {
+                tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
+            }
+
+            if (tile.objectOn != null && tile.objectOn.theType == condition.pickable)
+            {
+                if (tile.detected == true)
+                {
+                    tile.TurnColor(LevelEditor.Instance.EditingGameboard.selectedColor);
+                }
+                else
+                {
+                    tile.TurnColor(LevelEditor.Instance.EditingGameboard.defaultColor);
+                }
+            }
+        }
+
+        if (currentstate == LevelEditor.editingState.settingWinningTile)
+        {
+            if (tile.detected == true)
+            {
+                tile.TurnColor(LevelEditor.Instance.EditingGameboard.selectedColor);
+            }
+            else if (tile.detected == false)
+            {
+                if (tile.isHinderance)
+                {
+                    tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
+                }
+                else if ((tile.objectOn != null && tile.objectOn.isHinderance && (tile.objectOn.theType != condition.movable && tile.objectOn.theType != condition.connectable)) ||
+                          tile.objectOn != null && !tile.objectOn.isHinderance && tile.objectOn.tag == "player")
+                {
+                    tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
+                }
+                else
+                {
+                    tile.TurnColor(LevelEditor.Instance.EditingGameboard.defaultColor);
+                }
+            }
+        }
+    }
+
+    public static void ColorControl(this LEditor_OnTileObject onTile)
+    {
+        if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
+        {
+            if (onTile.theTileSetOn != null && onTile.theTileSetOn.detected == false)
+            {
+                if (onTile.GetComponent<LEditor_SelectableObject>() != null)
+                {
+                    if (LevelEditor.Instance.selectedObject != onTile.GetComponent<LEditor_SelectableObject>())
+                    {
+                        onTile.spriteRender.color = LevelEditor.Instance.EditingGameboard.defaultColor;
+                    }
+                    else
+                    {
+                        onTile.spriteRender.color = LevelEditor.Instance.EditingGameboard.selectedColor;
+                    }
+                }
+                else
+                {
+                    onTile.spriteRender.color = LevelEditor.Instance.EditingGameboard.defaultColor;
+                }
+                onTile.detected = false;
             }
         }
     }

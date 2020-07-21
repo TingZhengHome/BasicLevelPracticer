@@ -46,7 +46,9 @@ public class LEditor_SelectedTileUI : MonoBehaviour
         PackageButtons();
         UnAttach();
         LEditor_TileContainer.OnTileClicked += CheckClickAndAttachTo;
-        LevelEditor.LaunchedLevel += DestroySelf;
+
+        LevelEditor.LaunchedLevelEvents += UnAttach;
+        LevelEditor.ReturnToEditingEvents += UnAttach;
     }
 
 
@@ -60,7 +62,6 @@ public class LEditor_SelectedTileUI : MonoBehaviour
     {
         if (attachedObject != null)
         {
-            //gameObject.SetActive(true);
             cancelButton.gameObject.SetActive(true);
             cancelButton.onClick.AddListener(attachedObject.UnSelectThis);
 
@@ -149,7 +150,6 @@ public class LEditor_SelectedTileUI : MonoBehaviour
         attachedObject = null;
         transform.parent = Hover.Instance.transform;
         cancelButton.gameObject.SetActive(false);
-        //this.gameObject.SetActive(false);
     }
 
     public void DestroySelf()

@@ -9,10 +9,7 @@ using UnityEngine.EventSystems;
 
 public class LEditor_TileObject : LEdtior_GameBoardObject
 {
-    public enum types { connectable, portable, wall, normal }
-
     public LEditor_TileContainer container;
-
 
     [SerializeField]
     private int tileId;
@@ -25,49 +22,58 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
         }
     }
 
-    public types thisType;
+    [SerializeField]
+    Text idText;
+
+    public InteractableObject InteractableO
+    {
+        get
+        {
+            return interactable;
+        }
+    }
+
+    public condition theType;
 
     public bool isPlaceable;
 
     public List<LEditor_SelectableObject> selectableCompnents = new List<LEditor_SelectableObject>();
-    public bool isButton;
-    public bool isExit;
+
+    public bool isHinderance;
 
     public LEditor_OnTileObject objectOn;
-
-    public bool isWalkable;
-
+     
     public LEditor_TileButton correspondingButton;
 
     public bool detected;
-            
-    //public static event Action<LEdtior_GameBoardObject, int> OnTileClicked;
 
     public void Setup(Vector2 worldPosition, Transform parent, int id)
     {
         base.Setup(worldPosition, parent);
         tileId = id;
+        idText.text = id.ToString();
         container = parent.GetComponent<LEditor_TileContainer>();
         CheckSelectable();
     }
 
     public void CheckSelectable()
     {
-        switch (thisType)
+        switch (theType)
         {
-            case types.connectable:
-                if (GetComponent<LEditor_ConnectableObject>() == null)
+            case condition.connectable:
+                if (GetComponent<LEditor_ConnectableObject>() == null && InteractableO != null)
                 {
                     LEditor_ConnectableObject connectable = gameObject.AddComponent<LEditor_ConnectableObject>();
-                    connectable.Setup(this, this);
+                    connectable.Setup(this, this, InteractableO);
                     selectableCompnents.Add(connectable);
                 }
                 break;
-            case types.portable:
-                if (GetComponent<LEditor_PortableObject>() == null)
+
+            case condition.portable:
+                if (GetComponent<LEditor_PortableObject>() == null && InteractableO != null)
                 {
                     LEditor_PortableObject portable = gameObject.AddComponent<LEditor_PortableObject>();
-                    portable.Setup(this, this);
+                    portable.Setup(this, this, InteractableO);
                     selectableCompnents.Add(portable);
                 }
                 break;
@@ -148,117 +154,9 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
         LEditor_TileContainer.OnTileClicked -= EmptyHoverClickedEvents;
     }
 
-    //void ColorControl(Collider2D hit, LEdtior_GameBoardObject handlingObject)
-    //{
-    //    if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding)
-    //    {
-    //        if (hit != null)
-    //        {
-    //            if (handlingObject != null)
-    //            {
-    //                if (!isPlaceable && handlingObject.tag != "tile")
-    //                {
-    //                    TurnColor(LevelEditor.Instance.EditingGameboard.notPlaceableColor);
-    //                    return;
-    //                }
-    //                else if (objectOn != null)
-    //                {
-    //                    objectOn.detected = true;
-    //                    TurnColor(LevelEditor.Instance.EditingGameboard.objectOverlappedColor);
-    //                    if (objectOn.trigger.size.x *
-    //                        objectOn.trigger.size.y
-    //                        > 1)
-    //                    {
-    //                        for (int i = 0; i < objectOn.GetComponent<LEdtior_OnMutipleTileObject>().theTilesSetOn.Count; i++)
-    //                        {
-    //                            if (objectOn.GetComponent<LEdtior_OnMutipleTileObject>().theTilesSetOn[i].detected == false)
-    //                            {
-    //                                objectOn.GetComponent<LEdtior_OnMutipleTileObject>().theTilesSetOn[i].TurnColor(LevelEditor.Instance.EditingGameboard.defaultColor);
-    //                            }
-    //                        }
-    //                    }
-    //                }
-    //                else
-    //                {
-    //                    TurnColor(LevelEditor.Instance.EditingGameboard.placeableColor);
-    //                }
-    //            }
-    //            else
-    //            {
-    //                TurnColor(LevelEditor.Instance.EditingGameboard.placeableColor);
-    //                if (objectOn != null)
-    //                {
-    //                    objectOn.detected = true;
-    //                    if (objectOn.trigger.size.x *
-    //                        objectOn.trigger.size.y
-    //                        <= 1)
-    //                    {
-    //                        TurnColor(LevelEditor.Instance.EditingGameboard.placeableColor);
-    //                    }
-    //                    else
-    //                    {
-    //                        for (int i = 0; i < objectOn.GetComponent<LEdtior_OnMutipleTileObject>().theTilesSetOn.Count; i++)
-    //                        {
-    //                            objectOn.GetComponent<LEdtior_OnMutipleTileObject>().theTilesSetOn[i].TurnColor(LevelEditor.Instance.EditingGameboard.placeableColor);
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-    //        else
-    //        {
-    //            if (objectOn != null)
-    //            {
-    //                if (objectOn.detected == false)
-    //                    TurnColor(LevelEditor.Instance.EditingGameboard.defaultColor);
-    //            }
-    //            else
-    //            {
-    //                TurnColor(LevelEditor.Instance.EditingGameboard.defaultColor);
-    //            }
-    //        }
-    //    }
-
-
-    //    if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection)
-    //    {
-    //        if (objectOn == null)
-    //        {
-    //            if (thisType != types.connectable)
-    //            {
-    //                TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            if (objectOn.thisType != LEditor_OnTileObject.types.connectable)
-    //            {
-    //                TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
-    //            }
-    //        }
-    //    }
-    //    if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingPortals)
-    //    {
-    //        if (objectOn == null)
-    //        {
-    //            if (thisType != types.portable)
-    //            {
-    //                TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            if (objectOn.thisType != LEditor_OnTileObject.types.portable)
-    //            {
-    //                TurnColor(LevelEditor.Instance.EditingGameboard.unconnectableColor);
-    //            }
-    //        }
-    //    }
-    //}
-
     public override void TurnColor(Color color)
     {
-        if (spriteRender.color != color)
+        if (spriteRender!= null && spriteRender.color != color)
         {
             spriteRender.color = color;
         }

@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114951253276149520}
   - component: {fileID: 114781956444901586}
   - component: {fileID: 61260115401355072}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: Milk
   m_TagString: onTileObject
   m_Icon: {fileID: 0}
@@ -79,10 +79,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8b3668cb7eb3e429de96c59bcd32d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movable: 0
-  movedSpeed: 0
   isHinderance: 0
-  pickable: 1
+  theTileSetOn: {fileID: 0}
+  theType: 2
   isPlayer: 0
   connectable: 0
   connectingObjects: []
@@ -97,14 +96,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be195cd95130c44419d12506ddb42382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactable: {fileID: 11400000, guid: c51da9cb2c34fc74aa22138617375ffc, type: 2}
   ObjectName: Milk
   trigger: {fileID: 61260115401355072}
   spriteRender: {fileID: 212499779462171256}
   theTileSetOn: {fileID: 0}
-  thisType: 2
+  theType: 2
   correspondingButton: {fileID: 0}
-  isButton: 0
-  isExit: 0
+  isHinderance: 0
   selectableCompnents: []
   detected: 0
 --- !u!212 &212499779462171256

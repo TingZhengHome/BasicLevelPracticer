@@ -28,23 +28,15 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
         }
     }
 
-    public override void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject)
+    public override void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject, InteractableObject connectable)
     {
-        base.Setup(theTileSetOn, attachedObject);
-        if (theTileSetOn.GetComponent<LEditor_ConnectableObject>() != null)
-        {
-            isButton = theTileSetOn.isButton;
-        }
-        else if (attachedOnTileObject.GetComponent<LEditor_ConnectableObject>() != null)
-        {
-            isButton = attachedOnTileObject.isButton;
-        }
+        base.Setup(theTileSetOn, attachedObject, connectable);
+        
+            isButton = ((ConnectableObject)connectable).isButton;
     }
 
     protected override void SenseHover()
     {
-
-
         Collider2D hit = Physics2D.OverlapPoint(transform.position, LevelEditor.Instance.hoverLayer);
         this.ColorControl(hit, LevelEditor.Instance.selectedObject);
 
@@ -154,6 +146,31 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
             connected.connectedObject = null;
             Debug.Log("ConnectableObject" + theTileSetOn.TileId + " disconnected with ButtonTile" + connected.theTileSetOn.TileId);
         }
+    }
+
+    public void DisAllConnection()
+    {
+        if (isButton && connectedObject != null)
+        {
+            connectedObject.connecteds.Remove(this);
+            connectedObject = null;
+            Debug.Log("ButtonTile" + theTileSetOn.TileId + "disconnected with ButtonTile" + connectedObject.theTileSetOn.TileId);
+        }
+        else if (!isButton && connecteds.Count > 1)
+        {
+            for (int i = 0; i < connecteds.Count; i++)
+            {
+                if (connecteds[i] != null)
+                {
+                    Debug.Log("ConnectableObject" + theTileSetOn.TileId + " disconnected with ButtonTile" + connecteds[i].theTileSetOn.TileId);
+                    connecteds[i].connectedObject = null;
+                }
+                
+            }
+            connecteds.Clear();
+            
+        }
+
     }
 
 }

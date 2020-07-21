@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelEditor : Singleton<LevelEditor> {
+public class LevelEditor : Singleton<LevelEditor>
+{
 
     public enum state { editing, testing };
 
-    public enum editingState { mapBuilding, settingConnection, settingPortals }
+    public enum editingState { mapBuilding, settingConnection, settingPortals, settingWinningPickables, settingWinningTile }
 
     public state currentState = state.editing;
     public editingState currentEditingState = editingState.mapBuilding;
@@ -16,9 +17,16 @@ public class LevelEditor : Singleton<LevelEditor> {
     public LEditor_OnTileObject movingObject;
 
     [SerializeField]
-    GameObject EditorButtonUI;
+    public GameObject EditorButtonUI;
     [SerializeField]
     GameObject BoardScaleAskerUI;
+    [SerializeField]
+    public GameObject SettingLevelButtons;
+    public Button allPickablesButton;
+    public Button certainPointButton;
+    public Button saveLevelButton;
+    public Button returnToEditingButton;
+
 
     public GameObject TileSelectedUI;
 
@@ -37,7 +45,9 @@ public class LevelEditor : Singleton<LevelEditor> {
     Text InputWarningText;
 
     public LEditor_Button clickedBoardObjectButton;
+
     public GameObject Hover;
+    public LayerMask hoverLayer;
 
     public bool isPlayerPlaced;
     public bool isMovingPlacedObject;
@@ -46,23 +56,29 @@ public class LevelEditor : Singleton<LevelEditor> {
     float continousPlacingDelay = 0.2f;
     float continousPlacingCounter;
 
-    public LayerMask hoverLayer;
+    public delegate void LaunchLevelEvent();
+    public static event LaunchLevelEvent LaunchedLevelEvents;
 
-    public delegate void LaunchedLevelEvent();
-    public static event LaunchedLevelEvent LaunchedLevel;
+    public delegate void ReturnToEditingEvent();
+    public static event ReturnToEditingEvent ReturnToEditingEvents;
 
-    void Start () {
+
+
+    void Start()
+    {
         BoardScaleAskerUI.SetActive(true);
         isPlayerPlaced = false;
+        LaunchedLevelEvents += EscapeSelectingState;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (currentState == state.editing)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if ((movingObject != null && movingObject.tag != "player") || 
+                if ((movingObject != null && movingObject.tag != "player") ||
                     clickedBoardObjectButton != null)
                 {
                     EndCurrentEditingEvent();
@@ -79,7 +95,6 @@ public class LevelEditor : Singleton<LevelEditor> {
             if (EditingGameboard != null)
                 EditingGameboard.GameUpdate();
         }
- 
     }
 
 
@@ -94,7 +109,7 @@ public class LevelEditor : Singleton<LevelEditor> {
         InputWarningText.text = string.Empty;
         int inputNum = int.Parse(input);
 
-        if (inputNum > 0 )
+        if (inputNum > 0)
         {
             column = inputNum;
 
@@ -127,7 +142,7 @@ public class LevelEditor : Singleton<LevelEditor> {
                 InputWarningText.text = "Either Column or Row should be greater than 1.";
             }
         }
-        else 
+        else
         {
             row = inputNum;
             InputWarningText.gameObject.SetActive(true);
@@ -188,9 +203,13 @@ public class LevelEditor : Singleton<LevelEditor> {
         {
             CancelButtonClick();
         }
-        else if (isMovingPlacedObject)
+        if (isMovingPlacedObject)
         {
             EndMovingObject();
+        }
+        if (selectedObject != null)
+        {
+            EscapeSelectingState();
         }
     }
 
@@ -212,10 +231,14 @@ public class LevelEditor : Singleton<LevelEditor> {
         CancelButtonClick();
         currentEditingState = editingState.mapBuilding;
         selectedObject = null;
+        LEditor_SelectedTileUI.Instance.UnAttach();
 
-        foreach (LEditor_TileObject tile in EditingGameboard.tiles)
+        foreach (LEditor_TileObject tile in EditingGameboard.OnEditorTiles)
         {
-            tile.TurnColor(EditingGameboard.defaultColor);
+            if (tile != null)
+            {
+                tile.TurnColor(EditingGameboard.defaultColor);
+            }
         }
     }
 
@@ -224,9 +247,10 @@ public class LevelEditor : Singleton<LevelEditor> {
         tempSavedGBoard = Instantiate(EditingGameboard);
         tempSavedGBoard.gameObject.SetActive(false);
         CancelButtonClick();
-        LaunchedLevel();
+        LaunchedLevelEvents();
         currentState = state.testing;
         SetOnAndOffEditingUI();
+        EditingGameboard.AddActiveTiles();
     }
 
 
@@ -237,7 +261,7 @@ public class LevelEditor : Singleton<LevelEditor> {
             BoardScaleAskerUI.SetActive(false);
             EditorButtonUI.SetActive(false);
         }
-        else  
+        else
         {
             BoardScaleAskerUI.SetActive(true);
             EditorButtonUI.SetActive(true);
@@ -246,12 +270,76 @@ public class LevelEditor : Singleton<LevelEditor> {
 
     public void ReturnToEditing()
     {
-        LevelManager.Instance.ShutDownLevel();
-        tempSavedGBoard.gameObject.SetActive(true);
-        EditingGameboard = tempSavedGBoard;
-        SetOnAndOffEditingUI();
-        LEditor_Camera.Instance.GetComponent<LEditor_Camera>().enabled = true;
-        EditingGameboard.gameObject.name = "GameBoard";
-        currentState = state.editing;
+        if (currentState == state.testing)
+        {
+            EditingGameboard = tempSavedGBoard;
+            tempSavedGBoard = null;
+            EditingGameboard.gameObject.name = "GameBoard";
+            EditingGameboard.gameObject.SetActive(true);
+            if (ReturnToEditingEvents != null)
+                ReturnToEditingEvents();
+            SetOnAndOffEditingUI();
+            MainCamera.Instance.GetComponent<MainCamera>().enabled = true;
+            currentState = state.editing;
+        }
+        else
+        {
+            SetOnAndOffEditingUI();
+            currentEditingState = editingState.mapBuilding;
+            allPickablesButton.onClick.RemoveAllListeners();
+            certainPointButton.onClick.RemoveAllListeners();
+            SettingLevelButtons.SetActive(false);
+        }
+    }
+
+    public void OnSaveLevelClick()
+    {
+        if (currentEditingState == editingState.mapBuilding ||
+            currentEditingState == editingState.settingConnection ||
+            currentEditingState == editingState.settingPortals)
+        {
+            StartSettingLevel();
+        }
+        else
+        {
+            SaveGameBoardAsALevel();
+        }
+    }
+
+    public void StartSettingLevel()
+    {
+        EndCurrentEditingEvent();
+        LevelSetting level = EditingGameboard.levelSetting;
+        //SetOnAndOffEditingUI();
+        BoardScaleAskerUI.SetActive(false);
+        EditorButtonUI.SetActive(false);
+        SettingLevelButtons.SetActive(true);
+        allPickablesButton.gameObject.SetActive(true);
+        certainPointButton.gameObject.SetActive(true);
+        returnToEditingButton.gameObject.SetActive(true);
+        allPickablesButton.onClick.AddListener(level.StartChoosingPickables);
+        certainPointButton.onClick.AddListener(level.StartChoosingtheTargetedTile);
+    }
+
+    public void SaveGameBoardAsALevel()
+    {
+        string levelPrefabPath = "Assets/Prefabs/GoodBoards/GoodBoards.prefab";
+
+        if (LevelEditor.Instance.EditingGameboard.levelSetting.winningCondition == LevelSetting.levelClearCondition.getPickables)
+        {
+            Debug.Log(String.Format("Created level prefab:{0}  Winning Codition:{1}  Pickables Count:{2}"
+            , EditingGameboard.name, (EditingGameboard.levelSetting.winningCondition).ToString(), EditingGameboard.levelSetting.neededPickables.Count));
+        }
+
+        if (EditingGameboard.levelSetting.winningCondition == LevelSetting.levelClearCondition.reachCertainTile && EditingGameboard.levelSetting.TileToReach != null)
+        {
+            Debug.Log(String.Format("Created level prefab:{0}  Winning Condition:{1}  The Targeted Tile ID:{2}"
+                , EditingGameboard.name, (EditingGameboard.levelSetting.winningCondition).ToString(), EditingGameboard.levelSetting.TileToReach.GetComponent<LEditor_TileObject>().TileId));
+        }
+        else
+        {
+            Debug.Log("Fail to create level: no tile being selected");
+        }
+            
     }
 }
