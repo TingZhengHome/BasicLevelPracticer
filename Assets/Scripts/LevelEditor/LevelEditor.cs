@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -62,7 +63,8 @@ public class LevelEditor : Singleton<LevelEditor>
     public delegate void ReturnToEditingEvent();
     public static event ReturnToEditingEvent ReturnToEditingEvents;
 
-
+    public SaveData saveData = new SaveData();
+    public GameBoardFactory boardsFactory;
 
     void Start()
     {
@@ -233,7 +235,7 @@ public class LevelEditor : Singleton<LevelEditor>
         selectedObject = null;
         LEditor_SelectedTileUI.Instance.UnAttach();
 
-        foreach (LEditor_TileObject tile in EditingGameboard.OnEditorTiles)
+        foreach (LEditor_TileObject tile in EditingGameboard.OnEditingTiles)
         {
             if (tile != null)
             {
@@ -310,7 +312,6 @@ public class LevelEditor : Singleton<LevelEditor>
     {
         EndCurrentEditingEvent();
         LevelSetting level = EditingGameboard.levelSetting;
-        //SetOnAndOffEditingUI();
         BoardScaleAskerUI.SetActive(false);
         EditorButtonUI.SetActive(false);
         SettingLevelButtons.SetActive(true);
@@ -320,26 +321,51 @@ public class LevelEditor : Singleton<LevelEditor>
         allPickablesButton.onClick.AddListener(level.StartChoosingPickables);
         certainPointButton.onClick.AddListener(level.StartChoosingtheTargetedTile);
     }
-
+        
     public void SaveGameBoardAsALevel()
     {
-        string levelPrefabPath = "Assets/Prefabs/GoodBoards/GoodBoards.prefab";
+        if (saveData.levelDatas.Count > 0)
+            saveData.levelDatas.Clear();
+        EditingGameboard.Save(saveData);
+        if (saveData.levelDatas.Count > 0)
+            Debug.Log("EditingGameBoard has been saved as a level" + saveData.levelDatas[saveData.levelDatas.Count - 1].row + "x" + saveData.levelDatas[saveData.levelDatas.Count - 1].column + " in SaveData.");
+    }
 
-        if (LevelEditor.Instance.EditingGameboard.levelSetting.winningCondition == LevelSetting.levelClearCondition.getPickables)
+    public void SaveLevelsAsACampaign()
+    {
+        File.Delete(SerializationManagger.Path);
+        SerializationManagger.Save(string.Format(EditingGameboard.name + DateTime.Now), saveData);
+        if (File.Exists(SerializationManagger.Path))
+        Debug.Log("Levels has been saved as a campaign in {" + SerializationManagger.Path + "}.");
+    }
+        
+    public void LoadLevel()
+    {
+        if (saveData.levelDatas.Count > 0)
         {
-            Debug.Log(String.Format("Created level prefab:{0}  Winning Codition:{1}  Pickables Count:{2}"
-            , EditingGameboard.name, (EditingGameboard.levelSetting.winningCondition).ToString(), EditingGameboard.levelSetting.neededPickables.Count));
-        }
+            LevelData levelData = saveData.levelDatas[0];
 
-        if (EditingGameboard.levelSetting.winningCondition == LevelSetting.levelClearCondition.reachCertainTile && EditingGameboard.levelSetting.TileToReach != null)
-        {
-            Debug.Log(String.Format("Created level prefab:{0}  Winning Condition:{1}  The Targeted Tile ID:{2}"
-                , EditingGameboard.name, (EditingGameboard.levelSetting.winningCondition).ToString(), EditingGameboard.levelSetting.TileToReach.GetComponent<LEditor_TileObject>().TileId));
+            if (EditingGameboard != null)
+            {
+                EndCurrentEditingEvent();
+                Destroy(EditingGameboard.gameObject);
+            }
+
+            EditingGameboard = Instantiate(boardsFactory.GetGameBoard(levelData.theme));
+            EditingGameboard.Load(levelData);
         }
         else
         {
-            Debug.Log("Fail to create level: no tile being selected");
+            Debug.LogError("SaveData stores zero level.");
         }
-            
+    }
+
+    public void LoadCampaign()
+    {
+        saveData = (SaveData)SerializationManagger.Load();
+        if (saveData.levelDatas.Count > 0)
+        {
+            Debug.Log("A saved campaign has bee loaded.");
+        }
     }
 }

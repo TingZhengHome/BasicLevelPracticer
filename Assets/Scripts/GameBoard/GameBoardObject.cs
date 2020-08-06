@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum condition { connectable, portable, pickable, movable, normal, edge}
+
 
 public abstract class GameBoardObject : MonoBehaviour {
 

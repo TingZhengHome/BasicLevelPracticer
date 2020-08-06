@@ -23,7 +23,7 @@ public class TileObject : GameBoardObject {
     [SerializeField]
     Text idText;
 
-    public condition theType;
+    public ObjectType theType;
 
 
 
@@ -97,22 +97,22 @@ public class TileObject : GameBoardObject {
     {
         switch (interactableO.theType)
         {
-            case global::condition.movable:
+            case global::ObjectType.movable:
                 Movable movable = gameObject.AddComponent<Movable>();
                 Property = movable;
                 break;
 
-            case condition.pickable:
+            case ObjectType.pickable:
                 Pickable pickable = gameObject.AddComponent<Pickable>();
                 Property = pickable;
                 break;
 
-            case condition.connectable:
+            case ObjectType.connectable:
                 Connectable connectable = gameObject.AddComponent<Connectable>();
                 Property = connectable;
                 break;
 
-            case condition.portable:
+            case ObjectType.portable:
                 Portable portable = gameObject.AddComponent<Portable>();
                 Property = portable;
                 break;

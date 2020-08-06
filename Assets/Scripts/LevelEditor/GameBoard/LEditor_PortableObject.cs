@@ -33,6 +33,7 @@ public class LEditor_PortableObject : LEditor_SelectableObject
     {
         base.Setup(theTileSetOn, attachedObject, portable);
         isExit = ((PortableObject)portable).isExit;
+        LevelEditor.Instance.EditingGameboard.UpgradeTile(theTileSetOn, theTileSetOn.TileId);
     }
 
     protected override void SenseHover()
@@ -113,5 +114,36 @@ public class LEditor_PortableObject : LEditor_SelectableObject
         connectedPortable = null;
         Debug.Log("Portal" + theTileSetOn.TileId + " disconnected with Portal" + connected.theTileSetOn.TileId);
     }
+
+    public PortableData Save()
+    {
+        //base.Save();
+        PortableData data = null;
+        if (connectedPortable != null)
+        {
+            data = new PortableData(isOnTile, isExit, connectedPortable.theTileSetOn.TileId);
+        }
+        else
+        {
+            data = new PortableData(isOnTile, isExit, -1);
+        }
+
+        return data;
+    }
+
+
+    public override void Load(SelectableData selectableData)
+    {
+        base.Load(selectableData);
+
+        PortableData data = (PortableData)selectableData;
+
+        isExit = data.isExit;
+        if (data.connectedPortalId != -1)
+        {
+            connectedPortable = LevelEditor.Instance.EditingGameboard.GetEditingTile(data.connectedPortalId).objectOn.GetComponent<LEditor_PortableObject>();
+        }
+    }
+
 }
 

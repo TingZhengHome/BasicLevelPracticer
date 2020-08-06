@@ -16,8 +16,8 @@ public class LEditor_TileContainer : LEdtior_GameBoardObject
             return slotId;
         }
     }
-    [SerializeField]
-    LEditor_TileObject containingTile;
+    public LEditor_TileObject containingTile;
+
     public static event Action<LEdtior_GameBoardObject, int> OnTileClicked;
 
     // Use this for initialization
@@ -115,24 +115,23 @@ public class LEditor_TileContainer : LEdtior_GameBoardObject
             containingTile.ColorControl(LevelEditor.editingState.settingWinningPickables);
             if (containingTile != null && containingTile.objectOn != null)
             {
-                if (containingTile.objectOn.theType == condition.pickable)
+                if (containingTile.objectOn.theType == ObjectType.pickable)
                 {
                     OnTileObject thePickableOn = containingTile.objectOn.GetComponent<OnTileObject>();
                     if (!EventSystem.current.IsPointerOverGameObject() && hit != null)
                     {
                         if (Input.GetMouseButtonDown(0))
                         {
-                            List<OnTileObject> pickables = LevelEditor.Instance.EditingGameboard.levelSetting.neededPickables;
 
-                            if (!pickables.Exists(x => x == thePickableOn))
+                            if (!LevelEditor.Instance.EditingGameboard.levelSetting.neededPickables.Exists(x => x == thePickableOn))
                             {
-                                pickables.Add(thePickableOn);
+                                LevelEditor.Instance.EditingGameboard.levelSetting.neededPickables.Add(thePickableOn);
                                 containingTile.detected = true; //use "detected" to discriminate whether the object is added
                                 Debug.Log("New needed pickable added: " + thePickableOn.name + SlotId);
                             }
                             else
                             {
-                                pickables.Remove(thePickableOn);
+                                LevelEditor.Instance.EditingGameboard.levelSetting.neededPickables.Remove(thePickableOn);
                                 containingTile.detected = false;
                                 Debug.Log("Needed pickable removed: " + thePickableOn.name + SlotId);
                             }
@@ -148,34 +147,34 @@ public class LEditor_TileContainer : LEdtior_GameBoardObject
             if (containingTile != null && !containingTile.isHinderance)
             {
                 if (containingTile.objectOn == null || (containingTile.objectOn != null && !containingTile.isHinderance && containingTile.objectOn.tag != "player") || 
-                    (containingTile.objectOn != null && containingTile.objectOn.theType == condition.movable && containingTile.isHinderance))
+                    (containingTile.objectOn != null && containingTile.objectOn.theType == ObjectType.movable && containingTile.isHinderance))
                 {
                     if (!EventSystem.current.IsPointerOverGameObject() && hit != null)
                     {
                         if (Input.GetMouseButtonDown(0))
                         {
-                            if (LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach == null)
+                            if (LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile == null)
                             {
-                                LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach = containingTile.GetComponent<TileObject>();
-                                LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach = containingTile.GetComponent<TileObject>();
+                                LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile = containingTile.GetComponent<TileObject>();
+                                LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile = containingTile.GetComponent<TileObject>();
                                 containingTile.detected = true; //use "detected" to discriminate whether the object is added
-                                Debug.Log("Set target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach.name + LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach.GetComponent<LEditor_TileObject>().TileId);
+                                Debug.Log("Set target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.name + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.GetComponent<LEditor_TileObject>().TileId);
                             }
                             else
                             {
-                                if (LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach != containingTile.GetComponent<TileObject>())
+                                if (LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile != containingTile.GetComponent<TileObject>())
                                 {
-                                    LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach.GetComponent<LEditor_TileObject>().detected = false;
-                                    Debug.Log("Cancle target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach.name + LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach.GetComponent<LEditor_TileObject>().TileId);
-                                    LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach = containingTile.GetComponent<TileObject>();
+                                    LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.GetComponent<LEditor_TileObject>().detected = false;
+                                    Debug.Log("Cancle target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.name + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.GetComponent<LEditor_TileObject>().TileId);
+                                    LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile = containingTile.GetComponent<TileObject>();
                                     containingTile.detected = true;
-                                    Debug.Log("Set target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach.name + LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach.GetComponent<LEditor_TileObject>().TileId);
+                                    Debug.Log("Set target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.name + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.GetComponent<LEditor_TileObject>().TileId);
                                 }
-                                else if (LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach == containingTile.GetComponent<TileObject>())
+                                else if (LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile == containingTile.GetComponent<TileObject>())
                                 {
                                     containingTile.detected = false;
-                                    Debug.Log("Cancle target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach.name + LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach.GetComponent<LEditor_TileObject>().TileId);
-                                    LevelEditor.Instance.EditingGameboard.levelSetting.TileToReach = null;
+                                    Debug.Log("Cancle target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.name + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.GetComponent<LEditor_TileObject>().TileId);
+                                    LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile = null;
                                 }
                             }
 
@@ -219,7 +218,6 @@ public class LEditor_TileContainer : LEdtior_GameBoardObject
                 OnTileClicked(handlingObject, SlotId);
             }
         }
-
         else if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingConnection ||
                  LevelEditor.Instance.currentEditingState == LevelEditor.editingState.settingPortals)
         {
@@ -247,7 +245,7 @@ public class LEditor_TileContainer : LEdtior_GameBoardObject
                     case "tile":
                         if (containingTile != null)
                         {
-                            if (containingTile.theType == condition.connectable)
+                            if (containingTile.theType == ObjectType.connectable)
                             {
                                 LEditor_ConnectableObject connectableTile = containingTile.GetComponent<LEditor_ConnectableObject>();
                                 connectableTile.DisAllConnection();

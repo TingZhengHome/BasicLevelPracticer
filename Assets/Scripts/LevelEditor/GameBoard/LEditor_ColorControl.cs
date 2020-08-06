@@ -75,7 +75,7 @@ public static class LEditor_ColorControl
                             for (int i = 0; i < tile.objectOn.GetComponent<LEdtior_OnMutipleTileObject>().theTilesSetOn.Count; i++)
                             {
                                 if (tile.objectOn.GetComponent<LEditor_SelectableObject>() != null &&
-                                LevelEditor.Instance.selectedObject == tile.objectOn.GetComponent<LEditor_SelectableObject>())
+                                    LevelEditor.Instance.selectedObject == tile.objectOn.GetComponent<LEditor_SelectableObject>())
                                 {
                                     tile.objectOn.GetComponent<LEdtior_OnMutipleTileObject>().theTilesSetOn[i].TurnColor(LevelEditor.Instance.EditingGameboard.selectedColor);
                                 }
@@ -132,14 +132,14 @@ public static class LEditor_ColorControl
         {
             if (tile.objectOn == null)
             {
-                if (tile.theType != condition.connectable)
+                if (tile.theType != ObjectType.connectable)
                 {
                     tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
                 }
             }
             else
             {
-                if (tile.objectOn.theType != condition.connectable)
+                if (tile.objectOn.theType != ObjectType.connectable)
                 {
                     tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
                 }
@@ -153,14 +153,14 @@ public static class LEditor_ColorControl
         {
             if (tile.objectOn == null)
             {
-                if (tile.theType != condition.portable)
+                if (tile.theType != ObjectType.portable)
                 {
                     tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
                 }
             }
             else
             {
-                if (tile.objectOn.theType != condition.portable)
+                if (tile.objectOn.theType != ObjectType.portable)
                 {
                     tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
                 }
@@ -172,12 +172,12 @@ public static class LEditor_ColorControl
     {
         if (currentstate == LevelEditor.editingState.settingWinningPickables)
         {
-            if ((tile.objectOn == null) || (tile.objectOn != null && tile.objectOn.theType != condition.pickable))
+            if ((tile.objectOn == null) || (tile.objectOn != null && tile.objectOn.theType != ObjectType.pickable))
             {
                 tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
             }
 
-            if (tile.objectOn != null && tile.objectOn.theType == condition.pickable)
+            if (tile.objectOn != null && tile.objectOn.theType == ObjectType.pickable)
             {
                 if (tile.detected == true)
                 {
@@ -202,7 +202,7 @@ public static class LEditor_ColorControl
                 {
                     tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
                 }
-                else if ((tile.objectOn != null && tile.objectOn.isHinderance && (tile.objectOn.theType != condition.movable && tile.objectOn.theType != condition.connectable)) ||
+                else if ((tile.objectOn != null && tile.objectOn.isHinderance && (tile.objectOn.theType != ObjectType.movable && tile.objectOn.theType != ObjectType.connectable)) ||
                           tile.objectOn != null && !tile.objectOn.isHinderance && tile.objectOn.tag == "player")
                 {
                     tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);

@@ -8,7 +8,7 @@ public class LEditor_SelectableObject : LEdtior_GameBoardObject
 
     public LEditor_TileObject theTileSetOn;
     public LEditor_OnTileObject attachedOnTileObject;
-    bool isOnTile;
+    public bool isOnTile;
 
     public bool selected;
 
@@ -91,5 +91,27 @@ public class LEditor_SelectableObject : LEdtior_GameBoardObject
         {
             GetComponent<LEditor_OnTileObject>().PickUp(theTileSetOn, theTileSetOn.TileId);
         }
+    }
+
+    public virtual SelectableData Save(ObjectType type, LEdtior_GameBoardObject gameBoardObject)
+    {
+
+        if (type == ObjectType.connectable)
+        {
+            LEditor_ConnectableObject connectableObject = gameBoardObject.GetComponent<LEditor_ConnectableObject>();
+            return connectableObject.Save();
+        }
+        else if (type == ObjectType.portable)
+        {
+            LEditor_PortableObject portableObject = gameBoardObject.GetComponent<LEditor_PortableObject>();
+            return portableObject.Save();
+        }
+
+        return null;
+    }
+
+    public virtual void Load(SelectableData data)
+    {
+        isOnTile = data.isOnTile;
     }
 }

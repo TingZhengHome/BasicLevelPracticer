@@ -19,7 +19,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4909409805688692}
-  - component: {fileID: 114149997850324502}
+  - component: {fileID: 114124737994199556}
+  - component: {fileID: 114832720586141526}
   m_Layer: 0
   m_Name: GameBoard
   m_TagString: Untagged
@@ -40,7 +41,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114149997850324502
+--- !u!114 &114124737994199556
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,18 +49,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1260035393935496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 642bc73995a33f94f934cb40f2aac695, type: 3}
+  m_Script: {fileID: 11500000, guid: c6ff9b52aedc8b64d8edad07cdaa242b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   placeableColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   notPlaceableColor: {r: 1, g: 0, b: 0, a: 1}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  objectOverlappedColor: {r: 0, g: 0.73032665, b: 1, a: 1}
-  selectedColor: {r: 0, g: 0.8301887, b: 0.13367444, a: 1}
-  connectableColor: {r: 0.31820583, g: 0, b: 1, a: 0.5176471}
-  connectedColor: {r: 1, g: 0, b: 0.70521736, a: 0.7490196}
+  objectOverlappedColor: {r: 0.090067655, g: 0.8301887, b: 0.82360977, a: 1}
+  selectedColor: {r: 0.23339465, g: 0.9433962, b: 0.20024922, a: 1}
+  connectableColor: {r: 0, g: 0, b: 1, a: 1}
+  connectedColor: {r: 0.8301887, g: 0.5221982, b: 0.019579919, a: 1}
   connectorColor: {r: 0, g: 1, b: 0, a: 1}
-  unconnectableColor: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
+  unclickableColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  theme: 0
   edgeObject: {fileID: 1302272081886758, guid: 8eccb7d291aed8149b3f28807cf346b9, type: 2}
   basicTile: {fileID: 114743821510584152, guid: 50fae2a7acfc41c4fbcf8ce2d4254580,
     type: 2}
@@ -69,4 +71,36 @@ MonoBehaviour:
     type: 2}
   player: {fileID: 0}
   containers: []
+  OnEditingTiles: []
   tiles: []
+  factory: {fileID: 114832720586141526}
+--- !u!114 &114832720586141526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1260035393935496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 827d4eacb14137b48ae3cbd48b6d29aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  themeTiles:
+  - {fileID: 114743821510584152, guid: 50fae2a7acfc41c4fbcf8ce2d4254580, type: 2}
+  - {fileID: 114038565530777890, guid: 8aaa24177bd864049a221761d6ef9441, type: 2}
+  - {fileID: 114881596712475174, guid: 68499960c9344424eb6c71ea9acfa8ac, type: 2}
+  themeOnTiles:
+  - {fileID: 114223488098484788, guid: cbf9ec54d04235d4f8361348acb1b345, type: 2}
+  - {fileID: 114361580756297762, guid: bb22e2cc42c8d664f966c1ff9ffa4687, type: 2}
+  - {fileID: 114951253276149520, guid: efe176ea432345441a1e77bc8307e19a, type: 2}
+  - {fileID: 114054501137328364, guid: f5cb0ee6606b2244e844b588c74a133a, type: 2}
+  - {fileID: 114686032303244848, guid: f58c22b1ae2bec64db01c97c6307b931, type: 2}
+  - {fileID: 114343176650510148, guid: b90a0f262f36a2e4a8d048dcca3a1d44, type: 2}
+  - {fileID: 114465418340494490, guid: 7611b06d38c0fe74d8da6faf650f3a67, type: 2}
+  themeInteractableObjects:
+  - {fileID: 11400000, guid: 45bcc93ac9b428c4cb98ae13bc53bd1f, type: 2}
+  - {fileID: 11400000, guid: c51da9cb2c34fc74aa22138617375ffc, type: 2}
+  - {fileID: 11400000, guid: d6766d2f590f51043a5f0046b5e3d94a, type: 2}
+  - {fileID: 11400000, guid: 617291111e61d904485ce319513d52ad, type: 2}
+  - {fileID: 11400000, guid: 2ab4f402de28a584791022c31b04e5d0, type: 2}
+  - {fileID: 11400000, guid: c0550090f1c29274ba63b4bb0a36b3c7, type: 2}

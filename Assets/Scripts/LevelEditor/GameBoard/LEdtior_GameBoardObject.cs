@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LEdtior_GameBoardObject : MonoBehaviour {
 
+    public int idInFactory;
+
     public InteractableObject interactable;
 
     public string ObjectName;
@@ -12,7 +14,7 @@ public class LEdtior_GameBoardObject : MonoBehaviour {
 
     public SpriteRenderer spriteRender;
 
-
+        
     private void Awake()
     {
         trigger = GetComponent<BoxCollider2D>();

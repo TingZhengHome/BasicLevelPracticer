@@ -2,26 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum levelClearCondition { getPickables, reachCertainTile }
 public class LevelSetting{
 
     [SerializeField]
     string levelName;
 
-    public enum levelClearCondition { getPickables, reachCertainTile}
-
     public levelClearCondition winningCondition;
 
     public List<OnTileObject> neededPickables = new List<OnTileObject>();
 
-    public TileObject TileToReach;
-
-    //public LevelSetting(levelClearCondition winningCondition, List<OnTileObject> pickablesToPass, TileObject tileToWin)
-    //{
-    //    levelName = "GameBoard";
-    //    this.winningCondition = winningCondition;
-    //    this.neededPickables = pickablesToPass;
-    //    this.TileToReach = tileToWin;
-    //}
+    public TileObject TargetTile;
 
 
     public void StartChoosingPickables()
@@ -45,5 +36,44 @@ public class LevelSetting{
         LevelEditor.Instance.EditorButtonUI.SetActive(false);
         LevelEditor.Instance.allPickablesButton.gameObject.SetActive(false);
         LevelEditor.Instance.certainPointButton.gameObject.SetActive(false);
+    }
+
+    public LevelSettingData Save()
+    {
+        LevelSettingData settingData = new LevelSettingData();
+
+        if (winningCondition == levelClearCondition.getPickables)
+        {
+            if (neededPickables.Count > 0)
+            {
+                for (int i = 0; i < neededPickables.Count; i++)
+                {
+                    settingData.neededPickablesIds.Add(neededPickables[i].GetComponent<LEditor_OnTileObject>().theTileSetOn.TileId);
+                }
+            }
+        }
+        else if (winningCondition == levelClearCondition.reachCertainTile)
+        {
+            settingData.TargetedTileId = TargetTile.GetComponent<LEditor_TileObject>().TileId;
+        }
+
+        return settingData;
+    }
+
+    public void Load(LevelSettingData settingData)
+    {
+        winningCondition = settingData.winningCondition;
+
+        if (winningCondition == levelClearCondition.getPickables)
+        {
+            for (int i = 0; i < settingData.neededPickablesIds.Count; i++)
+            {
+                neededPickables.Add(LevelEditor.Instance.EditingGameboard.GetEditingTile(settingData.neededPickablesIds[i]).objectOn.GetComponent<OnTileObject>());
+            }
+        }
+        else if (winningCondition == levelClearCondition.reachCertainTile)
+        {
+            TargetTile = LevelEditor.Instance.EditingGameboard.GetEditingTile(settingData.TargetedTileId).GetComponent<TileObject>();
+        }
     }
 }

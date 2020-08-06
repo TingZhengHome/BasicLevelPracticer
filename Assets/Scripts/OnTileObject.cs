@@ -6,7 +6,7 @@ public class OnTileObject : GameBoardObject
 {
     public TileObject theTileSetOn;
 
-    public condition theType;
+    public ObjectType theType;
 
     public bool isPlayer;
 
@@ -19,7 +19,7 @@ public class OnTileObject : GameBoardObject
     // Update is called once per frame
     public void GameUpdate()
     {
-        if (theType == condition.movable || theType == condition.pickable)
+        if (theType == ObjectType.movable || theType == ObjectType.pickable)
         {
             SortingLayerSystem.Instance.UpdateLayer(this.GetComponent<SpriteRenderer>());
         }
@@ -58,25 +58,25 @@ public class OnTileObject : GameBoardObject
     {
         switch (onTileOb.theType)
         {
-            case global::condition.movable:
-                theType = condition.movable;
+            case global::ObjectType.movable:
+                theType = ObjectType.movable;
                 Movable movable = gameObject.AddComponent<Movable>();
                 Property = movable;
                 break;
 
-            case global::condition.pickable:
-                theType = condition.pickable;
+            case global::ObjectType.pickable:
+                theType = ObjectType.pickable;
                 Pickable pickable = gameObject.AddComponent<Pickable>();
                 Property = pickable;
                 break;
 
-            case condition.connectable:
-                theType = condition.connectable;
+            case ObjectType.connectable:
+                theType = ObjectType.connectable;
                 Connectable connectable = gameObject.AddComponent<Connectable>();
                 Property = connectable;
                 break;
 
-            case condition.portable:
+            case ObjectType.portable:
                 Portable portable = gameObject.AddComponent<Portable>();
                 Property = portable;
                 break;

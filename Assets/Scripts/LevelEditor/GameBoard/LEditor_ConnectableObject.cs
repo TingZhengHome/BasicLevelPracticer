@@ -23,7 +23,7 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
             {
                 GetComponent<BoxCollider2D>().enabled = false;
 
-            }   
+            }
             SenseHover();
         }
     }
@@ -31,8 +31,9 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
     public override void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject, InteractableObject connectable)
     {
         base.Setup(theTileSetOn, attachedObject, connectable);
-        
-            isButton = ((ConnectableObject)connectable).isButton;
+
+        isButton = ((ConnectableObject)connectable).isButton;
+        LevelEditor.Instance.EditingGameboard.UpgradeTile(theTileSetOn, theTileSetOn.TileId);
     }
 
     protected override void SenseHover()
@@ -165,12 +166,67 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
                     Debug.Log("ConnectableObject" + theTileSetOn.TileId + " disconnected with ButtonTile" + connecteds[i].theTileSetOn.TileId);
                     connecteds[i].connectedObject = null;
                 }
-                
+
             }
             connecteds.Clear();
-            
-        }
 
+        }
+    }
+
+    public ConnectableData Save()
+    {
+        ConnectableData data = null;
+
+        if (!isButton)
+        {
+            data = new ConnectableData(isOnTile, isButton, -1);
+
+            if (connecteds.Count > 0)
+            {
+                for (int i = 0; i < connecteds.Count; i++)
+                {
+                    data.connectedsIds.Add(connecteds[i].theTileSetOn.TileId);
+                }
+            }
+        }
+        else
+        {
+            if (connectedObject != null)
+            {
+                data = new ConnectableData(isOnTile, isButton, connectedObject.theTileSetOn.TileId);
+            }
+            else
+            {
+                data = new ConnectableData(isOnTile, isButton, -1);
+            }
+        }
+        
+        return data;
+    }
+
+    public override void Load(SelectableData selectableData)
+    {
+        base.Load(selectableData);
+        ConnectableData data = (ConnectableData)selectableData;
+        Debug.Log(string.Format("Object{0} is loading connectableData.", theTileSetOn.TileId));
+        //isOnTile = data.isOnTile;
+        isButton = data.isButton;
+
+        if (isButton)
+        {
+            if (data.connectedObjectId != -1)
+            connectedObject = LevelEditor.Instance.EditingGameboard.GetEditingTile(data.connectedObjectId).objectOn.GetComponent<LEditor_ConnectableObject>();
+        }
+        else
+        {
+            if (data.connectedsIds.Count > 0)
+            {
+                for (int i = 0; i < data.connectedsIds.Count; i++)
+                {
+                    connecteds.Add(LevelEditor.Instance.EditingGameboard.GetEditingTile(data.connectedsIds[i]).GetComponent<LEditor_ConnectableObject>());
+                }
+            }            
+        }
     }
 
 }

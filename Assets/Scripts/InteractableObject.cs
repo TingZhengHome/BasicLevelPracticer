@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class InteractableObject : ScriptableObject
 {
+    public int IdInFactory = 0;
     //public enum type {connectable, portable, pickalbe, movable}
     public enum placementType {normal, onTileOnly, tileOnly}
-    public virtual condition theType { get; set; }
+    public virtual ObjectType theType { get; set; }
     public Sprite sprite;
 }
 
 [CreateAssetMenu]
 public class MovableObject : InteractableObject
 {
-    public override condition theType { get { return condition.movable; }}
+    public override ObjectType theType { get { return ObjectType.movable; }}
     public placementType placement = placementType.onTileOnly;
     public int squarePerMove;
     public float moveSpeed;
@@ -23,7 +24,7 @@ public class MovableObject : InteractableObject
 [CreateAssetMenu]
 public class PickableObject : InteractableObject
 {
-    public override condition theType { get { return condition.pickable; } }
+    public override ObjectType theType { get { return ObjectType.pickable; } }
     public placementType placement = placementType.onTileOnly;
     public bool isConditioned;
 }
@@ -31,7 +32,7 @@ public class PickableObject : InteractableObject
 [CreateAssetMenu]
 public class ConnectableObject : InteractableObject
 {
-    public override condition theType { get { return condition.connectable; } }
+    public override ObjectType theType { get { return ObjectType.connectable; } }
     public placementType placement;
     public bool isButton;
     public OnTileObject keyObject;
@@ -40,7 +41,7 @@ public class ConnectableObject : InteractableObject
 [CreateAssetMenu]
 public class PortableObject : InteractableObject
 {
-    public override condition theType { get { return condition.portable; } }
+    public override ObjectType theType { get { return ObjectType.portable; } }
     public placementType placement;
     public bool isExit;
     public bool isConditioned;

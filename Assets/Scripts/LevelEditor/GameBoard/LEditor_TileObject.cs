@@ -1,19 +1,21 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+using UnityEditor;
 
 public class LEditor_TileObject : LEdtior_GameBoardObject
 {
     public LEditor_TileContainer container;
 
+    public ObjectType theType;
+
     [SerializeField]
     private int tileId;
-
     public int TileId
     {
         get
@@ -25,6 +27,9 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
     [SerializeField]
     Text idText;
 
+    public bool isPlaceable;
+    public bool isHinderance;
+
     public InteractableObject InteractableO
     {
         get
@@ -33,16 +38,10 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
         }
     }
 
-    public condition theType;
-
-    public bool isPlaceable;
-
-    public List<LEditor_SelectableObject> selectableCompnents = new List<LEditor_SelectableObject>();
-
-    public bool isHinderance;
+    public LEditor_SelectableObject selectableComponent;
 
     public LEditor_OnTileObject objectOn;
-     
+    
     public LEditor_TileButton correspondingButton;
 
     public bool detected;
@@ -54,27 +53,32 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
         idText.text = id.ToString();
         container = parent.GetComponent<LEditor_TileContainer>();
         CheckSelectable();
+        idInFactory = LevelEditor.Instance.EditingGameboard.factory.GetTileFactoryId(this);
+        if (interactable != null)
+        {
+            interactable.IdInFactory = LevelEditor.Instance.EditingGameboard.factory.GetInteractableFactoryId(interactable);
+        }
     }
 
     public void CheckSelectable()
     {
         switch (theType)
         {
-            case condition.connectable:
+            case ObjectType.connectable:
                 if (GetComponent<LEditor_ConnectableObject>() == null && InteractableO != null)
                 {
                     LEditor_ConnectableObject connectable = gameObject.AddComponent<LEditor_ConnectableObject>();
                     connectable.Setup(this, this, InteractableO);
-                    selectableCompnents.Add(connectable);
+                    selectableComponent = connectable;
                 }
                 break;
 
-            case condition.portable:
+            case ObjectType.portable:
                 if (GetComponent<LEditor_PortableObject>() == null && InteractableO != null)
                 {
                     LEditor_PortableObject portable = gameObject.AddComponent<LEditor_PortableObject>();
                     portable.Setup(this, this, InteractableO);
-                    selectableCompnents.Add(portable);
+                    selectableComponent = portable;
                 }
                 break;
         }
@@ -84,12 +88,9 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
     {
         SenseHover();
 
-        if (selectableCompnents.Count > 0)
+        if (selectableComponent != null)
         {
-            for (int i = 0; i < selectableCompnents.Count; i++)
-            {
-                selectableCompnents[i].GameUpdate();
-            }
+            selectableComponent.GameUpdate();
         }
 
         if (objectOn != null)
@@ -329,6 +330,22 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
         LEditor_TileContainer.OnTileClicked -= this.PlaceOnMutipleTileObject;
     }
 
+    public void PlaceOnMutipleTileObjectOnLoad(LEditor_OnTileObject onTile, List<int> idsOnBoard)
+    {
+        LEdtior_OnMutipleTileObject onMutipleTile = onTile.GetComponent<LEdtior_OnMutipleTileObject>();
+        List<LEditor_TileObject> theTilesSetOn = new List<LEditor_TileObject>();
+        for (int i = 0; i < idsOnBoard.Count; i++)
+        {
+            theTilesSetOn.Add(LevelEditor.Instance.EditingGameboard.GetEditingTile(idsOnBoard[i]));
+        }
+
+        if (onMutipleTile != null && theTilesSetOn.Count > 1)
+        {
+            onMutipleTile.Setup(this.transform, theTilesSetOn);
+            isPlaceable = true;
+        }
+    }
+
     public void CleanTile(bool pickingUp)
     {
         if (objectOn != null)
@@ -341,4 +358,30 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
         }
         isPlaceable = true;
     }
+
+
+    public TileData Save()
+    {
+        TileData data = new TileData(this);
+
+        return data;
+    }
+
+
+    public void Load(TileData data)
+    {
+        this.tileId = data.idOnBoard;
+
+        this.isPlaceable = data.isPlaceable;
+        this.isHinderance = data.isHinderance;
+
+        //string interactablePath = string.Format("Asset/Prefabs/ScriptableObjects/{0}", data.interactablePath);
+        if (data.interactablePath != string.Empty)
+            interactable = (InteractableObject)AssetDatabase.LoadAssetAtPath(data.interactablePath, typeof(InteractableObject));
+
+        //if (selectableComponent != null)
+        //selectableComponent.Load(data.selectableData);
+
+    }
+
 }

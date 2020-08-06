@@ -78,7 +78,7 @@ public class TileController : Singleton<TileController> {
     {
         if (LevelEditor.Instance.EditingGameboard != null)
         {
-            onEditorTiles = LevelEditor.Instance.EditingGameboard.OnEditorTiles;
+            onEditorTiles = LevelEditor.Instance.EditingGameboard.OnEditingTiles;
         }
     }
 }
