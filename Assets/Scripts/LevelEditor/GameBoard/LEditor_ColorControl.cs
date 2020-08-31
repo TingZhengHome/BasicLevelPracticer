@@ -9,7 +9,7 @@ public static class LEditor_ColorControl
     {
         if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding && tile != null)
         {
-            if (hit != null)
+            if (!EventSystem.current.IsPointerOverGameObject() && hit != null)
             {
                 if (handlingObject != null)
                 {

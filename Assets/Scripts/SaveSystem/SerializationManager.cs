@@ -6,68 +6,60 @@ using UnityEngine;
 
 public class SerializationManagger
 {
-
-    static string path = Application.persistentDataPath + "/save.save";
-
-    public static string Path
-    {
-        get
-        {
-            return path;
-        }
-
-        private set
-        {
-            path = value;
-        }
-    }
-
-    public static bool Save(string saveName, object saveData)
+    public static bool Save(string saveName, object campaignData)
     {
         BinaryFormatter formatter = GetBinaryFormatter();
 
-        if (!Directory.Exists(Application.persistentDataPath + "/save"))
+        if (!Directory.Exists(Application.persistentDataPath + "/saves"))
         {
-            Directory.CreateDirectory(Application.persistentDataPath + "/save");
+            Directory.CreateDirectory(Application.persistentDataPath + "/saves");
         }
 
-        //string path = Application.persistentDataPath + "/save" + saveName + ".save";
+        string path = Application.persistentDataPath + "/saves/" + saveName + ".save";
 
-        FileStream file = File.Create(Path);
+        if (File.Exists(path))
+        {
+            Debug.Log("Same name file already exists in the path.");
+            File.Delete(path);
 
-        formatter.Serialize(file, saveData);
+            if (!File.Exists(path))
+            {
+                Debug.Log(string.Format("Old save file {0} has been deleted", saveName));
+            }
+        }
+        FileStream file = File.Create(path);
+
+        formatter.Serialize(file, campaignData);
 
         file.Close();
 
         return true;
     }
 
-    public static object Load()
+    public static object Load(string path)
     {
-        if (!File.Exists(Path))
+        if (!File.Exists(path))
         {
             return null;
         }
 
         BinaryFormatter formatter = GetBinaryFormatter();
 
-        FileStream file = File.Open(Path, FileMode.Open);
+        FileStream file = File.Open(path, FileMode.Open);
 
         try
         {
             object save = formatter.Deserialize(file);
             file.Close();
             return save;
-
         }
         catch
         {
-            Debug.LogErrorFormat("Failed to load file at {0}", Path);
+            Debug.LogErrorFormat("Failed to load file at {0}", path);
 
             return null;
         }
     }
-
 
     public static BinaryFormatter GetBinaryFormatter()
     {
@@ -76,5 +68,16 @@ public class SerializationManagger
         return formatter;
     }
 
+    public static void Delete(string dataName)
+    {
+        string path = Application.persistentDataPath + "/saves/" + dataName + ".save";
 
+        Debug.Log(dataName + " is deleted.");
+
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+            Debug.Log(dataName + " is deleted.");
+        }
+    }
 }

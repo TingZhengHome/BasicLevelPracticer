@@ -15,6 +15,7 @@ public class GameBoard : MonoBehaviour
     public Color connectorColor = Color.green;
     public Color unclickableColor = Color.grey;
 
+    public string levelName;
     public GameBoardThem theme;
 
     [SerializeField]
@@ -62,7 +63,7 @@ public class GameBoard : MonoBehaviour
         LEditor_TileContainer.OnTileClicked += UpgradeTile;
     }
 
-    public void GenerateLevelTilesOnEditor(int row, int column, Transform parent)
+    public void GenerateTilesOnEditor(int row, int column, Transform parent)
     {
         this.row = row;
         this.column = column;
@@ -244,9 +245,11 @@ public class GameBoard : MonoBehaviour
         OnEditingTiles = new List<LEditor_TileObject>();
     }
 
-    public void Save(SaveData save)
+    public void Save(CampaignData campaignData, string inputtedText)
     {
-        LevelData level = new LevelData(theme, row, column);
+        LevelData level = new LevelData(theme, row, column, inputtedText);
+
+        levelName = inputtedText;
 
         for (int i = 0; i < OnEditingTiles.Count; i++)
         {
@@ -255,7 +258,25 @@ public class GameBoard : MonoBehaviour
 
         level.settingData = levelSetting.Save();
 
-        save.levelDatas.Add(level);
+        if (campaignData.levelDatas.Count > 0)
+        {
+            for (int i = 0; i < campaignData.levelDatas.Count; i++)
+            {
+                if (campaignData.levelDatas[i].levelName == level.levelName)
+                {
+                    campaignData.levelDatas[i] = level;
+                }
+                else if (i == campaignData.levelDatas.Count - 1)
+                {
+                    campaignData.levelDatas.Add(level);
+                }
+            }
+        }
+        else 
+        {
+            campaignData.levelDatas.Add(level);
+        }
+        
     }
 
 
@@ -264,17 +285,18 @@ public class GameBoard : MonoBehaviour
         this.row = data.row;
         this.column = data.column;
         size = row * column;
+        levelName = data.levelName;
 
-        GenerateLevelTilesOnLoad(row, column, data);
+        GenerateTilesOnLoad(row, column, data);
         LoadOnTiles(data);
         LoadSelectables(data);
 
         levelSetting.Load(data.settingData);
-        Debug.Log(string.Format("Level gameboard{0}{1} has been loaded.", row, column));
+        Debug.Log(string.Format("Level{2} gameboard{0}{1} has been loaded.", row, column, data.levelName));
     }
 
 
-    public void GenerateLevelTilesOnLoad(int row, int columm, LevelData level)
+    public void GenerateTilesOnLoad(int row, int columm, LevelData level)
     {
         LEditor_TileObject firstTile = BasicTile;
         LEditor_TileContainer firstContainer = container;
@@ -302,7 +324,7 @@ public class GameBoard : MonoBehaviour
 
 
                     LEditor_TileObject tile = basicTile;
-                    if (level.tileDatas[tNum].idInFactory >= 0)
+                    if (level.tileDatas[tNum] != null && level.tileDatas[tNum].idInFactory >= 0)
                     {
                         tile = Instantiate(factory.GetTile(level.tileDatas[tNum].idInFactory));
                         tile.ObjectName = factory.GetTile(level.tileDatas[tNum].idInFactory).name;
@@ -347,7 +369,7 @@ public class GameBoard : MonoBehaviour
             {
                 if (onTileData.idInFactory >= 0)
                 {
-                    if ( onTileData.idsOnBoard != null && onTileData.idsOnBoard.Count <= 1)
+                    if (onTileData.idsOnBoard != null && onTileData.idsOnBoard.Count <= 1)
                     {
                         onTile = Instantiate(LevelEditor.Instance.EditingGameboard.factory.GetOnTile(onTileData.idInFactory));
                         onTile.name = LevelEditor.Instance.EditingGameboard.factory.GetOnTile(onTileData.idInFactory).name;
@@ -360,7 +382,7 @@ public class GameBoard : MonoBehaviour
                             Debug.LogError(string.Format("Loading onTileObject:{0} is found error: an OnMutipleTileObject stored less than 1 occupied tile ids", i));
                         }
                     }
-                    else
+                    else if (onTileData.idsOnBoard != null)
                     {
                         if (i == onTileData.idsOnBoard[onTileData.idsOnBoard.Count - 1])
                         {
@@ -376,7 +398,7 @@ public class GameBoard : MonoBehaviour
                             }
                         }
                     }
-                    
+
                 }
                 else if (onTileData.idInFactory < 0)
                 {
@@ -394,28 +416,32 @@ public class GameBoard : MonoBehaviour
     {
         for (int i = 0; i < OnEditingTiles.Count; i++)
         {
-            if ((data.tileDatas[i].selectableData != null) ||
-                (data.tileDatas[i].objectOnData != null && data.tileDatas[i].objectOnData.selectableData != null))
+            if (data.tileDatas[i] != null)
             {
-                if (OnEditingTiles[i].theType == ObjectType.connectable)
+                if ((data.tileDatas[i].selectableData != null) ||
+                (data.tileDatas[i].objectOnData != null && data.tileDatas[i].objectOnData.selectableData != null))
                 {
-                    Debug.Log(string.Format("Tile{0} is going to load selectable", data.tileDatas[i].idOnBoard));
-                    OnEditingTiles[i].GetComponent<LEditor_ConnectableObject>().Load(data.tileDatas[i].selectableData);
-                }
-                else if (OnEditingTiles[i].theType == ObjectType.portable)
-                {
-                    Debug.Log(string.Format("Tile{0} is going to load selectable", data.tileDatas[i].idOnBoard));
-                    OnEditingTiles[i].GetComponent<LEditor_PortableObject>().Load(data.tileDatas[i].selectableData);
-                }
-                else if (OnEditingTiles[i].objectOn != null && OnEditingTiles[i].objectOn.theType == ObjectType.connectable)
-                {
-                    Debug.Log(string.Format("OnTile{0} is going to load selectable", data.tileDatas[i].idOnBoard));
-                    OnEditingTiles[i].objectOn.GetComponent<LEditor_ConnectableObject>().Load(data.tileDatas[i].objectOnData.selectableData);
-                }
-                else if (OnEditingTiles[i].objectOn != null && OnEditingTiles[i].objectOn.theType == ObjectType.portable)
-                {
-                    Debug.Log(string.Format("OnTile{0} is going to load selectable", data.tileDatas[i].idOnBoard));
-                    OnEditingTiles[i].objectOn.GetComponent<LEditor_PortableObject>().Load(data.tileDatas[i].objectOnData.selectableData);
+                    if (OnEditingTiles[i].theType == ObjectType.connectable)
+                    {
+                        Debug.Log(string.Format("Tile{0} is going to load selectable", data.tileDatas[i].idOnBoard));
+                        OnEditingTiles[i].GetComponent<LEditor_ConnectableObject>().Load(data.tileDatas[i].selectableData);
+                    }
+                    else if (OnEditingTiles[i].theType == ObjectType.portable)
+                    {
+                        Debug.Log(string.Format("Tile{0} is going to load selectable", data.tileDatas[i].idOnBoard));
+                        OnEditingTiles[i].GetComponent<LEditor_PortableObject>().Load(data.tileDatas[i].selectableData);
+                    }
+                    else if (OnEditingTiles[i].objectOn != null && OnEditingTiles[i].objectOn.theType == ObjectType.connectable)
+                    {
+                        Debug.Log(string.Format("OnTile{0} is going to load selectable", data.tileDatas[i].idOnBoard));
+                        OnEditingTiles[i].objectOn.GetComponent<LEditor_ConnectableObject>().Load(data.tileDatas[i].objectOnData.selectableData);
+                    }
+                    else if (OnEditingTiles[i].objectOn != null && OnEditingTiles[i].objectOn.theType == ObjectType.portable)
+                    {
+                        Debug.Log(string.Format("OnTile{0} is going to load selectable", data.tileDatas[i].idOnBoard));
+                        OnEditingTiles[i].objectOn.GetComponent<LEditor_PortableObject>().Load(data.tileDatas[i].objectOnData.selectableData);
+                    }
+
                 }
 
             }

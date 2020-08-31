@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +8,7 @@ using UnityEngine.UI;
 
 public class LevelEditor : Singleton<LevelEditor>
 {
-
-    public enum state { editing, testing };
+    public enum state { editing, testing, saving };
 
     public enum editingState { mapBuilding, settingConnection, settingPortals, settingWinningPickables, settingWinningTile }
 
@@ -18,22 +18,7 @@ public class LevelEditor : Singleton<LevelEditor>
     public LEditor_OnTileObject movingObject;
 
     [SerializeField]
-    public GameObject EditorButtonUI;
-    [SerializeField]
-    GameObject BoardScaleAskerUI;
-    [SerializeField]
-    public GameObject SettingLevelButtons;
-    public Button allPickablesButton;
-    public Button certainPointButton;
-    public Button saveLevelButton;
-    public Button returnToEditingButton;
-
-
-    public GameObject TileSelectedUI;
-
-    [SerializeField]
     public LEditor_OnTileObjectButton pickUpButton;
-
 
     [SerializeField]
     public GameBoard gameBoard;
@@ -41,9 +26,6 @@ public class LevelEditor : Singleton<LevelEditor>
     GameBoard tempSavedGBoard;
 
     private int column = 0, row = 0;
-
-    [SerializeField]
-    Text InputWarningText;
 
     public LEditor_Button clickedBoardObjectButton;
 
@@ -63,12 +45,13 @@ public class LevelEditor : Singleton<LevelEditor>
     public delegate void ReturnToEditingEvent();
     public static event ReturnToEditingEvent ReturnToEditingEvents;
 
-    public SaveData saveData = new SaveData();
+    public CampaignData campaignData = new CampaignData();
+
+
     public GameBoardFactory boardsFactory;
 
     void Start()
     {
-        BoardScaleAskerUI.SetActive(true);
         isPlayerPlaced = false;
         LaunchedLevelEvents += EscapeSelectingState;
     }
@@ -85,6 +68,8 @@ public class LevelEditor : Singleton<LevelEditor>
                 {
                     EndCurrentEditingEvent();
                 }
+
+                EndSavingAndLoading();
             }
             if (Input.GetMouseButton(0) && !isMovingPlacedObject)
             {
@@ -99,62 +84,65 @@ public class LevelEditor : Singleton<LevelEditor>
         }
     }
 
+    public void SetColumn(string input)
+    {
+        Text waringText = LEditor_UIManager.Instance.ScaleInputWarningText;
+
+        waringText.gameObject.SetActive(false);
+        waringText.text = string.Empty;
+        int inputNum = int.Parse(input);
+
+        if (inputNum > 0)
+        {
+            LevelEditor.Instance.column = inputNum;
+
+            if (column == 1 && row == 1)
+            {
+                waringText.gameObject.SetActive(true);
+                waringText.text = "Either Column or Row should be greater than 1.";
+            }
+        }
+        else
+        {
+            column = inputNum;
+            waringText.gameObject.SetActive(true);
+            waringText.text = "Neither Column or Row can be zero.";
+        }
+    }
+
+    public void SetRow(string input)
+    {
+        Text waringText = LEditor_UIManager.Instance.ScaleInputWarningText;
+
+        waringText.gameObject.SetActive(false);
+        waringText.text = string.Empty;
+        int inputNum = int.Parse(input);
+
+        if (inputNum > 0)
+        {
+            row = inputNum;
+            if (column == 1 && row == 1)
+            {
+                waringText.gameObject.SetActive(true);
+                waringText.text = "Either Column or Row should be greater than 1.";
+            }
+        }
+        else
+        {
+            row = inputNum;
+            waringText.gameObject.SetActive(true);
+            waringText.text = "Neither Column or Row can be zero.";
+        }
+    }
 
     public bool MouseHoldThanDelay()
     {
         return continousPlacingCounter > continousPlacingDelay;
     }
 
-    public void SetColumn(string input)
-    {
-        InputWarningText.gameObject.SetActive(false);
-        InputWarningText.text = string.Empty;
-        int inputNum = int.Parse(input);
-
-        if (inputNum > 0)
-        {
-            column = inputNum;
-
-            if (column == 1 && row == 1)
-            {
-                InputWarningText.gameObject.SetActive(true);
-                InputWarningText.text = "Either Column or Row should be greater than 1.";
-            }
-        }
-        else
-        {
-            column = inputNum;
-            InputWarningText.gameObject.SetActive(true);
-            InputWarningText.text = "Neither Column or Row can be zero.";
-        }
-    }
-
-    public void SetRow(string input)
-    {
-        InputWarningText.gameObject.SetActive(false);
-        InputWarningText.text = string.Empty;
-        int inputNum = int.Parse(input);
-
-        if (inputNum > 0)
-        {
-            row = inputNum;
-            if (column == 1 && row == 1)
-            {
-                InputWarningText.gameObject.SetActive(true);
-                InputWarningText.text = "Either Column or Row should be greater than 1.";
-            }
-        }
-        else
-        {
-            row = inputNum;
-            InputWarningText.gameObject.SetActive(true);
-            InputWarningText.text = "Neither Column or Row can be zero.";
-        }
-    }
-
     public void GenerateGameBoard()
     {
-        TileSelectedUI.GetComponent<LEditor_SelectedTileUI>().UnAttach();
+         LEditor_UIManager.Instance.TileSelectedUI.GetComponent<LEditor_SelectedTileUI>().UnAttach();
         if (selectedObject != null)
         {
             EscapeSelectingState();
@@ -162,11 +150,10 @@ public class LevelEditor : Singleton<LevelEditor>
 
         if (column != 0 && row != 0)
         {
-
             if (column < 1 && row < 1)
             {
-                InputWarningText.gameObject.SetActive(true);
-                InputWarningText.text = "Either Column or Row should be greater than 1.";
+                LEditor_UIManager.Instance.ScaleInputWarningText.gameObject.SetActive(true);
+                LEditor_UIManager.Instance.ScaleInputWarningText.text = "Either Column or Row should be greater than 1.";
                 return;
             }
             if (EditingGameboard != null)
@@ -175,15 +162,14 @@ public class LevelEditor : Singleton<LevelEditor>
             }
             EditingGameboard = Instantiate(gameBoard);
             EditingGameboard.transform.position = Vector3.zero;
-            EditingGameboard.GenerateLevelTilesOnEditor(row, column, EditingGameboard.transform);
+            EditingGameboard.GenerateTilesOnEditor(row, column, EditingGameboard.transform);
             EditingGameboard.gameObject.name = "GameBoard";
         }
         else
         {
-            InputWarningText.gameObject.SetActive(true);
-            InputWarningText.text = "Neither Column or Row can be zero.";
+            LEditor_UIManager.Instance.ScaleInputWarningText.gameObject.SetActive(true);
+            LEditor_UIManager.Instance.ScaleInputWarningText.text = "Neither Column or Row can be zero.";
         }
-
     }
 
     public void StartMovingObject(LEditor_OnTileObject pickUp)
@@ -251,23 +237,8 @@ public class LevelEditor : Singleton<LevelEditor>
         CancelButtonClick();
         LaunchedLevelEvents();
         currentState = state.testing;
-        SetOnAndOffEditingUI();
+        LEditor_UIManager.Instance.ShutDownEditingUI();
         EditingGameboard.AddActiveTiles();
-    }
-
-
-    public void SetOnAndOffEditingUI()
-    {
-        if (BoardScaleAskerUI.gameObject.activeInHierarchy)
-        {
-            BoardScaleAskerUI.SetActive(false);
-            EditorButtonUI.SetActive(false);
-        }
-        else
-        {
-            BoardScaleAskerUI.SetActive(true);
-            EditorButtonUI.SetActive(true);
-        }
     }
 
     public void ReturnToEditing()
@@ -280,17 +251,15 @@ public class LevelEditor : Singleton<LevelEditor>
             EditingGameboard.gameObject.SetActive(true);
             if (ReturnToEditingEvents != null)
                 ReturnToEditingEvents();
-            SetOnAndOffEditingUI();
+            LEditor_UIManager.Instance.ShowEditingUI();
             MainCamera.Instance.GetComponent<MainCamera>().enabled = true;
             currentState = state.editing;
         }
         else
         {
-            SetOnAndOffEditingUI();
+            LEditor_UIManager.Instance.ShutDownEditingUI();
             currentEditingState = editingState.mapBuilding;
-            allPickablesButton.onClick.RemoveAllListeners();
-            certainPointButton.onClick.RemoveAllListeners();
-            SettingLevelButtons.SetActive(false);
+            EndSavingAndLoading();
         }
     }
 
@@ -300,72 +269,117 @@ public class LevelEditor : Singleton<LevelEditor>
             currentEditingState == editingState.settingConnection ||
             currentEditingState == editingState.settingPortals)
         {
-            StartSettingLevel();
-        }
-        else
-        {
-            SaveGameBoardAsALevel();
+            LEditor_UIManager.Instance.ShowSaveNameAsker(LEditor_UIManager.Instance.LevelSavingText);
         }
     }
 
     public void StartSettingLevel()
     {
         EndCurrentEditingEvent();
-        LevelSetting level = EditingGameboard.levelSetting;
-        BoardScaleAskerUI.SetActive(false);
-        EditorButtonUI.SetActive(false);
-        SettingLevelButtons.SetActive(true);
-        allPickablesButton.gameObject.SetActive(true);
-        certainPointButton.gameObject.SetActive(true);
-        returnToEditingButton.gameObject.SetActive(true);
-        allPickablesButton.onClick.AddListener(level.StartChoosingPickables);
-        certainPointButton.onClick.AddListener(level.StartChoosingtheTargetedTile);
-    }
-        
-    public void SaveGameBoardAsALevel()
-    {
-        if (saveData.levelDatas.Count > 0)
-            saveData.levelDatas.Clear();
-        EditingGameboard.Save(saveData);
-        if (saveData.levelDatas.Count > 0)
-            Debug.Log("EditingGameBoard has been saved as a level" + saveData.levelDatas[saveData.levelDatas.Count - 1].row + "x" + saveData.levelDatas[saveData.levelDatas.Count - 1].column + " in SaveData.");
-    }
-
-    public void SaveLevelsAsACampaign()
-    {
-        File.Delete(SerializationManagger.Path);
-        SerializationManagger.Save(string.Format(EditingGameboard.name + DateTime.Now), saveData);
-        if (File.Exists(SerializationManagger.Path))
-        Debug.Log("Levels has been saved as a campaign in {" + SerializationManagger.Path + "}.");
-    }
-        
-    public void LoadLevel()
-    {
-        if (saveData.levelDatas.Count > 0)
+        LevelSetting level = null;
+        if (EditingGameboard != null)
         {
-            LevelData levelData = saveData.levelDatas[0];
+            level = EditingGameboard.levelSetting;
+        }
+        
+        LEditor_UIManager.Instance.ShutDownEditingUI();
+        LEditor_UIManager.Instance.ShowSettingLevelUI();
+    }
 
-            if (EditingGameboard != null)
+    public void SaveGameBoardAsALevel(string inputtedText)
+    {
+        EditingGameboard.Save(campaignData, inputtedText);
+        if (campaignData.levelDatas.Count > 0)
+            Debug.Log("EditingGameBoard has been saved as a level: " + campaignData.levelDatas[0].levelName + " in current campaign.");
+
+        EndSavingAndLoading();
+    }
+
+    public void SaveLevelsAsACampaign(string inputtedText)
+    {
+        campaignData.campaignName = inputtedText;
+
+        SerializationManagger.Save(inputtedText, campaignData);
+
+        string path = Application.persistentDataPath + "/saves/" + inputtedText + ".save";
+        if (File.Exists(path))
+            Debug.Log(string.Format("Levels has been saved as a campaign in {0}.", path));
+
+        EndSavingAndLoading();
+    }
+
+    public void LoadLevel(string saveName)
+    {
+        if (campaignData.levelDatas.Count > 0)
+        {
+            LevelData levelData = null;
+
+            for (int i = 0; i < campaignData.levelDatas.Count; i++)
             {
-                EndCurrentEditingEvent();
-                Destroy(EditingGameboard.gameObject);
+                Debug.Log(string.Format("levelData{0} is going to be loaded", i));
+
+                if (campaignData.levelDatas[i] != null)
+                {
+                    if (campaignData.levelDatas[i].levelName == saveName)
+                    {
+                        levelData = campaignData.levelDatas[i];
+                        Debug.Log(string.Format("levelData{0} is loaded.", i));
+                    }
+                }
             }
 
-            EditingGameboard = Instantiate(boardsFactory.GetGameBoard(levelData.theme));
-            EditingGameboard.Load(levelData);
+            if (levelData != null)
+            {
+                if (EditingGameboard != null)
+                {
+                    EndCurrentEditingEvent();
+                    Destroy(EditingGameboard.gameObject);
+                }
+
+                EditingGameboard = Instantiate(boardsFactory.GetGameBoard(levelData.theme));
+                EditingGameboard.Load(levelData);
+            }
+            else
+            {
+                Debug.LogError("The selected level is not saved in the campaign.");
+            }
         }
         else
         {
-            Debug.LogError("SaveData stores zero level.");
+            Debug.LogError("Loaded campaign data stores zero level.");
         }
+
+        EndSavingAndLoading();
     }
 
-    public void LoadCampaign()
+    public void LoadCampaign(string saveName)
     {
-        saveData = (SaveData)SerializationManagger.Load();
-        if (saveData.levelDatas.Count > 0)
+        campaignData = (CampaignData)SerializationManagger.Load(Application.persistentDataPath + "/saves/" + saveName + ".save");
+
+        if (campaignData == null)
         {
-            Debug.Log("A saved campaign has bee loaded.");
+            Debug.Log("Failed to load campaign:" + string.Format(Application.persistentDataPath + "/saves/" + saveName + ".save") + ".");
+        }
+        else
+        {
+            Debug.Log("Campaign" + saveName + " is loaded.");
+        }
+
+        EndSavingAndLoading();
+    }
+
+    public void EndSavingAndLoading()
+    {
+        LEditor_UIManager.Instance.EndSavingAndLoading();
+        EndCurrentEditingEvent();
+        if (currentState == state.saving)
+        {
+            currentState = state.editing;
+        }
+        if (currentEditingState == editingState.settingWinningPickables ||
+            currentEditingState == editingState.settingWinningTile)
+        {
+            currentEditingState = editingState.mapBuilding;
         }
     }
 }

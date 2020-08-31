@@ -3,10 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum levelClearCondition { getPickables, reachCertainTile }
-public class LevelSetting{
+[System.Serializable]
+public class LevelSetting
+{
+    //string levelName;
 
-    [SerializeField]
-    string levelName;
+    //public string LevelName
+    //{
+    //    get
+    //    {
+    //        return levelName;
+    //    }
+
+    //    private set
+    //    {
+    //        levelName = value;
+    //    }
+    //}
 
     public levelClearCondition winningCondition;
 
@@ -14,16 +27,16 @@ public class LevelSetting{
 
     public TileObject TargetTile;
 
-
     public void StartChoosingPickables()
     {
         winningCondition = levelClearCondition.getPickables;
 
         LevelEditor.Instance.currentEditingState = LevelEditor.editingState.settingWinningPickables;
-        
-        LevelEditor.Instance.EditorButtonUI.SetActive(false);
-        LevelEditor.Instance.allPickablesButton.gameObject.SetActive(false);
-        LevelEditor.Instance.certainPointButton.gameObject.SetActive(false);
+
+        LEditor_UIManager.Instance.Mask.SetActive(false);
+        LEditor_UIManager.Instance.EditorButtonUI.SetActive(false);
+        LEditor_UIManager.Instance.allPickablesButton.gameObject.SetActive(false);
+        LEditor_UIManager.Instance.certainPointButton.gameObject.SetActive(false);
     }
 
 
@@ -33,9 +46,10 @@ public class LevelSetting{
 
         LevelEditor.Instance.currentEditingState = LevelEditor.editingState.settingWinningTile;
 
-        LevelEditor.Instance.EditorButtonUI.SetActive(false);
-        LevelEditor.Instance.allPickablesButton.gameObject.SetActive(false);
-        LevelEditor.Instance.certainPointButton.gameObject.SetActive(false);
+        LEditor_UIManager.Instance.Mask.SetActive(false);
+        LEditor_UIManager.Instance.EditorButtonUI.SetActive(false);
+        LEditor_UIManager.Instance.allPickablesButton.gameObject.SetActive(false);
+        LEditor_UIManager.Instance.certainPointButton.gameObject.SetActive(false);
     }
 
     public LevelSettingData Save()

@@ -4,10 +4,9 @@ using UnityEngine;
 using UnityEditor;
 
 [System.Serializable]
-public class SaveData
+public class CampaignData
 {
-
-    int version;
+    public string campaignName;
 
     public List<LevelData> levelDatas = new List<LevelData>();
 }
@@ -17,20 +16,21 @@ public class LevelData
 {
     public GameBoardThem theme;
 
+    public string levelName = null;
+
     public int row;
     public int column;
 
     public List<TileData> tileDatas = new List<TileData>();
 
-    //public List<OnTileData> onTileDatas;
-
     public LevelSettingData settingData = new LevelSettingData();
 
-    public LevelData(GameBoardThem theTheme, int row, int column)
+    public LevelData(GameBoardThem theTheme, int row, int column, string name)
     {
         theme = theTheme;
         this.row = row;
         this.column = column;
+        levelName = name;
     }
 }
 
