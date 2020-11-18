@@ -1,0 +1,710 @@
+fileFormatVersion: 2
+guid: b2f1faef5dc337f428e80eadf7865c58
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Kathy_IdleFront
+    21300002: Kathy_IdleBack
+    21300004: Kathy_IdleLeft
+    21300006: Kathy_IdleRight
+    21300008: Kathy_WalkFront0
+    21300010: Kathy_WalkFront1
+    21300012: Kathy_WalkFront2
+    21300014: Kathy_WalkBack0
+    21300016: Kathy_WalkBack1
+    21300018: Kathy_WalkBack2
+    21300020: Kathy_WalkRight0
+    21300022: Kathy_WalkRight1
+    21300024: Kathy_WalkRight2
+    21300026: Kathy_WalkLeft0
+    21300028: Kathy_WalkLeft1
+    21300030: Kathy_WalkLeft2
+    21300032: Kathy_PushFront0
+    21300034: Kathy_PushFront1
+    21300036: Kathy_PushFront2
+    21300038: Kathy_PushBack0
+    21300040: Kathy_PushBack1
+    21300042: Kathy_PushBack2
+    21300044: Kathy_PushRight0
+    21300046: Kathy_PushRight1
+    21300048: Kathy_PushRight2
+    21300050: Kathy_PushLeft0
+    21300052: CharacterSpriteSheet_Formal_26
+    21300054: Kathy_PushLeft1
+    21300056: Kathy_PushLeft2
+  externalObjects: {}
+  serializedVersion: 7
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 280
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Kathy_IdleFront
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2901
+        width: 193
+        height: 299
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1edf0d00a7b963f43a5a636fcf7f641a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_IdleBack
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 2901
+        width: 195
+        height: 299
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4db86ed919554bb48b7b9c84930224fd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_IdleLeft
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 2900
+        width: 164
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8de6bc48a04e2024eb6dd265e2dac443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_IdleRight
+      rect:
+        serializedVersion: 2
+        x: 980
+        y: 2901
+        width: 164
+        height: 299
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6dc22582e0daac445a272aeae7921227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_WalkFront0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 2580
+        width: 193
+        height: 304
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5565295a203deb4f87e8187458ff38c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_WalkFront1
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 2592
+        width: 176
+        height: 294
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43404ca0b1789314589b6cfdd242d7a2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_WalkFront2
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 2589
+        width: 175
+        height: 297
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6377effbbee71d418453422a832d396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_WalkBack0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 2260
+        width: 193
+        height: 303
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ac937c8709c57a47b2427216fab27b0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_WalkBack1
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 2280
+        width: 176
+        height: 295
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aed785d95761a7a4f9367f449c78ff56
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_WalkBack2
+      rect:
+        serializedVersion: 2
+        x: 651
+        y: 2280
+        width: 174
+        height: 294
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64a88e94e0b72bc4eb04d71925efbeec
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_WalkRight0
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 1937
+        width: 165
+        height: 307
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 613d1e36eaddfc4469fbe107520cb600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_WalkRight1
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 1950
+        width: 162
+        height: 294
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04fd98550e8c25844bbb2691ce124a5d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_WalkRight2
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 1952
+        width: 165
+        height: 294
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3edb4e98ab85e146806daa340ab3aa2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_WalkLeft0
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 1619
+        width: 165
+        height: 306
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dffe0efd17489014895f3d081c10acb4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_WalkLeft1
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 1633
+        width: 162
+        height: 294
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4dd10242b330da408448f3d4572e2bb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_WalkLeft2
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 1632
+        width: 164
+        height: 295
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c13472afb942e34698c74065e4a6b53
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_PushFront0
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 1314
+        width: 174
+        height: 265
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64c4e7439ae3ca94ca6617595a67cd4e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_PushFront1
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 1301
+        width: 176
+        height: 253
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94890fcc44e086d4792bfbf7adae20f6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_PushFront2
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 1301
+        width: 175
+        height: 253
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ab9e9c4ae57dc742ae74a529e985b9c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_PushBack0
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 980
+        width: 174
+        height: 283
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c630d886d301c04b9e3e890d35bbc38
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_PushBack1
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 980
+        width: 176
+        height: 274
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69233b09f0a99b441afc7083806ff3c8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_PushBack2
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 982
+        width: 175
+        height: 274
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3361e62c2818974381d4f1e429d785e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_PushRight0
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 660
+        width: 165
+        height: 284
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a47ea14e016d6144a638c310ee21305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_PushRight1
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 660
+        width: 163
+        height: 274
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70b28e0547b04c04ea06039081b00c43
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_PushRight2
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 660
+        width: 165
+        height: 274
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2faa4a01fbf1d2543a6a1ac2bc0d88f4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_PushLeft0
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 337
+        width: 165
+        height: 288
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 240de4b8ddf42a24cbb59045493df1a9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_PushLeft1
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 340
+        width: 163
+        height: 273
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbf5f25746d50544e82f842c7cf922c3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Kathy_PushLeft2
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 340
+        width: 163
+        height: 273
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1aedccf224e113a4b95de4b9c9467599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: f47dbd00e758c494c9dba19368599660
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -20,8 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4517012713262434}
   - component: {fileID: 114343176650510148}
+  - component: {fileID: 114045719493866524}
   - component: {fileID: 212803397230472656}
   - component: {fileID: 114386869058257388}
+  - component: {fileID: 114929029461024654}
   - component: {fileID: 61725798606493714}
   m_Layer: 13
   m_Name: ConnecttableLightBulb
@@ -68,6 +70,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114045719493866524
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1341909249756812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5db14ed3b07069f428715c1ce9873402, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idInFactory: 0
+  ObjectName: 
+  trigger: {fileID: 61725798606493714}
+  spriteRender: {fileID: 212803397230472656}
+  theTileSetOn: {fileID: 0}
+  attachedOnTileObject: {fileID: 0}
+  isOnTile: 0
+  selected: 0
+  isButton: 0
+  connectedObject: {fileID: 0}
+  connecteds: []
 --- !u!114 &114343176650510148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -79,15 +103,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be195cd95130c44419d12506ddb42382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idInFactory: 0
   ObjectName: ConnecttableLightBulb
   trigger: {fileID: 61725798606493714}
   spriteRender: {fileID: 212803397230472656}
-  interactable: {fileID: 11400000, guid: c0550090f1c29274ba63b4bb0a36b3c7, type: 2}
   theTileSetOn: {fileID: 0}
   theType: 0
-  correspondingButton: {fileID: 0}
   isHinderance: 1
-  selectableCompnents: []
+  selectableComponents: {fileID: 114045719493866524}
+  correspondingButton: {fileID: 0}
   detected: 0
 --- !u!114 &114386869058257388
 MonoBehaviour:
@@ -101,11 +125,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHinderance: 0
+  property: {fileID: 114929029461024654}
   theTileSetOn: {fileID: 0}
   theType: 0
   isPlayer: 0
-  connectable: 0
-  connectingObjects: []
+--- !u!114 &114929029461024654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1341909249756812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a50729c5ce0b7647b1132247e853406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHinderance: 0
+  property: {fileID: 0}
+  initialized: 0
+  isButton: 0
+  connectedObject: {fileID: 0}
+  connecteds: []
+  keyObject: {fileID: 0}
+  theCType: 0
+  gateCloseTime: 0.5
 --- !u!212 &212803397230472656
 SpriteRenderer:
   m_ObjectHideFlags: 1

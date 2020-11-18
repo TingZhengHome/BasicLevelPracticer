@@ -6,8 +6,6 @@ public class LEdtior_GameBoardObject : MonoBehaviour {
 
     public int idInFactory;
 
-    public InteractableObject interactable;
-
     public string ObjectName;
 
     public BoxCollider2D trigger;
@@ -39,10 +37,10 @@ public class LEdtior_GameBoardObject : MonoBehaviour {
         spriteRender = GetComponent<SpriteRenderer>();
         transform.position = placedPositon;
         transform.parent = parent;
-        SetLayer(this.GetComponent<SpriteRenderer>());
+        SetSortingLayer(this.GetComponent<SpriteRenderer>());
     }
 
-    public virtual void SetLayer(SpriteRenderer sprite)
+    public virtual void SetSortingLayer(SpriteRenderer sprite)
     {
         sprite.sortingOrder = (int)transform.position.y * -10;
     }

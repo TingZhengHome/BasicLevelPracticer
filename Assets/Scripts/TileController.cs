@@ -57,20 +57,20 @@ public class TileController : Singleton<TileController> {
             {
                 if (tile.Property != null)
                 {
-                    tile.Property.Initialize(tile, tile.GetComponent<LEditor_TileObject>().interactable);
+                    tile.Property.Initialize(tile);
                 }
                 if (tile.objectOnThis != null)
                 {
                     if (tile.objectOnThis.Property != null)
                     {
-                        tile.objectOnThis.Property.Initialize(tile.objectOnThis, tile.objectOnThis.GetComponent<LEditor_OnTileObject>().interactable);
+                        tile.objectOnThis.Property.Initialize(tile.objectOnThis);
                     }
                 }
             }
         }
         else
         {
-            Debug.LogError("Too few tiles to launch level.");
+            Debug.LogError("Too few tiles to launch the level.");
         }
     }
 

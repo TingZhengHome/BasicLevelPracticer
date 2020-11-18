@@ -22,8 +22,9 @@ GameObject:
   - component: {fileID: 212499779462171256}
   - component: {fileID: 114951253276149520}
   - component: {fileID: 114781956444901586}
+  - component: {fileID: 114244786259234836}
   - component: {fileID: 61260115401355072}
-  m_Layer: 13
+  m_Layer: 14
   m_Name: Milk
   m_TagString: onTileObject
   m_Icon: {fileID: 0}
@@ -66,8 +67,22 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
+--- !u!114 &114244786259234836
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1855516305915938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b0a1c776aa1f3e4da20a782b6b04675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHinderance: 0
+  property: {fileID: 0}
+  initialized: 0
 --- !u!114 &114781956444901586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -80,11 +95,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHinderance: 0
+  property: {fileID: 114244786259234836}
   theTileSetOn: {fileID: 0}
   theType: 2
   isPlayer: 0
-  connectable: 0
-  connectingObjects: []
 --- !u!114 &114951253276149520
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -96,15 +110,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be195cd95130c44419d12506ddb42382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactable: {fileID: 11400000, guid: c51da9cb2c34fc74aa22138617375ffc, type: 2}
+  idInFactory: 0
   ObjectName: Milk
   trigger: {fileID: 61260115401355072}
   spriteRender: {fileID: 212499779462171256}
   theTileSetOn: {fileID: 0}
   theType: 2
-  correspondingButton: {fileID: 0}
   isHinderance: 0
-  selectableCompnents: []
+  selectableComponents: {fileID: 0}
+  correspondingButton: {fileID: 0}
   detected: 0
 --- !u!212 &212499779462171256
 SpriteRenderer:

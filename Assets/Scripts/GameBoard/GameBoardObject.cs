@@ -3,16 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-
 public abstract class GameBoardObject : MonoBehaviour {
 
-    public bool isHinderance;
+    public bool isHindrance;
 
     protected SpriteRenderer spriterenderer;
-    protected BoxCollider2D trigger;
+    protected BoxCollider2D collide;
 
+    [SerializeField]
     protected InteractableProperty property;
 
     public InteractableProperty Property
@@ -54,6 +52,11 @@ public abstract class GameBoardObject : MonoBehaviour {
 
     public virtual void Interact(Player interacter)
     {
+    }
+
+    public virtual void Interact(GameBoardObject interacter)
+    {
+
     }
 
 }

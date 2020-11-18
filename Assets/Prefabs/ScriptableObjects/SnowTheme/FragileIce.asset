@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: FragileIce
+  m_EditorClassIdentifier: Assembly-CSharp::FragileTile
+  IdInFactory: 0
+  sprite: {fileID: 21300002, guid: d7e7327c37aee29468271ad3b3e1e4bf, type: 3}
+  placement: 2
+  fragileSprite: {fileID: 21300002, guid: d7e7327c37aee29468271ad3b3e1e4bf, type: 3}
+  hollowSprite: {fileID: 21300054, guid: 2e91a488a524f5642bf36d43099b7512, type: 3}
+  fillingObject: {fileID: 114547848192001560, guid: 763314cd72dcbc54c9aaebb209febdfa,
+    type: 2}
+  isConditioned: 0

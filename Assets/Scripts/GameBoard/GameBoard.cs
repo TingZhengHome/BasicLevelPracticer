@@ -22,31 +22,29 @@ public class GameBoard : MonoBehaviour
     GameObject edgeObject;
 
     [SerializeField]
-    LEditor_TileObject basicTile;
-    [SerializeField]
     LEditor_TileContainer container;
 
     [SerializeField]
     LEditor_OnTileObject playerCharacter;
 
-    public LEditor_TileObject BasicTile
-    {
-        get
-        {
-            return basicTile;
-        }
-
-        private set
-        {
-            basicTile = value;
-        }
-    }
-
-
     public Player player;
 
     int row;
+    public int Row
+    {
+        get
+        {
+            return row;
+        }
+    }
     int column;
+    public int Column
+    {
+        get
+        {
+            return column;
+        }
+    }
     int size;
 
     public List<LEditor_TileContainer> containers = new List<LEditor_TileContainer>();
@@ -63,24 +61,33 @@ public class GameBoard : MonoBehaviour
         LEditor_TileContainer.OnTileClicked += UpgradeTile;
     }
 
+    public void SetRowAndColumn(int row, int column)
+    {
+        this.row = row;
+        this.column = column;
+    }
+
     public void GenerateTilesOnEditor(int row, int column, Transform parent)
     {
         this.row = row;
         this.column = column;
         size = row * column;
 
-        LEditor_TileObject firstTile = BasicTile;
+        LEditor_TileObject basicTile1 = factory.GetTile(0);
+        LEditor_TileObject basicTile2 = factory.GetTile(1);
+
+        LEditor_TileObject firstTile = basicTile1;
         LEditor_TileContainer firstContainer = container;
-        LEditor_TileObject lastTile = BasicTile;
+        LEditor_TileObject lastTile = basicTile2;
         GameObject edgesCollector = new GameObject();
         edgesCollector.name = "EdgesCollector";
         edgesCollector.transform.parent = this.transform;
         OnEditingTiles.Clear();
-        for (int y = 1; y > -column - 2; y--)
+        for (int y = 1; y > -column - 1; y--)
         {
-            for (int x = -1; x < row + 2; x++)
+            for (int x = -1; x < row + 1; x++)
             {
-                if (y > 0 || x < 0 || y == -column - 1 || x == row + 1)
+                if (y > 0 || x < 0 || y == -column || x == row)
                 {
                     GameObject edge = Instantiate(edgeObject, new Vector2(x, y), transform.rotation, edgesCollector.transform);
                 }
@@ -91,23 +98,37 @@ public class GameBoard : MonoBehaviour
                     tContainer.Setup(new Vector2(x, y), parent, containers.IndexOf(tContainer));
                     tContainer.name = "TileContainer" + tContainer.SlotId;
 
-                    LEditor_TileObject tile = Instantiate(BasicTile);
-                    OnEditingTiles.Add(tile);
-                    tile.ObjectName = BasicTile.name;
-                    tile.name = BasicTile.name;
-
-                    tContainer.PlaceGameBoardObject(tile, tContainer.SlotId);
-
-                    if (y == 0 && x == 0)
+                    LEditor_TileObject tile = null;
+                    if (x % 2 == 0)
                     {
-                        firstTile = tile;
-                        firstContainer = tContainer;
+                        tile = Instantiate(basicTile1);
+                        tile.ObjectName = basicTile1.name;
+                        tile.name = tile.ObjectName;
                     }
-                    if (y == (-column) && x == (row - 1))
+                    else if (x % 2 == 1)
                     {
-                        lastTile = tile;
+                        tile = Instantiate(basicTile2);
+                        tile.ObjectName = basicTile2.name;
+                        tile.name = tile.ObjectName;
                     }
-                    Debug.Log("Generated" + x.ToString() + "," + y.ToString());
+
+                    if (tile != null)
+                    {
+                        OnEditingTiles.Add(tile);
+
+                        tContainer.PlaceGameBoardObject(tile, tContainer.SlotId);
+
+                        if (y == 0 && x == 0)
+                        {
+                            firstTile = tile;
+                            firstContainer = tContainer;
+                        }
+                        if (y == (-column + 1) && x == (row - 1))
+                        {
+                            lastTile = tile;
+                        }
+                        Debug.Log("Generated" + x.ToString() + "," + y.ToString());
+                    }
                 }
 
             }
@@ -219,6 +240,26 @@ public class GameBoard : MonoBehaviour
         return null;
     }
 
+    public LEditor_TileObject GetBasicTile(int id)
+    {
+        if (LevelEditor.Instance.EditingGameboard == this)
+        {
+            return factory.GetTile(id % 2);
+        }
+
+        return null;
+    }
+
+
+    public TileObject GetTile(int id)
+    {
+        if (LevelManager.Instance.currentGameBoard == this)
+        {
+            return OnEditingTiles[id].GetComponent<TileObject>();
+        }
+        return null;
+    }
+
     public void AddActiveTiles()
     {
         for (int i = 0; i < OnEditingTiles.Count; i++)
@@ -247,7 +288,7 @@ public class GameBoard : MonoBehaviour
 
     public void Save(CampaignData campaignData, string inputtedText)
     {
-        LevelData level = new LevelData(theme, row, column, inputtedText);
+        LevelData level = new LevelData(theme, Row, Column, inputtedText);
 
         levelName = inputtedText;
 
@@ -272,11 +313,10 @@ public class GameBoard : MonoBehaviour
                 }
             }
         }
-        else 
+        else
         {
             campaignData.levelDatas.Add(level);
         }
-        
     }
 
 
@@ -284,34 +324,38 @@ public class GameBoard : MonoBehaviour
     {
         this.row = data.row;
         this.column = data.column;
-        size = row * column;
+        size = Row * Column;
         levelName = data.levelName;
 
-        GenerateTilesOnLoad(row, column, data);
+        GenerateTilesOnLoad(Row, Column, data);
         LoadOnTiles(data);
         LoadSelectables(data);
 
         levelSetting.Load(data.settingData);
-        Debug.Log(string.Format("Level{2} gameboard{0}{1} has been loaded.", row, column, data.levelName));
+        Debug.Log(string.Format("Level{2} gameboard{0}{1} has been loaded.", Row, Column, data.levelName));
     }
 
 
     public void GenerateTilesOnLoad(int row, int columm, LevelData level)
     {
-        LEditor_TileObject firstTile = BasicTile;
+        LEditor_TileObject basicTile1 = factory.GetTile(0);
+        LEditor_TileObject basicTile2 = factory.GetTile(1);
+
+
+        LEditor_TileObject firstTile = basicTile1;
         LEditor_TileContainer firstContainer = container;
-        LEditor_TileObject lastTile = BasicTile;
+        LEditor_TileObject lastTile = basicTile2;
         GameObject edgesCollector = new GameObject();
         edgesCollector.name = "EdgesCollector";
         edgesCollector.transform.parent = this.transform;
 
         int tNum = 0;
 
-        for (int y = 1; y > -column - 2; y--)
+        for (int y = 1; y > -Column - 1; y--)
         {
-            for (int x = -1; x < row + 2; x++)
+            for (int x = -1; x < row + 1; x++)
             {
-                if (y > 0 || x < 0 || y == -column - 1 || x == row + 1)
+                if (y > 0 || x < 0 || y == -Column|| x == row)
                 {
                     GameObject edge = Instantiate(edgeObject, new Vector2(x, y), transform.rotation, edgesCollector.transform);
                 }
@@ -323,7 +367,7 @@ public class GameBoard : MonoBehaviour
                     tContainer.name = "TileContainer" + tContainer.SlotId;
 
 
-                    LEditor_TileObject tile = basicTile;
+                    LEditor_TileObject tile = basicTile1;
                     if (level.tileDatas[tNum] != null && level.tileDatas[tNum].idInFactory >= 0)
                     {
                         tile = Instantiate(factory.GetTile(level.tileDatas[tNum].idInFactory));
@@ -336,8 +380,16 @@ public class GameBoard : MonoBehaviour
                     else
                     {
                         Debug.Log(string.Format("Saved TileObject{0} cannot be loaded because it is not match level theme.", tNum));
-                        tile = Instantiate(basicTile);
+                        if (tNum % 2 == 0)
+                        {
+                            tile = Instantiate(basicTile1);
+                        }
+                        else if (tNum % 2 == 1)
+                        {
+                            tile = Instantiate(basicTile2);
+                        }
                         tContainer.PlaceGameBoardObject(tile, tContainer.SlotId);
+                        tNum += 1;
                     }
 
                     OnEditingTiles.Add(tile);
@@ -348,7 +400,7 @@ public class GameBoard : MonoBehaviour
                         firstTile = tile;
                         firstContainer = tContainer;
                     }
-                    if (y == (-column) && x == (row - 1))
+                    if (y == (-Column) && x == (row - 1))
                     {
                         lastTile = tile;
                     }
@@ -426,20 +478,20 @@ public class GameBoard : MonoBehaviour
                         Debug.Log(string.Format("Tile{0} is going to load selectable", data.tileDatas[i].idOnBoard));
                         OnEditingTiles[i].GetComponent<LEditor_ConnectableObject>().Load(data.tileDatas[i].selectableData);
                     }
-                    else if (OnEditingTiles[i].theType == ObjectType.portable)
+                    else if (OnEditingTiles[i].theType == ObjectType.portal)
                     {
                         Debug.Log(string.Format("Tile{0} is going to load selectable", data.tileDatas[i].idOnBoard));
-                        OnEditingTiles[i].GetComponent<LEditor_PortableObject>().Load(data.tileDatas[i].selectableData);
+                        OnEditingTiles[i].GetComponent<LEditor_PortalObject>().Load(data.tileDatas[i].selectableData);
                     }
                     else if (OnEditingTiles[i].objectOn != null && OnEditingTiles[i].objectOn.theType == ObjectType.connectable)
                     {
                         Debug.Log(string.Format("OnTile{0} is going to load selectable", data.tileDatas[i].idOnBoard));
                         OnEditingTiles[i].objectOn.GetComponent<LEditor_ConnectableObject>().Load(data.tileDatas[i].objectOnData.selectableData);
                     }
-                    else if (OnEditingTiles[i].objectOn != null && OnEditingTiles[i].objectOn.theType == ObjectType.portable)
+                    else if (OnEditingTiles[i].objectOn != null && OnEditingTiles[i].objectOn.theType == ObjectType.portal)
                     {
                         Debug.Log(string.Format("OnTile{0} is going to load selectable", data.tileDatas[i].idOnBoard));
-                        OnEditingTiles[i].objectOn.GetComponent<LEditor_PortableObject>().Load(data.tileDatas[i].objectOnData.selectableData);
+                        OnEditingTiles[i].objectOn.GetComponent<LEditor_PortalObject>().Load(data.tileDatas[i].objectOnData.selectableData);
                     }
 
                 }

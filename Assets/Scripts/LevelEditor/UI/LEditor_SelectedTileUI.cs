@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LEditor_SelectedTileUI : MonoBehaviour
+public class LEditor_TileSelectedUI : MonoBehaviour
 {
-    private static LEditor_SelectedTileUI instance;
+    private static LEditor_TileSelectedUI instance;
 
     [SerializeField]
     LEditor_SelectableObject attachedObject;
@@ -23,13 +23,13 @@ public class LEditor_SelectedTileUI : MonoBehaviour
     [SerializeField]
     List<Button> buttons = new List<Button>();
 
-    public static LEditor_SelectedTileUI Instance
+    public static LEditor_TileSelectedUI Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<LEditor_SelectedTileUI>();
+                instance = FindObjectOfType<LEditor_TileSelectedUI>();
             }
             return instance;
         }
@@ -43,7 +43,7 @@ public class LEditor_SelectedTileUI : MonoBehaviour
     private void Start()
     {
         Debug.Log("SelectedTileUI starts.");
-        PackageButtons();
+        PackUpButtons();
         UnAttach();
         LEditor_TileContainer.OnTileClicked += CheckClickAndAttachTo;
 
@@ -66,7 +66,7 @@ public class LEditor_SelectedTileUI : MonoBehaviour
             cancelButton.onClick.AddListener(attachedObject.UnSelectThis);
 
             if (attachedObject.GetComponent<LEditor_ConnectableObject>() != null ||
-                attachedObject.GetComponent<LEditor_PortableObject>() != null)
+                attachedObject.GetComponent<LEditor_PortalObject>() != null)
             {
                 setConnectionButton.gameObject.SetActive(true);
             }
@@ -124,7 +124,7 @@ public class LEditor_SelectedTileUI : MonoBehaviour
         }
     }
 
-    public void PackageButtons()
+    public void PackUpButtons()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -180,9 +180,8 @@ public class LEditor_SelectedTileUI : MonoBehaviour
             if (attachedObject.GetComponent<LEditor_ConnectableObject>() != null)
             {
                 LevelEditor.Instance.currentEditingState = LevelEditor.editingState.settingConnection;
-
             }
-            else if (attachedObject.GetComponent<LEditor_PortableObject>() != null)
+            else if (attachedObject.GetComponent<LEditor_PortalObject>() != null)
             {
                 LevelEditor.Instance.currentEditingState = LevelEditor.editingState.settingPortals;
             }

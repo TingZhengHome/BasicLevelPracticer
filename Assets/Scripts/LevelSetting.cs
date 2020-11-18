@@ -6,26 +6,12 @@ public enum levelClearCondition { getPickables, reachCertainTile }
 [System.Serializable]
 public class LevelSetting
 {
-    //string levelName;
-
-    //public string LevelName
-    //{
-    //    get
-    //    {
-    //        return levelName;
-    //    }
-
-    //    private set
-    //    {
-    //        levelName = value;
-    //    }
-    //}
 
     public levelClearCondition winningCondition;
 
     public List<OnTileObject> neededPickables = new List<OnTileObject>();
 
-    public TileObject TargetTile;
+    public TileObject winningTile;
 
     public void StartChoosingPickables()
     {
@@ -68,7 +54,7 @@ public class LevelSetting
         }
         else if (winningCondition == levelClearCondition.reachCertainTile)
         {
-            settingData.TargetedTileId = TargetTile.GetComponent<LEditor_TileObject>().TileId;
+            settingData.TargetedTileId = winningTile.GetComponent<LEditor_TileObject>().TileId;
         }
 
         return settingData;
@@ -87,7 +73,7 @@ public class LevelSetting
         }
         else if (winningCondition == levelClearCondition.reachCertainTile)
         {
-            TargetTile = LevelEditor.Instance.EditingGameboard.GetEditingTile(settingData.TargetedTileId).GetComponent<TileObject>();
+            winningTile = LevelEditor.Instance.EditingGameboard.GetEditingTile(settingData.TargetedTileId).GetComponent<TileObject>();
         }
     }
 }

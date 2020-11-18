@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelManager : Singleton<LevelManager> {
+public class LevelManager : Singleton<LevelManager>
+{
 
     public LayerMask blockingLayer;
     public LayerMask interactableObjectLayer;
@@ -10,6 +11,8 @@ public class LevelManager : Singleton<LevelManager> {
 
     public LayerMask edgeLayer;
     public LayerMask gameBoardObjectLayer;
+    public LayerMask tileLayer;
+    public LayerMask onTileLayer;
 
 
     public LayerMask emptyTileLayer;
@@ -23,10 +26,11 @@ public class LevelManager : Singleton<LevelManager> {
     public GameObject TestingUI;
 
     // Use this for initialization
-    void Start () { 
+    void Start()
+    {
         LevelEditor.LaunchedLevelEvents += LaunchLevel;
         LevelEditor.ReturnToEditingEvents += ShutDownLevel;
-	}
+    }
 
     // Update is called once per frame
     private void Update()
@@ -40,7 +44,7 @@ public class LevelManager : Singleton<LevelManager> {
 
     public void GameUpdate()
     {
-        
+
     }
 
     public void LaunchLevel()
@@ -62,7 +66,6 @@ public class LevelManager : Singleton<LevelManager> {
     {
         if (currentGameBoard != null)
         {
-            //currentGameBoard.SetInactiveTiles();
             MainCamera.Instance.SetBackToEditing();
             Destroy(currentGameBoard.gameObject);
             player = null;

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MainCamera : Singleton<MainCamera> {
 
-
     [SerializeField]
     float xMax, xMin, yMax, yMin;
 

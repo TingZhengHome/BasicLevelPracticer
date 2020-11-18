@@ -30,13 +30,11 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
     public bool isPlaceable;
     public bool isHinderance;
 
-    public InteractableObject InteractableO
-    {
-        get
-        {
-            return interactable;
-        }
-    }
+    [SerializeField]
+    bool isEdged;
+
+    [SerializeField] //0 = top, 1 = right, 2 = left, 3 = bottom.
+    List<GameObject> edgeObjects = new List<GameObject>();
 
     public LEditor_SelectableObject selectableComponent;
 
@@ -54,39 +52,32 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
         container = parent.GetComponent<LEditor_TileContainer>();
         CheckSelectable();
         idInFactory = LevelEditor.Instance.EditingGameboard.factory.GetTileFactoryId(this);
-        if (interactable != null)
+
+        gameObject.layer = LayerMask.NameToLayer("TileObject");
+
+        if (isEdged)
         {
-            interactable.IdInFactory = LevelEditor.Instance.EditingGameboard.factory.GetInteractableFactoryId(interactable);
+            SetEdgeLayer();
         }
     }
 
     public void CheckSelectable()
     {
-        switch (theType)
-        {
-            case ObjectType.connectable:
-                if (GetComponent<LEditor_ConnectableObject>() == null && InteractableO != null)
-                {
-                    LEditor_ConnectableObject connectable = gameObject.AddComponent<LEditor_ConnectableObject>();
-                    connectable.Setup(this, this, InteractableO);
-                    selectableComponent = connectable;
-                }
-                break;
+    }
 
-            case ObjectType.portable:
-                if (GetComponent<LEditor_PortableObject>() == null && InteractableO != null)
-                {
-                    LEditor_PortableObject portable = gameObject.AddComponent<LEditor_PortableObject>();
-                    portable.Setup(this, this, InteractableO);
-                    selectableComponent = portable;
-                }
-                break;
+    private void Awake()
+    {
+        if (isEdged)
+        {
+            for (int i = 0; i < edgeObjects.Count; i++)
+            {
+                edgeObjects[i].SetActive(true);
+            }
         }
     }
 
     public void GameUpdate()
     {
-        SenseHover();
 
         if (selectableComponent != null)
         {
@@ -106,10 +97,8 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
         {
             trigger.enabled = true;
         }
-    }
 
-    void SenseHover()
-    {
+        EdgeDisplayControl();
 
     }
 
@@ -126,7 +115,7 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
             {
                 if (objectOn.GetComponent<LEditor_SelectableObject>() == null)
                 {
-                    LEditor_TileContainer.OnTileClicked += objectOn.PickUp;
+                    LEditor_TileContainer.OnTileClicked += objectOn.BePickUp;
                 }
                 else
                 {
@@ -175,7 +164,7 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
     {
         if (objectOn != null)
         {
-            objectOn.PickUp(null, TileId);
+            objectOn.BePickUp(null, TileId);
         }
     }
 
@@ -200,7 +189,7 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
                 if (objectOn != null)
                 {
                     Debug.Log(objectOn.name + " should be pick.");
-                    objectOn.PickUp(newObject, TileId);
+                    objectOn.BePickUp(newObject, TileId);
                 }
                 else
                 {
@@ -222,12 +211,12 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
                         }
                         else
                         {
-                            objectOn.PickUp(newObject, this.TileId);
+                            objectOn.BePickUp(newObject, this.TileId);
                         }
                     }
                     else
                     {
-                        objectOn.PickUp(newObject, this.TileId);
+                        objectOn.BePickUp(newObject, this.TileId);
                     }
                 }
                 objectOn = newOnTile;
@@ -242,7 +231,7 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
             }
             if (objectOn != null)
             {
-                objectOn.PickUp(newObject, this.tileId);
+                objectOn.BePickUp(newObject, this.tileId);
             }
             else if (objectOn == null)
             {
@@ -360,6 +349,113 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
     }
 
 
+
+    void EdgeDisplayControl()
+    {
+        if (isEdged)
+        {
+            GameBoard editingGameBoard = LevelEditor.Instance.EditingGameboard;
+
+
+            Vector2 upperRaycastEndPoint = (Vector2)transform.position + new Vector2(0, 0.7f);
+            Vector2 rightRaycastEndPoint = (Vector2)transform.position + new Vector2(0.7f, 0);
+            Vector2 leftRaycastEndPoint = (Vector2)transform.position + new Vector2(-0.7f, 0);
+            Vector2 belowRaycastEndPoint = (Vector2)transform.position + new Vector2(0, -0.7f);
+
+
+            trigger.enabled = false;
+            RaycastHit2D upperHit = Physics2D.Linecast(transform.position, upperRaycastEndPoint, LevelManager.Instance.gameBoardObjectLayer);
+            RaycastHit2D rightHit = Physics2D.Linecast(transform.position, rightRaycastEndPoint, LevelManager.Instance.gameBoardObjectLayer);
+            RaycastHit2D leftHit = Physics2D.Linecast(transform.position, leftRaycastEndPoint, LevelManager.Instance.gameBoardObjectLayer);
+            RaycastHit2D belowHit = Physics2D.Linecast(transform.position, belowRaycastEndPoint, LevelManager.Instance.gameBoardObjectLayer);
+            trigger.enabled = true;
+
+            if (upperHit.transform != null)
+            {
+                if (upperHit.transform.GetComponent<LEditor_TileObject>() != null)
+                {
+                    if (upperHit.transform.name != this.name)
+                    {
+                        edgeObjects[0].SetActive(true);
+                    }
+                    else
+                    {
+                        edgeObjects[0].SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                edgeObjects[0].SetActive(true);
+            }
+
+            if (rightHit.transform != null)
+            {
+                if (rightHit.transform.GetComponent<LEditor_TileObject>() != null)
+                {
+                    if (rightHit.transform.name != this.name)
+                    {
+                        edgeObjects[1].SetActive(true);
+                    }
+                    else
+                    {
+                        edgeObjects[1].SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                edgeObjects[1].SetActive(true);
+            }
+
+            if (leftHit.transform != null)
+            {
+                if (leftHit.transform.GetComponent<LEditor_TileObject>() != null)
+                {
+                    if (leftHit.transform.name != this.name)
+                    {
+                        edgeObjects[2].SetActive(true);
+                    }
+                    else
+                    {
+                        edgeObjects[2].SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                edgeObjects[2].SetActive(true);
+            }
+
+            if (belowHit.transform != null)
+            {
+                if (belowHit.transform.GetComponent<LEditor_TileObject>() != null)
+                {
+                    if (belowHit.transform.GetComponent<LEditor_TileObject>().name != this.name)
+                    {
+                        edgeObjects[3].SetActive(true);
+                    }
+                    else
+                    {
+                        edgeObjects[3].SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                edgeObjects[3].SetActive(true);
+            }
+        }
+    }
+
+    public void SetEdgeLayer()
+    {
+        edgeObjects[0].GetComponent<SpriteRenderer>().sortingOrder = -(int)transform.position.y * 10 + 3;
+        edgeObjects[1].GetComponent<SpriteRenderer>().sortingOrder = -(int)transform.position.y * 10 + 4;
+        edgeObjects[2].GetComponent<SpriteRenderer>().sortingOrder = -(int)transform.position.y * 10 + 4;
+        edgeObjects[3].GetComponent<SpriteRenderer>().sortingOrder = -(int)transform.position.y * 10 + 2;
+    }
+
     public TileData Save()
     {
         TileData data = new TileData(this);
@@ -375,13 +471,8 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
         this.isPlaceable = data.isPlaceable;
         this.isHinderance = data.isHinderance;
 
-        //string interactablePath = string.Format("Asset/Prefabs/ScriptableObjects/{0}", data.interactablePath);
-        if (data.interactablePath != string.Empty)
-            interactable = (InteractableObject)AssetDatabase.LoadAssetAtPath(data.interactablePath, typeof(InteractableObject));
-
-        //if (selectableComponent != null)
-        //selectableComponent.Load(data.selectableData);
-
+        if (selectableComponent != null)
+            selectableComponent.Load(data.selectableData);
     }
 
 }

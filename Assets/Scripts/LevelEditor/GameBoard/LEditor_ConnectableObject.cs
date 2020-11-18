@@ -28,11 +28,11 @@ public class LEditor_ConnectableObject : LEditor_SelectableObject
         }
     }
 
-    public override void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject, InteractableObject connectable)
+    public override void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject)
     {
-        base.Setup(theTileSetOn, attachedObject, connectable);
+        base.Setup(theTileSetOn, attachedObject);
 
-        isButton = ((ConnectableObject)connectable).isButton;
+        //isButton = ((ConnectableObject)connectable).isButton;
         LevelEditor.Instance.EditingGameboard.UpgradeTile(theTileSetOn, theTileSetOn.TileId);
     }
 

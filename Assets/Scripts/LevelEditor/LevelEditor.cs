@@ -47,7 +47,6 @@ public class LevelEditor : Singleton<LevelEditor>
 
     public CampaignData campaignData = new CampaignData();
 
-
     public GameBoardFactory boardsFactory;
 
     void Start()
@@ -142,7 +141,7 @@ public class LevelEditor : Singleton<LevelEditor>
 
     public void GenerateGameBoard()
     {
-         LEditor_UIManager.Instance.TileSelectedUI.GetComponent<LEditor_SelectedTileUI>().UnAttach();
+         LEditor_UIManager.Instance.TileSelectedUI.GetComponent<LEditor_TileSelectedUI>().UnAttach();
         if (selectedObject != null)
         {
             EscapeSelectingState();
@@ -219,7 +218,7 @@ public class LevelEditor : Singleton<LevelEditor>
         CancelButtonClick();
         currentEditingState = editingState.mapBuilding;
         selectedObject = null;
-        LEditor_SelectedTileUI.Instance.UnAttach();
+        LEditor_TileSelectedUI.Instance.UnAttach();
 
         foreach (LEditor_TileObject tile in EditingGameboard.OnEditingTiles)
         {
@@ -233,6 +232,7 @@ public class LevelEditor : Singleton<LevelEditor>
     public void LaunchLevel()
     {
         tempSavedGBoard = Instantiate(EditingGameboard);
+        tempSavedGBoard.SetRowAndColumn(EditingGameboard.Row, EditingGameboard.Column);
         tempSavedGBoard.gameObject.SetActive(false);
         CancelButtonClick();
         LaunchedLevelEvents();

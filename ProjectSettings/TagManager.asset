@@ -8,6 +8,7 @@ TagManager:
   - onTileObject
   - player
   - hover
+  - playerStep
   layers:
   - Default
   - TransparentFX
@@ -22,9 +23,9 @@ TagManager:
   - EmptyTile
   - Edge
   - EditorOnMousObject
+  - TileObject
+  - OnTileObject
   - GameBoardObject
-  - 
-  - 
   - 
   - 
   - 
@@ -50,6 +51,9 @@ TagManager:
     locked: 0
   - name: OnTileObject
     uniqueID: 1674951025
+    locked: 0
+  - name: EdgeObject
+    uniqueID: 810497747
     locked: 0
   - name: UI
     uniqueID: 3735625025

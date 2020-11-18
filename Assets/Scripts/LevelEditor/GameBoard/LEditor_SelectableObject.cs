@@ -23,7 +23,7 @@ public class LEditor_SelectableObject : LEdtior_GameBoardObject
     }
 
 
-    public virtual void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject, InteractableObject interactable)
+    public virtual void Setup(LEditor_TileObject theTileSetOn, LEdtior_GameBoardObject attachedObject)
     {
         this.theTileSetOn = theTileSetOn;
         if (attachedObject.GetComponent<LEditor_OnTileObject>() != null)
@@ -89,7 +89,7 @@ public class LEditor_SelectableObject : LEdtior_GameBoardObject
     {
         if (GetComponent<LEditor_OnTileObject>() != null && this.selected)
         {
-            GetComponent<LEditor_OnTileObject>().PickUp(theTileSetOn, theTileSetOn.TileId);
+            GetComponent<LEditor_OnTileObject>().BePickUp(theTileSetOn, theTileSetOn.TileId);
         }
     }
 
@@ -101,9 +101,9 @@ public class LEditor_SelectableObject : LEdtior_GameBoardObject
             LEditor_ConnectableObject connectableObject = gameBoardObject.GetComponent<LEditor_ConnectableObject>();
             return connectableObject.Save();
         }
-        else if (type == ObjectType.portable)
+        else if (type == ObjectType.portal)
         {
-            LEditor_PortableObject portableObject = gameBoardObject.GetComponent<LEditor_PortableObject>();
+            LEditor_PortalObject portableObject = gameBoardObject.GetComponent<LEditor_PortalObject>();
             return portableObject.Save();
         }
 

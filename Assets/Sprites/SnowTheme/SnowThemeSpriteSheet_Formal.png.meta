@@ -1,0 +1,823 @@
+fileFormatVersion: 2
+guid: 2e91a488a524f5642bf36d43099b7512
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: BasicTile1
+    21300002: FragileTile_EdgeTop
+    21300004: ObstacleObject_IceMoutain
+    21300006: MovableObject_Iceberg
+    21300008: PortableObject_SnowHole1
+    21300010: UI_FraigleTile
+    21300012: UI_SlipperyTile
+    21300014: FragileTile_EdgeLeft
+    21300016: FragileTile
+    21300018: FragileTile_EdgeRight
+    21300020: FilledTile
+    21300022: FragileTile_Bottom
+    21300024: UI_HollowTile
+    21300026: SlipperyTile_EdgeTop
+    21300028: MovableObject_SnowBall
+    21300030: PortableObject_SnowHole
+    21300032: SlipperyTile_EdgeLeft
+    21300034: SlipperyTile
+    21300036: SlipperyTile_EdgeRight
+    21300038: SlipperyTile_EdgeBottom
+    21300040: HollowTile_EdgeTop
+    21300042: SnowThemeSpriteSheet_Formal_21
+    21300044: FilledTile_EdgeTop
+    21300046: HollowTile_ShadowTop
+    21300048: WaterTile
+    21300050: HollowTile_EdgeLeft
+    21300052: SnowThemeSpriteSheet_Formal_26
+    21300054: HollowTile
+    21300056: HollowTile_ShadowRight
+    21300058: HollowTile_EdgeRight
+    21300060: FilledTile_EdgeLeft
+    21300062: FilledTile_EdgeRight
+    21300064: SnowThemeSpriteSheet_Formal_32
+    21300066: SnowThemeSpriteSheet_Formal_33
+    21300068: SnowThemeSpriteSheet_Formal_34
+    21300070: SnowThemeSpriteSheet_Formal_35
+    21300072: HollowTile_ShadowLeft
+    21300074: FilledTile_EdgeBottom
+    21300076: HollowTile_EdgeBottom
+    21300078: Button_ObstacleObject_IceMoutain
+    21300080: UI_MovableObject_Iceberg
+    21300082: BasicTile2
+  externalObjects: {}
+  serializedVersion: 7
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 318
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BasicTile1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2880
+        width: 320
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd0160d729ce64a40b9bff04967307d8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FragileTile_EdgeTop
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 2890
+        width: 321
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7c4a57768757f542a8e16659ffe3978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ObstacleObject_IceMoutain
+      rect:
+        serializedVersion: 2
+        x: 1528
+        y: 2488
+        width: 383
+        height: 574
+      alignment: 9
+      pivot: {x: 0.5968056, y: 0.41102776}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93a74dede84161443884a7d7974f9476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MovableObject_Iceberg
+      rect:
+        serializedVersion: 2
+        x: 2008
+        y: 2437
+        width: 394
+        height: 514
+      alignment: 9
+      pivot: {x: 0.6240519, y: 0.64399403}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 286f6469a11472d43a6f0e259492895d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PortableObject_SnowHole1
+      rect:
+        serializedVersion: 2
+        x: 2590
+        y: 2581
+        width: 320
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d56363604d9e712429d8110efe8dd49c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_SlipperyTile
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 2527
+        width: 320
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 561092678abc1e74fbb241d77417c0c1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FragileTile_EdgeLeft
+      rect:
+        serializedVersion: 2
+        x: 909
+        y: 2559
+        width: 41
+        height: 323
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1768afc7abba0574baff7c4ff673db50
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FragileTile_EdgeRight
+      rect:
+        serializedVersion: 2
+        x: 1289
+        y: 2559
+        width: 41
+        height: 322
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42857bd80d84cf54aafe2dd33e998cb0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FilledTile
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 2141
+        width: 359
+        height: 358
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b781b9066f4d52a48929b5dbb8eae325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FragileTile_Bottom
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 2500
+        width: 321
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8090bcf3466e3014d88743638af2975d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_HollowTile
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2168
+        width: 314
+        height: 321
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c35d919a31b01264cadc430f5ab9126d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlipperyTile_EdgeTop
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 2356
+        width: 323
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bc6ef0300d8279449dd4bee52448154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MovableObject_SnowBall
+      rect:
+        serializedVersion: 2
+        x: 2098
+        y: 2091
+        width: 289
+        height: 306
+      alignment: 9
+      pivot: {x: 0.5410773, y: 0.5646598}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e7ba0824cae79c47a10ef225164d95c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PortableObject_SnowHole
+      rect:
+        serializedVersion: 2
+        x: 2587
+        y: 2178
+        width: 323
+        height: 319
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27f2279efc552a54c80ba5a7b8217830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlipperyTile_EdgeLeft
+      rect:
+        serializedVersion: 2
+        x: 906
+        y: 2034
+        width: 43
+        height: 314
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea13329b57317f14cb299bd32a0ff245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlipperyTile_EdgeRight
+      rect:
+        serializedVersion: 2
+        x: 1288
+        y: 2034
+        width: 44
+        height: 314
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a11ce4400065ccc45bf5363a40dbbe13
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlipperyTile_EdgeBottom
+      rect:
+        serializedVersion: 2
+        x: 968
+        y: 1954
+        width: 307
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a2471f4e4e6d8b4a9286d26876cb023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HollowTile_EdgeTop
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 1854
+        width: 323
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ce4782ef5b523347abf212d8d274a15
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SnowThemeSpriteSheet_Formal_21
+      rect:
+        serializedVersion: 2
+        x: 1298
+        y: 1854
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86598f40a1331414fba2862b40ce6757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FilledTile_EdgeTop
+      rect:
+        serializedVersion: 2
+        x: 1535
+        y: 1801
+        width: 323
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 522773ad39d6d6442ad36aa8d2c72f15
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HollowTile_ShadowTop
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 1780
+        width: 325
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4e969a057ae12a4eab87ad49e2cef2c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WaterTile
+      rect:
+        serializedVersion: 2
+        x: 1518
+        y: 1425
+        width: 363
+        height: 366
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95d58070f85186942a938aa0bac048a1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HollowTile_EdgeLeft
+      rect:
+        serializedVersion: 2
+        x: 826
+        y: 1448
+        width: 44
+        height: 323
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af0cef5b8c5fc2042b2c92e20efb798e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HollowTile
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 1448
+        width: 325
+        height: 327
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d52d8275a087c2479403379b75b2166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HollowTile_ShadowRight
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 1448
+        width: 34
+        height: 323
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75772f83bdca99b439c90938289f3f89
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HollowTile_EdgeRight
+      rect:
+        serializedVersion: 2
+        x: 1370
+        y: 1448
+        width: 43
+        height: 323
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fec3a1e53a8501345b550a9eee34b290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FilledTile_EdgeLeft
+      rect:
+        serializedVersion: 2
+        x: 1459
+        y: 1465
+        width: 43
+        height: 314
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e943f5fed8c9aa4b8b525c963996d64
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FilledTile_EdgeRight
+      rect:
+        serializedVersion: 2
+        x: 1885
+        y: 1463
+        width: 44
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b81687879de47504fa6b84e2f5bc8449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HollowTile_ShadowLeft
+      rect:
+        serializedVersion: 2
+        x: 917
+        y: 1448
+        width: 24
+        height: 322
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5157db69e44e58c4d853f627b7f0a39a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FilledTile_EdgeBottom
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 3200
+        height: 1425
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f21ad6dae1cd4df43a03175919d691a8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HollowTile_EdgeBottom
+      rect:
+        serializedVersion: 2
+        x: 957
+        y: 1359
+        width: 323
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9ea72354c38ec54cbebcdfef2ce87eb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_MovableObject_Iceberg
+      rect:
+        serializedVersion: 2
+        x: 2101
+        y: 2590
+        width: 300
+        height: 360
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1dcefbc03869d2947b733bc7df486c82
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BasicTile2
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 2880
+        width: 320
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a692df8dbd6e1b44f813f5722e207f46
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 376116d7e9c2e0845b073eb1206f87d2
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

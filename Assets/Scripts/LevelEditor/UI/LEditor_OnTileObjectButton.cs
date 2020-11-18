@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LEditor_OnTileObjectButton : LEditor_Button
 {
-
     // Use this for initialization
     void Start()
     {

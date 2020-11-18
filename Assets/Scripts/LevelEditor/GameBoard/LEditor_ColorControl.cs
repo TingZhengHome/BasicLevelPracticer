@@ -153,14 +153,14 @@ public static class LEditor_ColorControl
         {
             if (tile.objectOn == null)
             {
-                if (tile.theType != ObjectType.portable)
+                if (tile.theType != ObjectType.portal)
                 {
                     tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
                 }
             }
             else
             {
-                if (tile.objectOn.theType != ObjectType.portable)
+                if (tile.objectOn.theType != ObjectType.portal)
                 {
                     tile.TurnColor(LevelEditor.Instance.EditingGameboard.unclickableColor);
                 }
@@ -286,9 +286,9 @@ public static class LEditor_ColorControl
         connectable.GetComponent<LEditor_SelectableObject>().ColorControl(hit, LevelEditor.Instance.selectedObject);
     }
 
-    public static void ColorControl(this LEditor_PortableObject portable, Collider2D hit, LEdtior_GameBoardObject selectedObject)
+    public static void ColorControl(this LEditor_PortalObject portable, Collider2D hit, LEdtior_GameBoardObject selectedObject)
     {
-        LEditor_PortableObject selected = selectedObject.GetComponent<LEditor_PortableObject>();
+        LEditor_PortalObject selected = selectedObject.GetComponent<LEditor_PortalObject>();
         GameBoard EditingGameBoard = LevelEditor.Instance.EditingGameboard;
 
         if (!portable.isExit || !selected.isExit)

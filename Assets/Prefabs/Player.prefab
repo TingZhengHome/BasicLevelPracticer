@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1390890314147124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 558.50775, y: 125.501, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -71,24 +71,24 @@ BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1390890314147124}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.3}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.7729167, y: 1.1208333}
+    pivot: {x: 0.5, y: 0.3}
+    oldSize: {x: 0.6892857, y: 1.0678571}
     newSize: {x: 3.71, y: 5.38}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.71, y: 0.38}
   m_EdgeRadius: 0
 --- !u!114 &114465418340494490
 MonoBehaviour:
@@ -101,15 +101,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be195cd95130c44419d12506ddb42382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactable: {fileID: 0}
+  idInFactory: 0
   ObjectName: Player
   trigger: {fileID: 61144711828793784}
   spriteRender: {fileID: 212574652951456568}
   theTileSetOn: {fileID: 0}
   theType: 4
-  correspondingButton: {fileID: 0}
   isHinderance: 0
-  selectableCompnents: []
+  selectableComponents: {fileID: 0}
+  correspondingButton: {fileID: 0}
   detected: 0
 --- !u!114 &114842451846054478
 MonoBehaviour:
@@ -124,11 +124,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovingTimeDuration: 0.8
   isLerping: 0
-  onGameColliderSize: {x: 0.5, y: 0.4}
-  blockingSensingDistatnce: 0.4
+  colliderBottomYOffset: {x: 0, y: -0.3}
+  step: {fileID: 0}
+  sensingBlockingDistance: 0.45
   pickingUpDistance: 0.4
   egdeCheckDistance: 0.75
   transported: 0
+  isSliding: 0
+  slideStartPostion: {x: 0, y: 0, z: 0}
+  slideEndPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114921692099289812
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHinderance: 0
-  blocker: {fileID: 0}
+  property: {fileID: 0}
   theTileSetOn: {fileID: 0}
   theType: 4
   isPlayer: 1
@@ -180,7 +184,7 @@ SpriteRenderer:
   m_SortingLayerID: 1674951025
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1b84ff4eeeacddc4a8d7c08613ec11b2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b2f1faef5dc337f428e80eadf7865c58, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

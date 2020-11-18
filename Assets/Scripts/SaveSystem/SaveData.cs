@@ -50,7 +50,7 @@ public class TileData
 
     public SelectableData selectableData;
     public ConnectableData connectableData;
-    public PortableData portableData;
+    public PortalData portableData;
 
     public OnTileData objectOnData;
 
@@ -60,19 +60,16 @@ public class TileData
         this.idOnBoard = tile.TileId;
         this.isPlaceable = tile.isPlaceable;
         this.isHinderance = tile.isHinderance;
-        if (tile.interactable != null)
-        {
-            this.interactablePath = AssetDatabase.GetAssetPath(tile.interactable);
-        }
+
         if (tile.selectableComponent != null)
         {
             if (tile.theType == ObjectType.connectable)
             {
                 selectableData = tile.GetComponent<LEditor_ConnectableObject>().Save();
             }
-            else if (tile.theType == ObjectType.portable)
+            else if (tile.theType == ObjectType.portal)
             {
-                selectableData = tile.GetComponent<LEditor_PortableObject>().Save();
+                selectableData = tile.GetComponent<LEditor_PortalObject>().Save();
             }
         }
         if (tile.objectOn != null)
@@ -108,9 +105,9 @@ public class OnTileData
             {
                 selectableData = onTile.GetComponent<LEditor_ConnectableObject>().Save();
             }
-            else if (onTile.theType == ObjectType.portable)
+            else if (onTile.theType == ObjectType.portal)
             {
-                selectableData = onTile.GetComponent<LEditor_PortableObject>().Save();
+                selectableData = onTile.GetComponent<LEditor_PortalObject>().Save();
             }
         }
     }
@@ -141,13 +138,13 @@ public class ConnectableData : SelectableData
 }
 
 [System.Serializable]
-public class PortableData : SelectableData
+public class PortalData : SelectableData
 {
     //public bool isOnTile;
     public bool isExit;
     public int connectedPortalId;
 
-    public PortableData(bool isOnTile, bool isExit, int connectedId)
+    public PortalData(bool isOnTile, bool isExit, int connectedId)
     {
         this.isOnTile = isOnTile;
         this.isExit = isExit;

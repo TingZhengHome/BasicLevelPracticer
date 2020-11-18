@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1260035393935496}
+  m_IsPrefabAsset: 1
+--- !u!1 &1260035393935496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4909409805688692}
+  - component: {fileID: 114124737994199556}
+  - component: {fileID: 114832720586141526}
+  m_Layer: 0
+  m_Name: GameBoard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4909409805688692
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1260035393935496}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114124737994199556
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1260035393935496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6ff9b52aedc8b64d8edad07cdaa242b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeableColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  notPlaceableColor: {r: 1, g: 0, b: 0, a: 1}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  objectOverlappedColor: {r: 0.090067655, g: 0.8301887, b: 0.82360977, a: 1}
+  selectedColor: {r: 0.23339465, g: 0.9433962, b: 0.20024922, a: 1}
+  connectableColor: {r: 0, g: 0, b: 1, a: 1}
+  connectedColor: {r: 0.8301887, g: 0.5221982, b: 0.019579919, a: 1}
+  connectorColor: {r: 0, g: 1, b: 0, a: 1}
+  unclickableColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  levelName: 
+  theme: 0
+  edgeObject: {fileID: 1302272081886758, guid: 8eccb7d291aed8149b3f28807cf346b9, type: 2}
+  container: {fileID: 114547578049510642, guid: 853a0c4f718d9df4d9fa1712a4e6f702,
+    type: 2}
+  playerCharacter: {fileID: 114245782725118068, guid: 1d17f0ed982b02f499b86f72fee04a78,
+    type: 2}
+  player: {fileID: 114022172739417162, guid: 1d17f0ed982b02f499b86f72fee04a78, type: 2}
+  containers: []
+  OnEditingTiles: []
+  tiles: []
+  levelSetting:
+    winningCondition: 0
+    neededPickables: []
+    winningTile: {fileID: 0}
+  factory: {fileID: 114832720586141526}
+--- !u!114 &114832720586141526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1260035393935496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 827d4eacb14137b48ae3cbd48b6d29aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  themeTiles:
+  - {fileID: 114164829699647622, guid: 2112b815f08b60849a6a80992cce9206, type: 2}
+  - {fileID: 114346923094603492, guid: de331d13503a59d4e9387bee657f176b, type: 2}
+  - {fileID: 114991239069011582, guid: d815110e468a0274b93827082f52797c, type: 2}
+  - {fileID: 114272910763583772, guid: a4868e69dfb846545ae3aff5f4237ec5, type: 2}
+  - {fileID: 114837326714216778, guid: 2b6eb0bad34499841a9b71785f68b5e6, type: 2}
+  themeOnTiles:
+  - {fileID: 114547848192001560, guid: 763314cd72dcbc54c9aaebb209febdfa, type: 2}
+  - {fileID: 114728514129181018, guid: 872b9f5e09886744cb4148c52e513641, type: 2}
+  - {fileID: 114951253276149520, guid: efe176ea432345441a1e77bc8307e19a, type: 2}
+  - {fileID: 114369648364805974, guid: 559f54085f3cc3649a62933f00c6fe1c, type: 2}
+  - {fileID: 114245782725118068, guid: 1d17f0ed982b02f499b86f72fee04a78, type: 2}
+  themeInteractableObjects:
+  - {fileID: 11400000, guid: d1b6d669bcbfe9e49965bb9c54351e5b, type: 2}
+  - {fileID: 11400000, guid: a5c8fdf24cbf69a41ac1e04ae34ded98, type: 2}
+  - {fileID: 11400000, guid: 2eff3a54153381f42914d6181277025f, type: 2}
+  - {fileID: 11400000, guid: 78214afe0720b494eaa0247ac45f449d, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  themeSprites: []

@@ -146,35 +146,35 @@ public class LEditor_TileContainer : LEdtior_GameBoardObject
             containingTile.ColorControl(LevelEditor.editingState.settingWinningTile);
             if (containingTile != null && !containingTile.isHinderance)
             {
-                if (containingTile.objectOn == null || (containingTile.objectOn != null && !containingTile.isHinderance && containingTile.objectOn.tag != "player") || 
+                if (containingTile.objectOn == null || (containingTile.objectOn != null && !containingTile.isHinderance && containingTile.objectOn.tag != "player") ||
                     (containingTile.objectOn != null && containingTile.objectOn.theType == ObjectType.movable && containingTile.isHinderance))
                 {
                     if (!EventSystem.current.IsPointerOverGameObject() && hit != null)
                     {
                         if (Input.GetMouseButtonDown(0))
                         {
-                            if (LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile == null)
+                            if (LevelEditor.Instance.EditingGameboard.levelSetting.winningTile == null)
                             {
-                                LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile = containingTile.GetComponent<TileObject>();
-                                LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile = containingTile.GetComponent<TileObject>();
+                                LevelEditor.Instance.EditingGameboard.levelSetting.winningTile = containingTile.GetComponent<TileObject>();
+                                LevelEditor.Instance.EditingGameboard.levelSetting.winningTile = containingTile.GetComponent<TileObject>();
                                 containingTile.detected = true; //use "detected" to discriminate whether the object is added
-                                Debug.Log("Set target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.name + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.GetComponent<LEditor_TileObject>().TileId);
+                                Debug.Log("Set target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.winningTile.name + LevelEditor.Instance.EditingGameboard.levelSetting.winningTile.GetComponent<LEditor_TileObject>().TileId);
                             }
                             else
                             {
-                                if (LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile != containingTile.GetComponent<TileObject>())
+                                if (LevelEditor.Instance.EditingGameboard.levelSetting.winningTile != containingTile.GetComponent<TileObject>())
                                 {
-                                    LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.GetComponent<LEditor_TileObject>().detected = false;
-                                    Debug.Log("Cancle target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.name + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.GetComponent<LEditor_TileObject>().TileId);
-                                    LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile = containingTile.GetComponent<TileObject>();
+                                    LevelEditor.Instance.EditingGameboard.levelSetting.winningTile.GetComponent<LEditor_TileObject>().detected = false;
+                                    Debug.Log("Cancle target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.winningTile.name + LevelEditor.Instance.EditingGameboard.levelSetting.winningTile.GetComponent<LEditor_TileObject>().TileId);
+                                    LevelEditor.Instance.EditingGameboard.levelSetting.winningTile = containingTile.GetComponent<TileObject>();
                                     containingTile.detected = true;
-                                    Debug.Log("Set target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.name + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.GetComponent<LEditor_TileObject>().TileId);
+                                    Debug.Log("Set target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.winningTile.name + LevelEditor.Instance.EditingGameboard.levelSetting.winningTile.GetComponent<LEditor_TileObject>().TileId);
                                 }
-                                else if (LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile == containingTile.GetComponent<TileObject>())
+                                else if (LevelEditor.Instance.EditingGameboard.levelSetting.winningTile == containingTile.GetComponent<TileObject>())
                                 {
                                     containingTile.detected = false;
-                                    Debug.Log("Cancle target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.name + LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile.GetComponent<LEditor_TileObject>().TileId);
-                                    LevelEditor.Instance.EditingGameboard.levelSetting.TargetTile = null;
+                                    Debug.Log("Cancle target Tile:" + LevelEditor.Instance.EditingGameboard.levelSetting.winningTile.name + LevelEditor.Instance.EditingGameboard.levelSetting.winningTile.GetComponent<LEditor_TileObject>().TileId);
+                                    LevelEditor.Instance.EditingGameboard.levelSetting.winningTile = null;
                                 }
                             }
 
@@ -198,8 +198,16 @@ public class LEditor_TileContainer : LEdtior_GameBoardObject
             {
                 if (!LevelEditor.Instance.isMovingPlacedObject)
                 {
-                    handlingObject = Instantiate(LevelEditor.Instance.clickedBoardObjectButton.representObject);
-                    handlingObject.name = LevelEditor.Instance.clickedBoardObjectButton.representObject.name;
+                    if (LevelEditor.Instance.clickedBoardObjectButton.name == "BasicTileButton")
+                    {
+                        handlingObject = Instantiate(LevelEditor.Instance.EditingGameboard.GetBasicTile(slotId));
+                        handlingObject.name = LevelEditor.Instance.EditingGameboard.GetBasicTile(slotId).name;
+                    }
+                    else
+                    {
+                        handlingObject = Instantiate(LevelEditor.Instance.clickedBoardObjectButton.representObject);
+                        handlingObject.name = LevelEditor.Instance.clickedBoardObjectButton.representObject.name;
+                    }
                 }
                 else
                 {
@@ -284,7 +292,7 @@ public class LEditor_TileContainer : LEdtior_GameBoardObject
     public void QuickPlaceBasicTile()
     {
         LevelEditor.Instance.EndCurrentEditingEvent();
-        LEditor_TileObject basicTile = Instantiate(LevelEditor.Instance.EditingGameboard.BasicTile);
+        LEditor_TileObject basicTile = Instantiate(LevelEditor.Instance.EditingGameboard.GetBasicTile(SlotId));
         OnTileClicked += PlaceGameBoardObject;
         OnTileClicked(basicTile, SlotId);
     }

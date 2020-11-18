@@ -5,8 +5,8 @@ using UnityEngine;
 
 
 [System.Serializable]
-public enum GameBoardThem { forest}
+public enum GameBoardThem { Antartica}
 
 [System.Serializable]
-public enum ObjectType { connectable, portable, pickable, movable, normal, edge }
+public enum ObjectType { connectable, portal, pickable, movable, normal, edge, fragile, hollow, slippery }
 

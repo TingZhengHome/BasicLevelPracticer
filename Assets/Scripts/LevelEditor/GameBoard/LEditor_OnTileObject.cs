@@ -52,14 +52,17 @@ public class LEditor_OnTileObject : LEdtior_GameBoardObject
 
     public override void Setup(Vector2 placedPosition, Transform parent)
     {
+        //Debug.Log("I am going to be placed at " + placedPosition);
         base.Setup(placedPosition, parent);
-        //transform.position = placedPosition;
-        //transform.parent = parent;
-        //SetLayer(this.GetComponent<SpriteRenderer>());
+        transform.position = placedPosition;
+        transform.parent = parent;
+        SetSortingLayer(this.GetComponent<SpriteRenderer>());
         theTileSetOn = parent.GetComponent<LEditor_TileObject>();
+        gameObject.layer = LayerMask.NameToLayer("OnTileObject");
+
         if (this.GetComponent<Player>() == null)
         {
-            correspondingButton = GameObject.Find(string.Format(ObjectName + "Button")).GetComponent<LEditor_Button>();
+            correspondingButton = GameObject.Find(string.Format(ObjectName + "Button")).GetComponent<LEditor_OnTileObjectButton>();
             if (correspondingButton == null)
             {
                 Debug.LogWarning(this.name + "can't find its corresponding button.");
@@ -74,27 +77,23 @@ public class LEditor_OnTileObject : LEdtior_GameBoardObject
             }
         }
 
-        if (selectableComponents == null)
+        if(selectableComponents != null)
         {
-            CheckSelectable();
-        }
-        else
-        {
-            selectableComponents.Setup(theTileSetOn, this, interactable);
+            selectableComponents.Setup(theTileSetOn, this);
         }
 
-        //trigger = GetComponent<BoxCollider2D>();
-        trigger.enabled = false;
-        //spriteRender = this.GetComponent<SpriteRenderer>();
-        idInFactory = LevelEditor.Instance.EditingGameboard.factory.GetOnTileFactoryId(this);
-        if (interactable != null)
+        if (isHinderance)
         {
-            interactable.IdInFactory = LevelEditor.Instance.EditingGameboard.factory.GetInteractableFactoryId(interactable);
+            trigger.enabled = false;
         }
+        
+
+        idInFactory = LevelEditor.Instance.EditingGameboard.factory.GetOnTileFactoryId(this);
+       
         LevelEditor.Instance.EditingGameboard.UpgradeTile(theTileSetOn,theTileSetOn.TileId);
     }
 
-    public virtual void PickUp(LEdtior_GameBoardObject newO, int id)
+    public virtual void BePickUp(LEdtior_GameBoardObject newO, int id)
     {
         Debug.Log("pickingUp");
         if (LevelEditor.Instance.clickedBoardObjectButton != null)
@@ -107,35 +106,9 @@ public class LEditor_OnTileObject : LEdtior_GameBoardObject
         }
         LevelEditor.Instance.StartMovingObject(this);
         theTileSetOn.CleanTile(true);
-        LEditor_TileContainer.OnTileClicked -= this.PickUp;
+        LEditor_TileContainer.OnTileClicked -= this.BePickUp;
         Hover.Instance.transform.rotation = this.transform.rotation;
     }
-
-    void CheckSelectable()
-    {
-        switch (theType)
-        {
-            case ObjectType.connectable:
-                if (GetComponent<LEditor_ConnectableObject>() == null)
-                {
-                    LEditor_ConnectableObject connectable = gameObject.AddComponent<LEditor_ConnectableObject>();
-                    connectable.Setup(theTileSetOn, this, interactable);
-                    selectableComponents = connectable;
-                    //selectableCompnents.Add(connectable);
-                }
-                break;
-            case ObjectType.portable:
-                if (GetComponent<LEditor_PortableObject>() == null)
-                {
-                    LEditor_PortableObject portable = gameObject.AddComponent<LEditor_PortableObject>();
-                    portable.Setup(theTileSetOn, this, interactable);
-                    selectableComponents = portable;
-                    //selectableCompnents.Add(portable);
-                }
-                break;
-        }
-    }
-
 
     public void TurnColor(Color color)
     {
@@ -147,7 +120,6 @@ public class LEditor_OnTileObject : LEdtior_GameBoardObject
         OnTileData data = new OnTileData(idInFactory, theTileSetOn.TileId, new List<int>(), isHinderance, this);
         return data;
     }
-
 
     public virtual void Load(OnTileData data)
     {

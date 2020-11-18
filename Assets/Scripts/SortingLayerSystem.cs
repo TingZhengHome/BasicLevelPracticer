@@ -13,7 +13,7 @@ public class SortingLayerSystem : Singleton<SortingLayerSystem>
     public void UpdateLayer(SpriteRenderer objectSprite)
     {
         if (objectSprite.tag == "player")
-            objectSprite.sortingOrder = ((int)objectSprite.transform.position.y * -10) + 11;
+            objectSprite.sortingOrder = ((int)objectSprite.transform.position.y * -10) + 9;
         else
             objectSprite.sortingOrder = (int)objectSprite.transform.position.y * -10;
     }

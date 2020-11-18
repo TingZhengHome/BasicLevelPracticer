@@ -46,7 +46,7 @@ public class LEdtior_OnMutipleTileObject : LEditor_OnTileObject
     {
         transform.position = GetCenterPosition(theTilesSetOn);
         
-        SetLayer(this.GetComponent<SpriteRenderer>());
+        SetSortingLayer(this.GetComponent<SpriteRenderer>());
         this.theTilesSetOn = theTilesSetOn;
         theTileSetOn = theTilesSetOn[theTilesSetOn.Count - 1];
         transform.parent = theTilesSetOn[theTilesSetOn.Count-1].transform;
@@ -79,7 +79,7 @@ public class LEdtior_OnMutipleTileObject : LEditor_OnTileObject
             }
             if (theTilesSetOn[t].objectOn != null)
             {
-                theTilesSetOn[t].objectOn.PickUp(this, theTilesSetOn[t].TileId);
+                theTilesSetOn[t].objectOn.BePickUp(this, theTilesSetOn[t].TileId);
             }
             theTilesSetOn[t].objectOn = this;
             Debug.Log(string.Format("A OnMutipleTileObject is set on tile{0}", theTilesSetOn[t].TileId));
@@ -87,7 +87,7 @@ public class LEdtior_OnMutipleTileObject : LEditor_OnTileObject
         return new Vector2((maxX + minX) * 0.5f, (maxY + minY) * 0.5f);
     }
 
-    public override void PickUp(LEdtior_GameBoardObject newO, int id)
+    public override void BePickUp(LEdtior_GameBoardObject newO, int id)
     {
         if (LevelEditor.Instance.clickedBoardObjectButton != null)
         {
@@ -102,7 +102,7 @@ public class LEdtior_OnMutipleTileObject : LEditor_OnTileObject
             }
         }
         Hover.Instance.transform.rotation = this.transform.rotation;
-        LEditor_TileContainer.OnTileClicked -= this.PickUp;
+        LEditor_TileContainer.OnTileClicked -= this.BePickUp;
     }
 
     public override OnTileData Save()

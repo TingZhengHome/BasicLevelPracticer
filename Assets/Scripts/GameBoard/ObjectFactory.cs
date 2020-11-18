@@ -12,11 +12,25 @@ public class ObjectFactory : MonoBehaviour
     List<LEditor_OnTileObject> themeOnTiles;
 
     [SerializeField]
-    List<InteractableObject> themeInteractableObjects;
+    List<Sprite> themeSprites;
 
     public LEditor_TileObject GetTile(int factoryId)
     {
         return themeTiles[factoryId];
+    }
+
+    public LEditor_TileObject GetTileByType(string type)
+    {
+        LEditor_TileObject returningTile = null;
+
+        for (int i = 0; i < themeTiles.Count; i++)
+        {
+            if (themeTiles[i].theType.ToString() == type)
+            {
+                returningTile = themeTiles[i];
+            }
+        }
+        return returningTile;
     }
 
     public int GetTileFactoryId(LEditor_TileObject theTile)
@@ -28,7 +42,6 @@ public class ObjectFactory : MonoBehaviour
                 return i;
             }
         }
-
         return -1;
     }
 
@@ -51,17 +64,16 @@ public class ObjectFactory : MonoBehaviour
         return -1;
     }
 
-
-    public InteractableObject GetInteractable(int factoryId)
+    public Sprite GetObjectSprite(int factoryId)
     {
-        return themeInteractableObjects[factoryId];
+        return themeSprites[factoryId];
     }
 
-    public int GetInteractableFactoryId(InteractableObject theInteractable)
+    public int GetObjectSprite(Sprite sprite)
     {
-        for (int i = 0; i < themeInteractableObjects.Count; i++)
+        for (int i = 0; i < themeSprites.Count; i++)
         {
-            if (theInteractable == themeInteractableObjects[i])
+            if (sprite == themeSprites[i])
             {
                 return i;
             }
@@ -69,6 +81,5 @@ public class ObjectFactory : MonoBehaviour
 
         return -1;
     }
-
 
 }

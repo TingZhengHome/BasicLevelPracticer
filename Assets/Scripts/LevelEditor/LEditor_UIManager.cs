@@ -57,9 +57,9 @@ public class LEditor_UIManager : Singleton<LEditor_UIManager> {
             }
         }
 
-        if (LevelEditor.Instance.campaignData != null)
+        if (SaveManager.Instance.campaignData != null)
         {
-            campaignNameText.text = "Campaign Name: " + LevelEditor.Instance.campaignData.campaignName;
+            campaignNameText.text = "Campaign Name: " + SaveManager.Instance.campaignData.campaignName;
         }
         if (LevelEditor.Instance.EditingGameboard != null)
         {
@@ -110,10 +110,10 @@ public class LEditor_UIManager : Singleton<LEditor_UIManager> {
         }
         else if (textToDisplay == CampaignSavingText)
         {
-            if (LevelEditor.Instance.campaignData != null)
+            if (SaveManager.Instance.campaignData != null)
             {
-                askerInputField.text = LevelEditor.Instance.campaignData.campaignName;
-                Debug.Log("Campaign's Name is " + LevelEditor.Instance.campaignData.campaignName);
+                askerInputField.text = SaveManager.Instance.campaignData.campaignName;
+                Debug.Log("Campaign's Name is " + SaveManager.Instance.campaignData.campaignName);
                 Debug.Log("inputtedText = " + askerInputField.text);
             }
 
@@ -128,16 +128,16 @@ public class LEditor_UIManager : Singleton<LEditor_UIManager> {
     {
         if (levelOrCampaign == "level")
         {
-            for (int i = 0; i < LevelEditor.Instance.campaignData.levelDatas.Count; i++)
+            for (int i = 0; i < SaveManager.Instance.campaignData.levelDatas.Count; i++)
             {
-                LevelData level = LevelEditor.Instance.campaignData.levelDatas[i];
+                LevelData level = SaveManager.Instance.campaignData.levelDatas[i];
                 if (level.levelName == inputtedText)
                 {
                     ShowOverwriteAsker(levelOrCampaign, inputtedText);
                     return;
                 }
             }
-            LevelEditor.Instance.SaveGameBoardAsALevel(inputtedText);
+            SaveManager.Instance.SaveGameBoardAsALevel(inputtedText);
         }
         if (levelOrCampaign == "campaign")
         {
@@ -150,7 +150,7 @@ public class LEditor_UIManager : Singleton<LEditor_UIManager> {
                     return;
                 }
             }
-            LevelEditor.Instance.SaveLevelsAsACampaign(inputtedText);
+            SaveManager.Instance.SaveLevelsAsACampaign(inputtedText);
         }
     }
 
@@ -168,14 +168,14 @@ public class LEditor_UIManager : Singleton<LEditor_UIManager> {
         if (levelOrCampaign == "level")
         {
             overwriteAskerText.text = string.Format("There is a level's name same with the inputted name: {0}.\r\n Do you want to overwrite it?", inputtedText);
-            yesButton.onClick.AddListener(() => { LevelEditor.Instance.SaveGameBoardAsALevel(inputtedText); });
+            yesButton.onClick.AddListener(() => { SaveManager.Instance.SaveGameBoardAsALevel(inputtedText); });
             noButton.onClick.AddListener(() => { ShowSaveNameAsker(LevelSavingText); });
         }
 
         if (levelOrCampaign == "campaign")
         {
             overwriteAskerText.text = string.Format("There is a campaign's name same with the inputted name: {0}.\r\n Do you want to overwrite it?", inputtedText);
-            yesButton.onClick.AddListener(() => { LevelEditor.Instance.SaveLevelsAsACampaign(inputtedText); });
+            yesButton.onClick.AddListener(() => { SaveManager.Instance.SaveLevelsAsACampaign(inputtedText); });
             noButton.onClick.AddListener(() => { ShowSaveNameAsker(CampaignSavingText); });
         }
     }
@@ -255,14 +255,14 @@ public class LEditor_UIManager : Singleton<LEditor_UIManager> {
         }
         if (type == "levels")
         {
-            if (LevelEditor.Instance.campaignData != null)
+            if (SaveManager.Instance.campaignData != null)
             {
-                if (LevelEditor.Instance.campaignData.levelDatas.Count > 0)
+                if (SaveManager.Instance.campaignData.levelDatas.Count > 0)
                 {
-                    saveFilesNames = new string[LevelEditor.Instance.campaignData.levelDatas.Count];
-                    for (int i = 0; i < LevelEditor.Instance.campaignData.levelDatas.Count; i++)
+                    saveFilesNames = new string[SaveManager.Instance.campaignData.levelDatas.Count];
+                    for (int i = 0; i < SaveManager.Instance.campaignData.levelDatas.Count; i++)
                     {
-                        saveFilesNames[i] = LevelEditor.Instance.campaignData.levelDatas[i].levelName;
+                        saveFilesNames[i] = SaveManager.Instance.campaignData.levelDatas[i].levelName;
                     }
                 }
             }
@@ -282,16 +282,14 @@ public class LEditor_UIManager : Singleton<LEditor_UIManager> {
                 selectedLoadableButton = button.GetComponent<LoadableButton>();
                 if (dataType == "campaigns")
                 {
-                    //button.onClick.AddListener(() => { LoadCampaign(dataName); });
-                    loadThisButton.onClick.AddListener(() => { LevelEditor.Instance.LoadCampaign(dataName); });
+                    loadThisButton.onClick.AddListener(() => { SaveManager.Instance.LoadCampaign(dataName); });
                     deleteThisButton.onClick.AddListener(() => { DeleteSelectedLoadableButton(dataType, dataName); });
                     Debug.Log(string.Format("Button{0} is selected", dataName));
                 }
 
                 if (dataType == "levels")
                 {
-                    //button.onClick.AddListener(() => { LoadLevel(dataName); });
-                    loadThisButton.onClick.AddListener(() => { LevelEditor.Instance.LoadLevel(dataName); });
+                    loadThisButton.onClick.AddListener(() => { SaveManager.Instance.LoadLevel(dataName); });
                     deleteThisButton.onClick.AddListener(() => { DeleteSelectedLoadableButton(dataType, dataName); });
                     Debug.Log(string.Format("Button{0} is selected", dataName));
                 }
@@ -320,11 +318,11 @@ public class LEditor_UIManager : Singleton<LEditor_UIManager> {
 
             if (dataType == "levels")
             {
-                for (int i = 0; i < LevelEditor.Instance.campaignData.levelDatas.Count; i++)
+                for (int i = 0; i < SaveManager.Instance.campaignData.levelDatas.Count; i++)
                 {
-                    if (LevelEditor.Instance.campaignData.levelDatas[i].levelName == dataName)
+                    if (SaveManager.Instance.campaignData.levelDatas[i].levelName == dataName)
                     {
-                        LevelEditor.Instance.campaignData.levelDatas.Remove(LevelEditor.Instance.campaignData.levelDatas[i]);
+                        SaveManager.Instance.campaignData.levelDatas.Remove(SaveManager.Instance.campaignData.levelDatas[i]);
                     }
                 }
                 Destroy(selectedLoadableButton.gameObject);

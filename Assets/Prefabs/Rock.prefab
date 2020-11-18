@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 61552974731905006}
   - component: {fileID: 114223488098484788}
   - component: {fileID: 114150655185830532}
-  m_Layer: 13
+  m_Layer: 14
   m_Name: Rock
   m_TagString: onTileObject
   m_Icon: {fileID: 0}
@@ -80,11 +80,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHinderance: 1
+  property: {fileID: 0}
   theTileSetOn: {fileID: 0}
   theType: 3
   isPlayer: 0
-  connectable: 0
-  connectingObjects: []
 --- !u!114 &114223488098484788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -96,15 +95,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be195cd95130c44419d12506ddb42382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactable: {fileID: 11400000, guid: 45bcc93ac9b428c4cb98ae13bc53bd1f, type: 2}
+  idInFactory: 0
   ObjectName: Rock
   trigger: {fileID: 61552974731905006}
   spriteRender: {fileID: 0}
   theTileSetOn: {fileID: 0}
   theType: 3
-  correspondingButton: {fileID: 0}
   isHinderance: 1
-  selectableCompnents: []
+  selectableComponents: {fileID: 0}
+  correspondingButton: {fileID: 0}
   detected: 0
 --- !u!212 &212246297592262934
 SpriteRenderer:

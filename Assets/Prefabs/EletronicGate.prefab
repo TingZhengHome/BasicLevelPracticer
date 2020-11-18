@@ -20,9 +20,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4785957397683144}
   - component: {fileID: 61474542805861918}
-  - component: {fileID: 114759278266154662}
-  - component: {fileID: 114811162984902506}
   - component: {fileID: 212988227416044014}
+  - component: {fileID: 114759278266154662}
+  - component: {fileID: 114114041914102498}
+  - component: {fileID: 114811162984902506}
+  - component: {fileID: 114711207822955562}
   m_Layer: 0
   m_Name: EletronicGate
   m_TagString: Untagged
@@ -68,6 +70,48 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114114041914102498
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1787891031801766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5db14ed3b07069f428715c1ce9873402, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idInFactory: 0
+  ObjectName: 
+  trigger: {fileID: 61474542805861918}
+  spriteRender: {fileID: 212988227416044014}
+  theTileSetOn: {fileID: 0}
+  attachedOnTileObject: {fileID: 0}
+  isOnTile: 0
+  selected: 0
+  isButton: 0
+  connectedObject: {fileID: 0}
+  connecteds: []
+--- !u!114 &114711207822955562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1787891031801766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a50729c5ce0b7647b1132247e853406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHinderance: 0
+  property: {fileID: 0}
+  initialized: 0
+  isButton: 0
+  connectedObject: {fileID: 0}
+  connecteds: []
+  keyObject: {fileID: 0}
+  theCType: 0
+  gateCloseTime: 0.5
 --- !u!114 &114759278266154662
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -79,17 +123,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be195cd95130c44419d12506ddb42382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idInFactory: 0
   ObjectName: 
   trigger: {fileID: 0}
   spriteRender: {fileID: 0}
   theTileSetOn: {fileID: 0}
-  thisType: 2
+  theType: 0
+  isHinderance: 0
+  selectableComponents: {fileID: 114114041914102498}
   correspondingButton: {fileID: 0}
-  isPushable: 0
-  isPickable: 0
-  isButton: 0
-  isExit: 0
-  selectableCompnents: []
   detected: 0
 --- !u!114 &114811162984902506
 MonoBehaviour:
@@ -102,15 +144,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8b3668cb7eb3e429de96c59bcd32d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movable: 0
-  movedSpeed: 0
   isHinderance: 0
-  pickable: 0
+  property: {fileID: 114711207822955562}
+  theTileSetOn: {fileID: 0}
+  theType: 0
   isPlayer: 0
-  connectable: 1
-  connectingObjects:
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!212 &212988227416044014
 SpriteRenderer:
   m_ObjectHideFlags: 1
