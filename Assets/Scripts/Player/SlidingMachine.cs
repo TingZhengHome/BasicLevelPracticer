@@ -55,9 +55,9 @@ public class SlidingMachine : MonoBehaviour {
     {
         if (player.isSliding)
         {
-            if (collision != null && collision.transform.GetComponent<GameBoardObject>() != null)
+            if (collision != null && (collision.transform.GetComponent<GameBoardObject>() != null ))
             {
-                if (collision.transform.GetComponent<GameBoardObject>().isHindrance)
+                if (collision.transform.GetComponent<GameBoardObject>().isHindrance || collision.transform.tag == "edge")
                 {
                     Debug.Log("SlidingMachine sensed a hinderance: " + collision.transform.name);
                     player.StopSliding();

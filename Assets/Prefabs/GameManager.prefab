@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1394837464758918}
+  m_IsPrefabAsset: 1
+--- !u!1 &1394837464758918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4947529996489010}
+  - component: {fileID: 114744519226926830}
+  - component: {fileID: 114221657768430046}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4947529996489010
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1394837464758918}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114221657768430046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1394837464758918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff18ef7e3100364d87ea5cffcc9580f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadedCampaign:
+    campaignName: 
+    theme: 0
+    levelDatas: []
+  editingLevel:
+    theme: 0
+    levelName: 
+    row: 0
+    column: 0
+    tileDatas: []
+    settingData:
+      levelName: 
+      winningCondition: 0
+      neededPickablesIds: 
+      TargetedTileId: 0
+--- !u!114 &114744519226926830
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1394837464758918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed5b8ae953e9804ba43d37438383d90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  hover: {fileID: 0}
+  editCampaignPanel: {fileID: 0}
+  cannotDeleteOnEditingPanel: {fileID: 0}

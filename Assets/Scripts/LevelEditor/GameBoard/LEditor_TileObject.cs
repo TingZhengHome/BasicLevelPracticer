@@ -170,6 +170,7 @@ public class LEditor_TileObject : LEdtior_GameBoardObject
 
     public void PlaceOnTileObject(LEdtior_GameBoardObject newObject, int id)
     {
+        Debug.Log("123321");
         if (newObject.GetComponent<Player>() == false)
         {
             if (!isPlaceable)

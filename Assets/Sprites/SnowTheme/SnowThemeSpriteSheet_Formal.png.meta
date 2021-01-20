@@ -191,12 +191,12 @@ TextureImporter:
       name: ObstacleObject_IceMoutain
       rect:
         serializedVersion: 2
-        x: 1528
-        y: 2488
-        width: 383
-        height: 574
+        x: 1608
+        y: 2590
+        width: 303
+        height: 472
       alignment: 9
-      pivot: {x: 0.5968056, y: 0.41102776}
+      pivot: {x: 0.4827929, y: 0.41451252}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -211,12 +211,12 @@ TextureImporter:
       name: MovableObject_Iceberg
       rect:
         serializedVersion: 2
-        x: 2008
-        y: 2437
-        width: 394
-        height: 514
+        x: 2100
+        y: 2591
+        width: 302
+        height: 360
       alignment: 9
-      pivot: {x: 0.6240519, y: 0.64399403}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -775,8 +775,8 @@ TextureImporter:
         y: 2590
         width: 300
         height: 360
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.41786566}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

@@ -38,6 +38,7 @@ public class Pickable : InteractableProperty {
     {
         interacter.PickUpItem(this);
         GetComponent<OnTileObject>().theTileSetOn.objectOnThis = null;
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject);
+        gameObject.SetActive(false);
     }
 }

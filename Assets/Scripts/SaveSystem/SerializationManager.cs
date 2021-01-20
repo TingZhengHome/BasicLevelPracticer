@@ -6,6 +6,13 @@ using UnityEngine;
 
 public class SerializationManagger
 {
+    public static BinaryFormatter GetBinaryFormatter()
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        return formatter;
+    }
+
     public static bool Save(string saveName, object campaignData)
     {
         BinaryFormatter formatter = GetBinaryFormatter();
@@ -61,11 +68,20 @@ public class SerializationManagger
         }
     }
 
-    public static BinaryFormatter GetBinaryFormatter()
+    public static void Replace(string newFileName, string destinationFileName)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
+        string oldFilePath = Application.persistentDataPath + "/saves/" + destinationFileName + ".save";
+        string newFilePath = Application.persistentDataPath + "/saves/" + newFileName + ".save";
+        string backUpPath = Application.persistentDataPath + "/backups/" + destinationFileName + ".save";
 
-        return formatter;
+        if (File.Exists(oldFilePath) && File.Exists(newFilePath) )
+        {
+            if (oldFilePath != newFilePath)
+            {
+                File.Replace(newFilePath, oldFilePath, backUpPath);
+                File.Delete(newFilePath);
+            }
+        }
     }
 
     public static void Delete(string dataName)

@@ -53,6 +53,7 @@ public class LevelEditor : Singleton<LevelEditor>
     {
         isPlayerPlaced = false;
         LaunchedLevelEvents += EscapeSelectingState;
+        Hover = FindObjectOfType<Hover>().gameObject;
     }
 
     // Update is called once per frame
@@ -141,7 +142,7 @@ public class LevelEditor : Singleton<LevelEditor>
 
     public void GenerateGameBoard()
     {
-         LEditor_UIManager.Instance.TileSelectedUI.GetComponent<LEditor_TileSelectedUI>().UnAttach();
+        LEditor_UIManager.Instance.TileSelectedUI.GetComponent<LEditor_TileSelectedUI>().UnAttach();
         if (selectedObject != null)
         {
             EscapeSelectingState();
@@ -218,7 +219,7 @@ public class LevelEditor : Singleton<LevelEditor>
         CancelButtonClick();
         currentEditingState = editingState.mapBuilding;
         selectedObject = null;
-        LEditor_TileSelectedUI.Instance.UnAttach();
+        LEditor_UIManager.Instance.TileSelectedUI.GetComponent<LEditor_TileSelectedUI>().UnAttach();
 
         foreach (LEditor_TileObject tile in EditingGameboard.OnEditingTiles)
         {
@@ -263,15 +264,15 @@ public class LevelEditor : Singleton<LevelEditor>
         }
     }
 
-    public void OnSaveLevelClick()
-    {
-        if (currentEditingState == editingState.mapBuilding ||
-            currentEditingState == editingState.settingConnection ||
-            currentEditingState == editingState.settingPortals)
-        {
-            LEditor_UIManager.Instance.ShowSaveNameAsker(LEditor_UIManager.Instance.LevelSavingText);
-        }
-    }
+    //public void OnSaveLevelClick()
+    //{
+    //    if (currentEditingState == editingState.mapBuilding ||
+    //        currentEditingState == editingState.settingConnection ||
+    //        currentEditingState == editingState.settingPortals)
+    //    {
+    //        //LEditor_UIManager.Instance.ShowSaveNameAsker(LEditor_UIManager.Instance.LevelSavingText);
+    //    }
+    //}
 
     public void StartSettingLevel()
     {
@@ -286,83 +287,60 @@ public class LevelEditor : Singleton<LevelEditor>
         LEditor_UIManager.Instance.ShowSettingLevelUI();
     }
 
-    public void SaveGameBoardAsALevel(string inputtedText)
+    public void SaveGameBoardAsAnotherLevel(string inputtedText)
     {
-        EditingGameboard.Save(campaignData, inputtedText);
+        if (SaveManager.Instance.loadedCampaign != null && SaveManager.Instance.loadedLevel != null)
+        {
+            EditingGameboard.Save(SaveManager.Instance.loadedCampaign, inputtedText);
+        }
+        SaveManager.Instance.UpgradeEditingCampaign();
         if (campaignData.levelDatas.Count > 0)
             Debug.Log("EditingGameBoard has been saved as a level: " + campaignData.levelDatas[0].levelName + " in current campaign.");
 
         EndSavingAndLoading();
     }
 
-    public void SaveLevelsAsACampaign(string inputtedText)
+    public void SaveGameBoardAsALevel()
     {
-        campaignData.campaignName = inputtedText;
+        if (EditingGameboard != null)
+        {
+            if (EditingGameboard.levelSetting == null)
+            {
+                OKMessagePanel.Instance.DisplayMessage(OKMessageLibrary.levelNotSetCondition);
+                StartSettingLevel();
+                return;
+            }
+            else if (EditingGameboard.levelSetting.neededPickables.Count == 0 && EditingGameboard.levelSetting.winningTile == null)
+            {
+                OKMessagePanel.Instance.DisplayMessage(OKMessageLibrary.levelNotSetCondition);
+                StartSettingLevel();
+                return;
+            }
 
-        SerializationManagger.Save(inputtedText, campaignData);
+            if (SaveManager.Instance.loadedCampaign != null && SaveManager.Instance.loadedLevel != null)
+            {
+                EditingGameboard.Save(SaveManager.Instance.loadedCampaign, SaveManager.Instance.loadedLevel.levelName);
+            }
+        }
+        
 
-        string path = Application.persistentDataPath + "/saves/" + inputtedText + ".save";
-        if (File.Exists(path))
-            Debug.Log(string.Format("Levels has been saved as a campaign in {0}.", path));
+        SaveManager.Instance.UpgradeEditingCampaign();
 
         EndSavingAndLoading();
     }
 
-    public void LoadLevel(string saveName)
+    public void LoadLevel(LevelData leveldata)
     {
-        if (campaignData.levelDatas.Count > 0)
+        if (leveldata != null)
         {
-            LevelData levelData = null;
-
-            for (int i = 0; i < campaignData.levelDatas.Count; i++)
+            if (EditingGameboard != null)
             {
-                Debug.Log(string.Format("levelData{0} is going to be loaded", i));
-
-                if (campaignData.levelDatas[i] != null)
-                {
-                    if (campaignData.levelDatas[i].levelName == saveName)
-                    {
-                        levelData = campaignData.levelDatas[i];
-                        Debug.Log(string.Format("levelData{0} is loaded.", i));
-                    }
-                }
+                EndCurrentEditingEvent();
+                Destroy(EditingGameboard.gameObject);
             }
 
-            if (levelData != null)
-            {
-                if (EditingGameboard != null)
-                {
-                    EndCurrentEditingEvent();
-                    Destroy(EditingGameboard.gameObject);
-                }
-
-                EditingGameboard = Instantiate(boardsFactory.GetGameBoard(levelData.theme));
-                EditingGameboard.Load(levelData);
-            }
-            else
-            {
-                Debug.LogError("The selected level is not saved in the campaign.");
-            }
-        }
-        else
-        {
-            Debug.LogError("Loaded campaign data stores zero level.");
-        }
-
-        EndSavingAndLoading();
-    }
-
-    public void LoadCampaign(string saveName)
-    {
-        campaignData = (CampaignData)SerializationManagger.Load(Application.persistentDataPath + "/saves/" + saveName + ".save");
-
-        if (campaignData == null)
-        {
-            Debug.Log("Failed to load campaign:" + string.Format(Application.persistentDataPath + "/saves/" + saveName + ".save") + ".");
-        }
-        else
-        {
-            Debug.Log("Campaign" + saveName + " is loaded.");
+            EditingGameboard = Instantiate(boardsFactory.GetGameBoard(leveldata.theme));
+            EditingGameboard.Load(leveldata);
         }
 
         EndSavingAndLoading();
@@ -381,5 +359,10 @@ public class LevelEditor : Singleton<LevelEditor>
         {
             currentEditingState = editingState.mapBuilding;
         }
+    }
+
+    public void BackToMainMenu()
+    {
+        GameManager.Instance.GoMainMenu();
     }
 }

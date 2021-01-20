@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class LEditor_OnTileObject : LEdtior_GameBoardObject
 {
-    //[SerializeField]
-    //int IdInFactory = 0;
 
     public LEditor_TileObject theTileSetOn;
 
@@ -36,6 +34,8 @@ public class LEditor_OnTileObject : LEdtior_GameBoardObject
     public LEditor_Button correspondingButton;
 
     public bool detected;
+
+    public bool isWinningPickable;
 
 
     public virtual void GameUpdate()

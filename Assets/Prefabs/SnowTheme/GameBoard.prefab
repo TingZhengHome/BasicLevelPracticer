@@ -60,7 +60,8 @@ MonoBehaviour:
   connectableColor: {r: 0, g: 0, b: 1, a: 1}
   connectedColor: {r: 0.8301887, g: 0.5221982, b: 0.019579919, a: 1}
   connectorColor: {r: 0, g: 1, b: 0, a: 1}
-  unclickableColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  unclickableColor: {r: 0.7247567, g: 0.754717, b: 0.69419724, a: 0.6509804}
+  winningPickableColor: {r: 0.7828193, g: 0.8, b: 0.40392157, a: 0.6509804}
   levelName: 
   theme: 0
   edgeObject: {fileID: 1302272081886758, guid: 8eccb7d291aed8149b3f28807cf346b9, type: 2}
@@ -76,6 +77,7 @@ MonoBehaviour:
     winningCondition: 0
     neededPickables: []
     winningTile: {fileID: 0}
+    winningTileId: 0
   factory: {fileID: 114832720586141526}
 --- !u!114 &114832720586141526
 MonoBehaviour:
@@ -100,11 +102,4 @@ MonoBehaviour:
   - {fileID: 114951253276149520, guid: efe176ea432345441a1e77bc8307e19a, type: 2}
   - {fileID: 114369648364805974, guid: 559f54085f3cc3649a62933f00c6fe1c, type: 2}
   - {fileID: 114245782725118068, guid: 1d17f0ed982b02f499b86f72fee04a78, type: 2}
-  themeInteractableObjects:
-  - {fileID: 11400000, guid: d1b6d669bcbfe9e49965bb9c54351e5b, type: 2}
-  - {fileID: 11400000, guid: a5c8fdf24cbf69a41ac1e04ae34ded98, type: 2}
-  - {fileID: 11400000, guid: 2eff3a54153381f42914d6181277025f, type: 2}
-  - {fileID: 11400000, guid: 78214afe0720b494eaa0247ac45f449d, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
   themeSprites: []

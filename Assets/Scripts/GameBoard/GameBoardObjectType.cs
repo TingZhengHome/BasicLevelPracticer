@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public enum GameBoardThem { Antartica}
+public enum CampaignTheme { Antartica}
 
 [System.Serializable]
 public enum ObjectType { connectable, portal, pickable, movable, normal, edge, fragile, hollow, slippery }

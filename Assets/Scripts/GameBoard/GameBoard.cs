@@ -14,9 +14,10 @@ public class GameBoard : MonoBehaviour
     public Color connectedColor = Color.magenta;
     public Color connectorColor = Color.green;
     public Color unclickableColor = Color.grey;
+    public Color winningPickableColor;
 
     public string levelName;
-    public GameBoardThem theme;
+    public CampaignTheme theme;
 
     [SerializeField]
     GameObject edgeObject;
@@ -52,6 +53,7 @@ public class GameBoard : MonoBehaviour
     public List<TileObject> tiles = new List<TileObject>();
 
     public LevelSetting levelSetting = new LevelSetting();
+
 
     public ObjectFactory factory;
 
@@ -143,6 +145,87 @@ public class GameBoard : MonoBehaviour
         MainCamera.Instance.Initialize(rowFloat, columnFloat, firstTile, lastTile, column);
         TileController.Instance.onEditorTiles = this.OnEditingTiles;
         //LevelEditor.LaunchedLevelEvents += AddActiveTiles;
+    }
+
+    public void GenerateTilesOnLoad(int row, int columm, LevelData level)
+    {
+        LEditor_TileObject basicTile1 = factory.GetTile(0);
+        LEditor_TileObject basicTile2 = factory.GetTile(1);
+
+
+        LEditor_TileObject firstTile = basicTile1;
+        LEditor_TileContainer firstContainer = container;
+        LEditor_TileObject lastTile = basicTile2;
+        GameObject edgesCollector = new GameObject();
+        edgesCollector.name = "EdgesCollector";
+        edgesCollector.transform.parent = this.transform;
+
+        int tNum = 0;
+
+        for (int y = 1; y > -columm - 1; y--)
+        {
+            for (int x = -1; x < row + 1; x++)
+            {
+                if (y > 0 || x < 0 || y == -columm || x == row)
+                {
+                    GameObject edge = Instantiate(edgeObject, new Vector2(x, y), transform.rotation, edgesCollector.transform);
+                }
+                else
+                {
+                    LEditor_TileContainer tContainer = Instantiate(container);
+                    containers.Add(tContainer);
+                    tContainer.Setup(new Vector2(x, y), transform, containers.IndexOf(tContainer));
+                    tContainer.name = "TileContainer" + tContainer.SlotId;
+
+
+                    LEditor_TileObject tile = basicTile1;
+                    if (level.tileDatas[tNum] != null && level.tileDatas[tNum].idInFactory >= 0)
+                    {
+                        tile = Instantiate(factory.GetTile(level.tileDatas[tNum].idInFactory));
+                        tile.ObjectName = factory.GetTile(level.tileDatas[tNum].idInFactory).name;
+                        tile.name = factory.GetTile(level.tileDatas[tNum].idInFactory).name;
+                        tContainer.PlaceGameBoardObject(tile, tContainer.SlotId);
+                        tile.Load(level.tileDatas[tNum]);
+                        tNum += 1;
+                    }
+                    else
+                    {
+                        Debug.Log(string.Format("Saved TileObject{0} cannot be loaded because it is not match level theme.", tNum));
+                        if (tNum % 2 == 0)
+                        {
+                            tile = Instantiate(basicTile1);
+                        }
+                        else if (tNum % 2 == 1)
+                        {
+                            tile = Instantiate(basicTile2);
+                        }
+                        tContainer.PlaceGameBoardObject(tile, tContainer.SlotId);
+                        tNum += 1;
+                    }
+
+                    OnEditingTiles.Add(tile);
+
+
+                    if (y == 0 && x == 0)
+                    {
+                        firstTile = tile;
+                        firstContainer = tContainer;
+                        Debug.Log("firstTileNum ==" + firstTile.TileId);
+                    }
+                    if (y == (-columm + 1 ) && x == (row - 1))
+                    {
+                        lastTile = tile;
+                        Debug.Log("lastTileNum ==" + lastTile.TileId);
+                    }
+                    Debug.Log("Generated" + x.ToString() + "," + y.ToString());
+                }
+            }
+        }
+
+        float rowFloat = row;
+        float columnFloat = column;
+        MainCamera.Instance.Initialize(rowFloat, columnFloat, firstTile, lastTile, column);
+        TileController.Instance.onEditorTiles = this.OnEditingTiles;
     }
 
     public void GameUpdate()
@@ -306,6 +389,8 @@ public class GameBoard : MonoBehaviour
                 if (campaignData.levelDatas[i].levelName == level.levelName)
                 {
                     campaignData.levelDatas[i] = level;
+                    Debug.Log("Level" + level.levelName + " is saved.");
+                    return;
                 }
                 else if (i == campaignData.levelDatas.Count - 1)
                 {
@@ -333,81 +418,6 @@ public class GameBoard : MonoBehaviour
 
         levelSetting.Load(data.settingData);
         Debug.Log(string.Format("Level{2} gameboard{0}{1} has been loaded.", Row, Column, data.levelName));
-    }
-
-
-    public void GenerateTilesOnLoad(int row, int columm, LevelData level)
-    {
-        LEditor_TileObject basicTile1 = factory.GetTile(0);
-        LEditor_TileObject basicTile2 = factory.GetTile(1);
-
-
-        LEditor_TileObject firstTile = basicTile1;
-        LEditor_TileContainer firstContainer = container;
-        LEditor_TileObject lastTile = basicTile2;
-        GameObject edgesCollector = new GameObject();
-        edgesCollector.name = "EdgesCollector";
-        edgesCollector.transform.parent = this.transform;
-
-        int tNum = 0;
-
-        for (int y = 1; y > -Column - 1; y--)
-        {
-            for (int x = -1; x < row + 1; x++)
-            {
-                if (y > 0 || x < 0 || y == -Column|| x == row)
-                {
-                    GameObject edge = Instantiate(edgeObject, new Vector2(x, y), transform.rotation, edgesCollector.transform);
-                }
-                else
-                {
-                    LEditor_TileContainer tContainer = Instantiate(container);
-                    containers.Add(tContainer);
-                    tContainer.Setup(new Vector2(x, y), transform, containers.IndexOf(tContainer));
-                    tContainer.name = "TileContainer" + tContainer.SlotId;
-
-
-                    LEditor_TileObject tile = basicTile1;
-                    if (level.tileDatas[tNum] != null && level.tileDatas[tNum].idInFactory >= 0)
-                    {
-                        tile = Instantiate(factory.GetTile(level.tileDatas[tNum].idInFactory));
-                        tile.ObjectName = factory.GetTile(level.tileDatas[tNum].idInFactory).name;
-                        tile.name = factory.GetTile(level.tileDatas[tNum].idInFactory).name;
-                        tContainer.PlaceGameBoardObject(tile, tContainer.SlotId);
-                        tile.Load(level.tileDatas[tNum]);
-                        tNum += 1;
-                    }
-                    else
-                    {
-                        Debug.Log(string.Format("Saved TileObject{0} cannot be loaded because it is not match level theme.", tNum));
-                        if (tNum % 2 == 0)
-                        {
-                            tile = Instantiate(basicTile1);
-                        }
-                        else if (tNum % 2 == 1)
-                        {
-                            tile = Instantiate(basicTile2);
-                        }
-                        tContainer.PlaceGameBoardObject(tile, tContainer.SlotId);
-                        tNum += 1;
-                    }
-
-                    OnEditingTiles.Add(tile);
-
-
-                    if (y == 0 && x == 0)
-                    {
-                        firstTile = tile;
-                        firstContainer = tContainer;
-                    }
-                    if (y == (-Column) && x == (row - 1))
-                    {
-                        lastTile = tile;
-                    }
-                    Debug.Log("Generated" + x.ToString() + "," + y.ToString());
-                }
-            }
-        }
     }
 
 

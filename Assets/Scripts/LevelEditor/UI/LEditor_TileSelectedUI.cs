@@ -1,8 +1,8 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LEditor_TileSelectedUI : MonoBehaviour
 {
@@ -23,17 +23,17 @@ public class LEditor_TileSelectedUI : MonoBehaviour
     [SerializeField]
     List<Button> buttons = new List<Button>();
 
-    public static LEditor_TileSelectedUI Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<LEditor_TileSelectedUI>();
-            }
-            return instance;
-        }
-    }
+    //public static LEditor_TileSelectedUI Instance
+    //{
+    //    get
+    //    {
+    //        if (instance == null)
+    //        {
+    //            instance = FindObjectOfType<LEditor_TileSelectedUI>();
+    //        }
+    //        return instance;
+    //    }
+    //}
 
     private void Awake()
     {
@@ -42,6 +42,8 @@ public class LEditor_TileSelectedUI : MonoBehaviour
 
     private void Start()
     {
+        DontDestroyOnLoad(gameObject);
+
         Debug.Log("SelectedTileUI starts.");
         PackUpButtons();
         UnAttach();
@@ -54,7 +56,10 @@ public class LEditor_TileSelectedUI : MonoBehaviour
 
     private void Update()
     {
-        StateCheck();
+        if (SceneManager.GetActiveScene().name == "LevelEditor")
+        {
+            StateCheck();
+        }
     }
 
 
@@ -86,7 +91,7 @@ public class LEditor_TileSelectedUI : MonoBehaviour
         if (LevelEditor.Instance.currentEditingState == LevelEditor.editingState.mapBuilding &&
             LevelEditor.Instance.currentState == LevelEditor.state.editing)
         {
-            
+
             if (newO == null)
             {
                 LEditor_TileObject clicked = LevelEditor.Instance.EditingGameboard.GetEditingTile(clickedId).GetComponent<LEditor_TileObject>();
@@ -137,26 +142,30 @@ public class LEditor_TileSelectedUI : MonoBehaviour
 
     public void UnAttach()
     {
-        setConnectionButton.onClick.RemoveAllListeners();
-        setConnectionButton.gameObject.SetActive(false);
+        //if (SceneManager.GetActiveScene().name == "LevelEditor")
+        //{
+            setConnectionButton.onClick.RemoveAllListeners();
+            setConnectionButton.gameObject.SetActive(false);
 
-        pickUpButton.onClick.RemoveAllListeners();
-        pickUpButton.gameObject.SetActive(false);
+            pickUpButton.onClick.RemoveAllListeners();
+            pickUpButton.gameObject.SetActive(false);
 
-        if (attachedObject != null)
-        {
-            cancelButton.onClick.RemoveListener(attachedObject.UnSelectThis);
-        }
-        attachedObject = null;
-        transform.parent = Hover.Instance.transform;
-        cancelButton.gameObject.SetActive(false);
+            if (attachedObject != null)
+            {
+                cancelButton.onClick.RemoveListener(attachedObject.UnSelectThis);
+            }
+            attachedObject = null;
+        if (transform.parent.GetComponent<Hover>() == null)
+            transform.parent = Hover.Instance.transform;
+            cancelButton.gameObject.SetActive(false);
+        //}
+        
     }
 
     public void DestroySelf()
     {
         Destroy(gameObject);
     }
-
 
     void StateCheck()
     {
@@ -187,4 +196,9 @@ public class LEditor_TileSelectedUI : MonoBehaviour
             }
         }
     }
+
+
+
+
+
 }

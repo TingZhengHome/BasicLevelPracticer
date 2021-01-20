@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
 public class Hover : Singleton<Hover>
@@ -14,7 +15,10 @@ public class Hover : Singleton<Hover>
     [SerializeField]
     BoxCollider2D collide;
 
-
+    
+    public LEditor_TileSelectedUI tileSelectedUI;
+    [SerializeField]
+    LEditor_TileSelectedUI tileSelectedUIPrefab;
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -25,33 +29,69 @@ public class Hover : Singleton<Hover>
     void Start()
     {
         //Editor_TileObject.OnTileClicked += ClickEventCheck;
+        DontDestroyOnLoad(this.gameObject);
+        Instance.DeleteRedundancy();
+
         LEditor_TileContainer.OnTileClicked += SetPlacedObjectRotation;
         spriteRenderer = GetComponent<SpriteRenderer>();
         collide = GetComponent<BoxCollider2D>();
         this.gameObject.SetActive(true);
     }
 
+    //public void CheckTileSelectedUI()
+    //{
+    //    if (tileSelectedUI != null)
+    //    {
+    //        DestroyImmediate(tileSelectedUI.gameObject);
+    //    }
+
+    //    tileSelectedUI = Instantiate(tileSelectedUIPrefab.gameObject).GetComponent<LEditor_TileSelectedUI>();
+    //    tileSelectedUI.transform.SetParent(transform);
+    //    if (GameManager.Instance.GetActiveScene().name == "LevelEditor")
+    //    {
+    //        LEditor_UIManager.Instance.TileSelectedUI = tileSelectedUI.gameObject;
+    //    }
+    //}
+
 
     void Update()
     {
-        if (LevelEditor.Instance.clickedBoardObjectButton != null)
+        //CheckTileSelectedUI();
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("LevelEditor"))
         {
-            StartHovering();
+            if (GameManager.Instance.editCampaignPanel.loadablButtonsAreaController.draggingLoadableButton == null)
+            {
+                if (LevelEditor.Instance.clickedBoardObjectButton != null)
+                {
+                    StartHovering();
+                }
+                else if (LevelEditor.Instance.isMovingPlacedObject)
+                {
+                    StartGrabbing();
+                }
+                else
+                {
+                    CleanHover();
+                }
+
+                if (HovingObject != null)
+                {
+                    RotateHoveringObject();
+                }
+                transform.parent = null;
+                transform.position = Vector3Extensions.GetWorldPositionOnPlane(new Vector3(), Input.mousePosition, 0f);
+            }
+            else
+            {
+                transform.SetParent(LEditor_UIManager.Instance.SaveLevelUI.transform);
+                transform.position = Input.mousePosition;
+            }
         }
-        else if (LevelEditor.Instance.isMovingPlacedObject)
+        else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MainMenu"))
         {
-            StartGrabbing();
-        }
-        else
-        {
-            CleanHover();
+            transform.position = Input.mousePosition;
         }
 
-        if (HovingObject != null)
-        {
-            RotateHoveringObject();
-        }
-        transform.position = Vector3Extensions.GetWorldPositionOnPlane(new Vector3(), Input.mousePosition, 0f);
     }
 
 
@@ -115,9 +155,39 @@ public class Hover : Singleton<Hover>
         }
     }
 
-    void SetCollideSize(BoxCollider2D objectCollider)
+    public void SetCollideSize(BoxCollider2D objectCollider)
     {
         collide.size = objectCollider.size;
+    }
+
+    public void RevertCollideSize(string currentScene)
+    {
+        switch (currentScene)
+        {
+            case "MainMenu":
+                collide.size = new Vector2(0.2f, 0.2f);
+                break;
+            case "LevelEditor":
+                collide.size = new Vector2(1f, 1f);
+                break;
+        }
+    }
+
+    public void SetInState(string sceneName)
+    {
+        switch (sceneName)
+        {
+            case "MainMenu":
+                spriteRenderer.enabled = false;
+                transform.SetParent(MainMenu.Instance.transform.parent);
+                break;
+            case "LevelEditor":
+                spriteRenderer.enabled = true;
+                LevelEditor.Instance.Hover = this.gameObject;
+                //CheckTileSelectedUI();
+                LEditor_UIManager.Instance.TileSelectedUI = tileSelectedUI.gameObject;
+                break;
+        }
     }
 
     private void OnDrawGizmos()

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -234,7 +235,27 @@ public static class LEditor_ColorControl
                 }
                 else
                 {
-                    onTile.spriteRender.color = LevelEditor.Instance.EditingGameboard.defaultColor;
+                    LevelSetting setting = LevelEditor.Instance.EditingGameboard.levelSetting;
+                    if (setting != null && setting.winningCondition == levelClearCondition.getPickables)
+                    {
+                        if (onTile.theType == ObjectType.pickable)
+                        {
+                            if (LevelEditor.Instance.EditingGameboard.levelSetting.neededPickables.Exists(x => x == onTile.GetComponent<OnTileObject>()))
+                            {
+                                onTile.spriteRender.color = LevelEditor.Instance.EditingGameboard.winningPickableColor;
+                                Debug.Log("Pickable " + onTile.name + "are saying: I am the chosen one.");
+                                //return;
+                            }
+                            else
+                            {
+                                onTile.spriteRender.color = LevelEditor.Instance.EditingGameboard.defaultColor;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        onTile.spriteRender.color = LevelEditor.Instance.EditingGameboard.defaultColor;
+                    }
                 }
                 onTile.detected = false;
             }

@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovingTimeDuration: 0.8
-  isLerping: 1
+  isLerping: 0
   colliderBottomYOffset: {x: 0, y: -0.3}
   colliderUpperOffset: {x: 0, y: 0.15}
   colliderLeftXOffest: {x: 0.38, y: 0}
@@ -266,6 +266,7 @@ MonoBehaviour:
   selectableComponents: {fileID: 0}
   correspondingButton: {fileID: 0}
   detected: 0
+  isWinningPickable: 0
 --- !u!114 &114267258960030482
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -277,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8b3668cb7eb3e429de96c59bcd32d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isHinderance: 0
+  isHindrance: 0
   property: {fileID: 0}
   theTileSetOn: {fileID: 0}
   theType: 4

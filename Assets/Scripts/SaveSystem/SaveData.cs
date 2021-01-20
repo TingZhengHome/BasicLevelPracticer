@@ -8,13 +8,15 @@ public class CampaignData
 {
     public string campaignName;
 
+    public CampaignTheme theme;
+
     public List<LevelData> levelDatas = new List<LevelData>();
 }
 
 [System.Serializable]
 public class LevelData
 {
-    public GameBoardThem theme;
+    public CampaignTheme theme;
 
     public string levelName = null;
 
@@ -25,7 +27,7 @@ public class LevelData
 
     public LevelSettingData settingData = new LevelSettingData();
 
-    public LevelData(GameBoardThem theTheme, int row, int column, string name)
+    public LevelData(CampaignTheme theTheme, int row, int column, string name)
     {
         theme = theTheme;
         this.row = row;

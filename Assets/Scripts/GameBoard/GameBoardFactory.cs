@@ -8,7 +8,7 @@ public class GameBoardFactory : MonoBehaviour {
     List<GameBoard> GameBoards;
 
 
-    public GameBoard GetGameBoard(GameBoardThem theme)
+    public GameBoard GetGameBoard(CampaignTheme theme)
     {
         return GameBoards[(int)theme];
     }

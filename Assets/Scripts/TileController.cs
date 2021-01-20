@@ -64,13 +64,14 @@ public class TileController : Singleton<TileController> {
                     if (tile.objectOnThis.Property != null)
                     {
                         tile.objectOnThis.Property.Initialize(tile.objectOnThis);
-                    }
+                    }  
                 }
             }
         }
         else
         {
             Debug.LogError("Too few tiles to launch the level.");
+            return;
         }
     }
 

@@ -115,14 +115,17 @@ public class Player : MonoBehaviour
         collide.enabled = true;
         collide.isTrigger = false;
         spritrenderer = GetComponent<SpriteRenderer>();
-        transform.parent = LevelManager.Instance.currentGameBoard.transform;
+        transform.parent = GetComponent<OnTileObject>().theTileSetOn.transform;
         raycastchecker = GetComponent<RaycastChecker>();
+        transform.position = GetComponent<OnTileObject>().theTileSetOn.transform.position;
 
         if (slidingMachine == null)
         {
             slidingMachine = transform.Find("SlidingMachine").GetComponent<SlidingMachine>();
         }
         slidingMachine.Initialize(this);
+        isLerping = false;
+        isSliding = false;
     }
     
 
@@ -151,6 +154,7 @@ public class Player : MonoBehaviour
         else if (collidingTile != null)
         {
             collidingTile.Interact(this);
+            CheckLevelClear(); 
         }
     }
 
@@ -252,6 +256,39 @@ public class Player : MonoBehaviour
     {
         playerTaking = pickable;
         playerPickups.Add(pickable);
+        CheckLevelClear();
+    }
+
+    public void CheckLevelClear()
+    {
+        LevelSetting levelSetting = LevelManager.Instance.currentGameBoard.levelSetting;
+        if (levelSetting.winningCondition == levelClearCondition.reachCertainTile)
+        {
+            if (GetComponent<OnTileObject>().theTileSetOn.TileId == levelSetting.winningTileId)
+            {
+                LevelManager.Instance.ShowLevelClearPanel();
+            }
+        }
+        else if (levelSetting.winningCondition == levelClearCondition.getPickables)
+        {
+            int totalNeeded = levelSetting.neededPickables.Count;
+
+            foreach (OnTileObject needed in levelSetting.neededPickables)
+            {
+                foreach (Pickable item in playerPickups)
+                {
+                    if (item.GetComponent<OnTileObject>() == needed.GetComponent<OnTileObject>())
+                    {
+                        totalNeeded -= 1;
+                    }
+                }
+            }
+
+            if (totalNeeded <= 0)
+            {
+                LevelManager.Instance.ShowLevelClearPanel();
+            }
+        }
     }
 
 }

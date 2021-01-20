@@ -72,4 +72,44 @@ public class LevelManager : Singleton<LevelManager>
         }
         TestingUI.SetActive(false);
     }
+
+    [SerializeField]
+    LevelClearPanel levelClearPanel;
+    public void ShowLevelClearPanel()
+    {
+        levelClearPanel.Show();
+    }
+
+    public void LoadNextLevel()
+    {
+
+        CampaignData loadedCampaign = SaveManager.Instance.loadedCampaign;
+
+        int currentIndex = loadedCampaign.levelDatas.FindIndex(x => x == SaveManager.Instance.loadedLevel);
+
+        for (int i = currentIndex; i < loadedCampaign.levelDatas.Count -1; i++)
+        {
+            LevelData nextLevel = loadedCampaign.levelDatas[currentIndex + i];
+            if (nextLevel.row * nextLevel.column > 1 && 
+                (nextLevel.settingData.neededPickablesIds.Count > 0 || nextLevel.settingData.TargetedTileId != -1))
+            {
+                LevelEditor.Instance.ReturnToEditing();
+                SaveManager.Instance.LoadLevel(nextLevel.levelName);
+                if (SaveManager.Instance.loadedLevel == nextLevel)
+                    LevelEditor.Instance.LaunchLevel();
+                levelClearPanel.gameObject.SetActive(false);
+                return;
+            }
+        }
+
+        OKMessagePanel.Instance.DisplayMessage(OKMessageLibrary.noLevelToLoad);
+
+    }
+
+    public void ReplayCurrentLevel()
+    {
+        LevelEditor.Instance.ReturnToEditing();
+        LevelEditor.Instance.LaunchLevel();
+        levelClearPanel.gameObject.SetActive(false);
+    }
 }

@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114544029680604194}
   m_Layer: 11
   m_Name: TempEdge
-  m_TagString: Untagged
+  m_TagString: edge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8b3668cb7eb3e429de96c59bcd32d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isHinderance: 1
+  isHindrance: 0
   property: {fileID: 0}
   theTileSetOn: {fileID: 0}
   theType: 4
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd2b8a20f20ed8c4cac5c25ff48439fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isHinderance: 1
+  isHindrance: 0
   property: {fileID: 0}
 --- !u!212 &212161231824276218
 SpriteRenderer:

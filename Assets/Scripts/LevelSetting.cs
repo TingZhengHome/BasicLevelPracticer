@@ -13,9 +13,13 @@ public class LevelSetting
 
     public TileObject winningTile;
 
+    public int winningTileId = -1;
+
     public void StartChoosingPickables()
     {
         winningCondition = levelClearCondition.getPickables;
+
+        winningTile = null;
 
         LevelEditor.Instance.currentEditingState = LevelEditor.editingState.settingWinningPickables;
 
@@ -30,6 +34,8 @@ public class LevelSetting
     {
         winningCondition = levelClearCondition.reachCertainTile;
 
+        neededPickables = new List<OnTileObject>();
+
         LevelEditor.Instance.currentEditingState = LevelEditor.editingState.settingWinningTile;
 
         LEditor_UIManager.Instance.Mask.SetActive(false);
@@ -41,6 +47,8 @@ public class LevelSetting
     public LevelSettingData Save()
     {
         LevelSettingData settingData = new LevelSettingData();
+
+        settingData.winningCondition = winningCondition;
 
         if (winningCondition == levelClearCondition.getPickables)
         {
@@ -54,7 +62,7 @@ public class LevelSetting
         }
         else if (winningCondition == levelClearCondition.reachCertainTile)
         {
-            settingData.TargetedTileId = winningTile.GetComponent<LEditor_TileObject>().TileId;
+            settingData.TargetedTileId = winningTileId;
         }
 
         return settingData;
@@ -74,6 +82,7 @@ public class LevelSetting
         else if (winningCondition == levelClearCondition.reachCertainTile)
         {
             winningTile = LevelEditor.Instance.EditingGameboard.GetEditingTile(settingData.TargetedTileId).GetComponent<TileObject>();
+            winningTileId = settingData.TargetedTileId;
         }
     }
 }
